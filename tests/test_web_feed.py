@@ -7,10 +7,11 @@ from google.transit import gtfs_realtime_pb2 as gtfs_rt
 from fixtures import STOP_SPACING_M
 from tmfix.geometry import decode_polyline
 from tmweb.build import build
+from tmweb.config import service_dates_from
 from tmweb.feed import build_feed
 from web_fixtures import (
     DETOUR_OFFSET_M,
-    SERVICE_DATE,
+    SERVICE_DATES,
     detour_sections,
     line_detour,
     site_stop,
@@ -26,11 +27,11 @@ def sample_result():
     ]
     stops.append(site_stop("T1", 5.0 * STOP_SPACING_M, DETOUR_OFFSET_M, replacement=True))
     detour = line_detour(stops, [(cancelled_line, detoured_line)])
-    return build([detour], static_feed(), SERVICE_DATE)
+    return build([detour], static_feed(), SERVICE_DATES)
 
 
 def test_the_feed_holds_a_stop_a_shape_and_the_modifications():
-    feed = build_feed(sample_result(), SERVICE_DATE, timestamp=1788436298)
+    feed = build_feed(sample_result(), SERVICE_DATES, timestamp=1788436298)
 
     assert feed.header.incrementality == gtfs_rt.FeedHeader.FULL_DATASET
     assert feed.header.timestamp == 1788436298
@@ -42,7 +43,7 @@ def test_the_feed_holds_a_stop_a_shape_and_the_modifications():
 
 
 def test_the_temporary_stop_carries_its_position_and_name():
-    feed = build_feed(sample_result(), SERVICE_DATE, timestamp=1)
+    feed = build_feed(sample_result(), SERVICE_DATES, timestamp=1)
 
     stop = next(entity.stop for entity in feed.entity if entity.HasField("stop"))
     assert stop.stop_id == "T1"
@@ -50,12 +51,12 @@ def test_the_temporary_stop_carries_its_position_and_name():
     assert stop.stop_lat > 45.5
 
 
-def test_the_modifications_point_at_the_shape_and_the_service_date():
-    feed = build_feed(sample_result(), SERVICE_DATE, timestamp=1)
+def test_the_modifications_point_at_the_shape_and_the_service_dates():
+    feed = build_feed(sample_result(), SERVICE_DATES, timestamp=1)
 
     entity = next(entity for entity in feed.entity if entity.HasField("trip_modifications"))
     modifications = entity.trip_modifications
-    assert list(modifications.service_dates) == [SERVICE_DATE]
+    assert list(modifications.service_dates) == SERVICE_DATES
     assert modifications.selected_trips[0].shape_id == "web_shape_51_1"
     assert list(modifications.selected_trips[0].trip_ids) == ["51_1-trip-0", "51_1-trip-1"]
 
@@ -66,9 +67,18 @@ def test_the_modifications_point_at_the_shape_and_the_service_date():
 
 
 def test_the_published_shape_leaves_the_scheduled_one():
-    feed = build_feed(sample_result(), SERVICE_DATE, timestamp=1)
+    feed = build_feed(sample_result(), SERVICE_DATES, timestamp=1)
 
     shape = next(entity.shape for entity in feed.entity if entity.HasField("shape"))
     points = decode_polyline(shape.encoded_polyline)
     assert len(points) > 2
     assert max(point.lat for point in points) > 45.5
+
+
+def test_every_service_date_a_run_writes_is_on_the_entity():
+    dates = service_dates_from("20260903", 7)
+    feed = build_feed(sample_result(), dates, timestamp=1)
+
+    entity = next(entity for entity in feed.entity if entity.HasField("trip_modifications"))
+    assert list(entity.trip_modifications.service_dates) == dates
+    assert dates[-1] == "20260909"

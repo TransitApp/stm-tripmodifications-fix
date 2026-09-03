@@ -13,7 +13,7 @@ from tmfix.pipeline import load_static_feed
 
 from . import report
 from .build import BuildResult, build
-from .config import ATTRIBUTION, Settings, service_date_now
+from .config import ATTRIBUTION, Settings, service_date_now, service_dates_from
 from .feed import build_feed
 from .site import Site
 
@@ -68,8 +68,8 @@ def run(settings: Settings, service_date: str | None = None) -> dict[str, object
     logger.info("the website lists %d line directions", len(lines))
     detours = site.detours(lines)
 
-    service_date = service_date or service_date_now()
-    result = build(detours, static, service_date, settings.build)
+    service_dates = service_dates_from(service_date or service_date_now(), settings.days)
+    result = build(detours, static, service_dates, settings.build)
     logger.info(
         "%d entities, %d modifications, %d temporary stops",
         len(result.plans),
@@ -78,11 +78,11 @@ def run(settings: Settings, service_date: str | None = None) -> dict[str, object
     )
 
     generated_at = datetime.now(UTC)
-    feed = build_feed(result, service_date, int(generated_at.timestamp()))
+    feed = build_feed(result, service_dates, int(generated_at.timestamp()))
 
     metadata: dict[str, object] = {
         "generated_at": generated_at.isoformat(timespec="seconds"),
-        "service_date": service_date,
+        "service_dates": list(service_dates),
         "source_url": settings.site_url,
         "lines_read": len(lines),
         "lines_detoured": len(detours),

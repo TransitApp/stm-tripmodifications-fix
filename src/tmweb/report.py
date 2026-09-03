@@ -48,11 +48,21 @@ def build_json(result: BuildResult, metadata: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def _dates(metadata: dict[str, Any]) -> str:
+    """The run of dates a run wrote, as a reader wants to see it."""
+    dates = metadata.get("service_dates") or []
+    if not dates:
+        return "unknown"
+    if len(dates) == 1:
+        return f"`{dates[0]}`"
+    return f"`{dates[0]}` to `{dates[-1]}`, {len(dates)} days"
+
+
 def build_markdown(result: BuildResult, metadata: dict[str, Any]) -> str:
     """The same account, for a person."""
     lines: list[str] = ["# TripModifications from the STM website", ""]
 
-    lines.append(f"- Service date: `{metadata.get('service_date', 'unknown')}`")
+    lines.append(f"- Service dates: {_dates(metadata)}")
     lines.append(f"- Generated at: `{metadata.get('generated_at', 'unknown')}`")
     lines.append(f"- Line directions read: {metadata.get('lines_read', 'unknown')}")
     lines.append(f"- Line directions detoured: {metadata.get('lines_detoured', 'unknown')}")

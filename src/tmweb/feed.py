@@ -8,6 +8,8 @@ can be mistaken for an entity of the STM's own.
 
 from __future__ import annotations
 
+from collections.abc import Sequence
+
 from google.transit import gtfs_realtime_pb2 as gtfs_rt
 
 from tmfix.geometry import encode_polyline
@@ -27,7 +29,9 @@ def entity_id_for(plan: PatternPlan) -> str:
     return f"{ENTITY_PREFIX}{plan.route_pattern_id}"
 
 
-def build_feed(result: BuildResult, service_date: str, timestamp: int) -> gtfs_rt.FeedMessage:
+def build_feed(
+    result: BuildResult, service_dates: Sequence[str], timestamp: int
+) -> gtfs_rt.FeedMessage:
     """Assemble the whole feed: the stops, the shapes and the modifications."""
     feed = gtfs_rt.FeedMessage()
     feed.header.gtfs_realtime_version = "2.0"
@@ -40,7 +44,7 @@ def build_feed(result: BuildResult, service_date: str, timestamp: int) -> gtfs_r
     for plan in result.plans:
         if plan.shape:
             _add_shape(feed, plan)
-        _add_modifications(feed, plan, service_date)
+        _add_modifications(feed, plan, service_dates)
 
     return feed
 
@@ -67,7 +71,7 @@ def _add_shape(feed: gtfs_rt.FeedMessage, plan: PatternPlan) -> None:
 def _add_modifications(
     feed: gtfs_rt.FeedMessage,
     plan: PatternPlan,
-    service_date: str,
+    service_dates: Sequence[str],
 ) -> None:
     entity = feed.entity.add()
     entity.id = entity_id_for(plan)
@@ -77,7 +81,7 @@ def _add_modifications(
     selected.trip_ids.extend(plan.trip_ids)
     if plan.shape:
         selected.shape_id = shape_id_for(plan)
-    modifications.service_dates.append(service_date)
+    modifications.service_dates.extend(service_dates)
 
     for planned in plan.modifications:
         modification = modifications.modifications.add()

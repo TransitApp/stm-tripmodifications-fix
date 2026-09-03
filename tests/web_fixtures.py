@@ -12,6 +12,8 @@ from tmfix.static_feed import Calendar, StaticFeed
 from tmweb.site import Line, LineDetour, SiteRoute, SiteStop
 
 SERVICE_DATE = "20260903"
+# What one run writes: the tests that care about more than one day say so.
+SERVICE_DATES = [SERVICE_DATE]
 SERVICE_ID = "weekday"
 DETOUR_OFFSET_M = 800.0
 
