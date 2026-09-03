@@ -207,8 +207,8 @@ is what the repair has to do and what it can only get approximately right.
 
 The route endpoint supplies `Geometry`, the scheduled shape, plus `canceled` and
 `detoured`: the runs of road the detour leaves and the runs it takes instead,
-each pair sharing its two end points exactly. Geometry is still needed for three
-things, and only these three:
+a pair normally sharing its two end points exactly. Geometry is still needed for
+three things, and only these three:
 
 1. **Ordering the replacement stops.** The website appends them to the end of
    its list rather than in service order, so each is projected onto the detour
@@ -217,6 +217,15 @@ things, and only these three:
    line has more than one, by where they fall on the trip's shape.
 3. **The new shape**, made by splicing each detour into the trip's own
    `shapes.txt` geometry where it leaves the line.
+
+Two things about those sections are not as published. A detour that moves a
+terminus shares only one end with the section it replaces; the other end is the
+new terminus, tens of metres off the line. Since the section it leaves starts at
+the same place the shape does, it lands about a metre inside it, and that metre
+of scheduled shape is dropped rather than drawn as a spike from one terminus to
+the other. And a few sections — 6 of some 200 in one snapshot — are listed
+against the line's direction, so every section is turned to run the way
+`Geometry` does before its stops are ordered or its shape spliced in.
 
 The flags are read against the line's scheduled stop list, so they apply to
 **every route pattern of that line and direction** whose trips run today, not

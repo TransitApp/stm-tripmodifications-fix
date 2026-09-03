@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from fixtures import STOP_SPACING_M
+from fixtures import STOP_SPACING_M, at
 from tmfix.static_feed import Calendar
 from tmweb.build import BuildConfig, build
 from tmweb.config import service_dates_from
@@ -15,6 +15,10 @@ from web_fixtures import (
     site_stop,
     static_feed,
 )
+
+# How far a moved terminus sits from the one it replaces, as the website's own
+# cases do: near enough that the two sections still pair on their other end.
+TERMINUS_SHIFT_M = 150.0
 
 
 def scheduled_stops(stop_count: int = 10, cancelled: range | None = None) -> list:
@@ -169,3 +173,55 @@ def test_the_replacement_threshold_is_configurable():
 
     assert strict.plans[0].modifications[0].replacement_stop_ids == []
     assert loose.plans[0].modifications[0].replacement_stop_ids == ["T1"]
+
+
+def test_a_detour_at_the_start_of_the_line_moves_where_the_shape_begins():
+    # The website's own terminus point lands a metre inside the GTFS shape, so
+    # the section it leaves starts just short of the shape's first vertex.
+    cancelled_line = [at(1.0), at(0.5 * STOP_SPACING_M)]
+    detoured_line = [at(0.0, TERMINUS_SHIFT_M), at(0.5 * STOP_SPACING_M)]
+    moved = site_stop("T1", 0.0, TERMINUS_SHIFT_M, replacement=True)
+    stops = [*scheduled_stops(10, range(1, 2)), moved]
+    detour = line_detour(stops, [(cancelled_line, detoured_line)])
+
+    (plan,) = build([detour], static_feed(), SERVICE_DATES).plans
+
+    assert plan.modifications[0].replacement_stop_ids == ["T1"]
+    assert plan.shape is not None
+    # The old terminus is gone: none of the scheduled shape is left in front of
+    # the detour, which would be drawn as a spike between the two termini.
+    assert plan.shape[0] == detoured_line[0]
+
+
+def test_a_detour_at_the_end_of_the_line_moves_where_the_shape_ends():
+    end = 10 * STOP_SPACING_M
+    cancelled_line = [at(9.5 * STOP_SPACING_M), at(end - 1.0)]
+    detoured_line = [at(9.5 * STOP_SPACING_M), at(end, TERMINUS_SHIFT_M)]
+    moved = site_stop("T1", end, TERMINUS_SHIFT_M, replacement=True)
+    stops = [*scheduled_stops(10, range(10, 11)), moved]
+    detour = line_detour(stops, [(cancelled_line, detoured_line)])
+
+    (plan,) = build([detour], static_feed(), SERVICE_DATES).plans
+
+    assert plan.shape is not None
+    assert plan.shape[-1] == detoured_line[-1]
+
+
+def test_a_detour_published_backwards_is_turned_around():
+    # The website sometimes lists a section against the line's direction.
+    cancelled_line, detoured_line = detour_sections(range(4, 7))
+    replacements = [
+        site_stop("T1", 4.5 * STOP_SPACING_M, DETOUR_OFFSET_M, replacement=True),
+        site_stop("T2", 5.5 * STOP_SPACING_M, DETOUR_OFFSET_M, replacement=True),
+    ]
+    stops = scheduled_stops(10, range(4, 7)) + replacements
+    forwards = line_detour(stops, [(cancelled_line, detoured_line)])
+    backwards = line_detour(stops, [(cancelled_line, list(reversed(detoured_line)))])
+
+    (expected,) = build([forwards], static_feed(), SERVICE_DATES).plans
+    (plan,) = build([backwards], static_feed(), SERVICE_DATES).plans
+
+    # Read as published, the detour would run west over itself and the stops on
+    # it would be served in reverse.
+    assert plan.modifications[0].replacement_stop_ids == ["T1", "T2"]
+    assert plan.shape == expected.shape

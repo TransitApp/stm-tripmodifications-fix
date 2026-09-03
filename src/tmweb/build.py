@@ -46,6 +46,9 @@ class BuildConfig:
     # How far a run of skipped stops may sit from a detour and still be the run
     # that detour stands in for.
     run_matching_m: float = 500.0
+    # A detour landing this close to an end of the shape is taken to reach that
+    # end, so no sliver of the scheduled shape is left beyond it.
+    shape_end_m: float = 5.0
 
 
 @dataclass
@@ -206,13 +209,15 @@ def _pair_sections(line_detour: LineDetour, config: BuildConfig) -> list[_Detour
     that drops stops and puts nothing in their place, or the other way round.
     """
     route = line_detour.route
-    unclaimed = list(range(len(route.detoured)))
+    cancelled_sections = _in_travel_order(route.cancelled, route.geometry, config)
+    detoured_sections = _in_travel_order(route.detoured, route.geometry, config)
+    unclaimed = list(range(len(detoured_sections)))
     paired: list[_Detour] = []
 
-    for cancelled in route.cancelled:
+    for cancelled in cancelled_sections:
         best_gap, best_index = None, None
         for index in unclaimed:
-            detoured = route.detoured[index]
+            detoured = detoured_sections[index]
             gap = distance_between(cancelled[0], detoured[0]) + distance_between(
                 cancelled[-1], detoured[-1]
             )
@@ -220,12 +225,43 @@ def _pair_sections(line_detour: LineDetour, config: BuildConfig) -> list[_Detour
                 best_gap, best_index = gap, index
         if best_index is not None and best_gap is not None and best_gap <= config.section_pairing_m:
             unclaimed.remove(best_index)
-            paired.append(_Detour(cancelled=cancelled, detoured=route.detoured[best_index]))
+            paired.append(_Detour(cancelled=cancelled, detoured=detoured_sections[best_index]))
         else:
             paired.append(_Detour(cancelled=cancelled, detoured=None))
 
-    paired.extend(_Detour(cancelled=None, detoured=route.detoured[i]) for i in unclaimed)
+    paired.extend(_Detour(cancelled=None, detoured=detoured_sections[i]) for i in unclaimed)
     return paired
+
+
+def _in_travel_order(
+    sections: list[list[LatLon]],
+    geometry: list[LatLon],
+    config: BuildConfig,
+) -> list[list[LatLon]]:
+    """Every section turned to run the way the line does.
+
+    The website publishes some of them backwards, which would put the stops on
+    a detour in reverse and draw the shape as a spike out and back. Which way
+    round a section runs is read off the line's own geometry, which the website
+    publishes in travel order. A section whose ends are not both on the line —
+    a detour to a moved terminus, say — is left as it came, since where its
+    ends fall on the line says nothing.
+    """
+    if len(geometry) < 2:
+        return sections
+
+    lengths = cumulative_lengths(geometry)
+    ordered = []
+    for section in sections:
+        if len(section) < 2:
+            ordered.append(section)
+            continue
+        first = project_onto(section[0], geometry, lengths)
+        last = project_onto(section[-1], geometry, lengths)
+        on_line = max(first.distance_m, last.distance_m) <= config.on_shape_threshold_m
+        backwards = last.along_m + config.shape_end_m < first.along_m
+        ordered.append(list(reversed(section)) if on_line and backwards else section)
+    return ordered
 
 
 def _assign_replacements(
@@ -287,9 +323,17 @@ def _place(
         last = project_onto(reference[-1], shape, lengths)
         if max(first.distance_m, last.distance_m) > config.on_shape_threshold_m:
             continue
-        placed.append(
-            _Placed(detour, min(first.along_m, last.along_m), max(first.along_m, last.along_m))
-        )
+        start = min(first.along_m, last.along_m)
+        end = max(first.along_m, last.along_m)
+        # A terminus the detour moves lands a metre or so inside the shape,
+        # since the section it leaves starts at the same place the shape does.
+        # Left there, the metre of scheduled shape outside the detour is drawn
+        # as a spike from the old terminus to the new one and back.
+        if start <= config.shape_end_m:
+            start = 0.0
+        if end >= lengths[-1] - config.shape_end_m:
+            end = lengths[-1]
+        placed.append(_Placed(detour, start, end))
 
     placed.sort(key=lambda item: (item.start_m, item.end_m))
     return placed
