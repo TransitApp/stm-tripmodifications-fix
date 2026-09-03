@@ -6,6 +6,11 @@ on:
   schedule:
     - cron: "3-59/10 * * * *"
   workflow_dispatch:
+    inputs:
+      rebuild_pdf:
+        description: "Rebuild the PDF map report"
+        type: boolean
+        default: false
 
 concurrency:
   group: repair
@@ -14,10 +19,13 @@ concurrency:
 permissions:
   contents: write
 
+env:
+  PDF_NAME: stm-tripmodifications-report.pdf
+
 jobs:
   repair:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 30
 
     steps:
       - uses: actions/checkout@v4
@@ -26,8 +34,39 @@ jobs:
         with:
           python-version: "3.12"
 
+      # Whether the PDF has to be drawn decides how much gets installed, so it
+      # is settled before anything else.
+      - name: Decide whether to draw the PDF
+        id: plan
+        run: |
+          set -euo pipefail
+
+          carried=no
+          if git fetch --depth=1 --no-tags origin output 2>/dev/null; then
+            if git cat-file -e "FETCH_HEAD:${PDF_NAME}" 2>/dev/null; then
+              git show "FETCH_HEAD:${PDF_NAME}" > "${PDF_NAME}"
+              carried=yes
+            fi
+          fi
+
+          # Draw it when asked, and whenever the output branch has none. The
+          # second case makes the first run complete on its own and a lost PDF
+          # come back by itself.
+          if [ "${{ inputs.rebuild_pdf }}" = "true" ] || [ "$carried" = "no" ]; then
+            echo "build=yes" >> "$GITHUB_OUTPUT"
+          else
+            echo "build=no" >> "$GITHUB_OUTPUT"
+          fi
+
+          echo "Carried an existing PDF: $carried"
+
       - name: Install
-        run: pip install .
+        run: |
+          if [ "${{ steps.plan.outputs.build }}" = "yes" ]; then
+            pip install ".[report]"
+          else
+            pip install .
+          fi
 
       # Keyed on the run so every run writes a fresh entry; the restore-key
       # picks up the newest previous one. The parsed static feed is only
@@ -39,11 +78,25 @@ jobs:
           key: static-gtfs-${{ github.run_id }}
           restore-keys: static-gtfs-
 
+      # --save-realtime keeps the bytes this run fetched, so drawing the maps
+      # below asks STM for nothing further.
       - name: Repair
         env:
           STM_API_USERNAME: ${{ secrets.STM_API_USERNAME }}
           STM_API_PASSWORD: ${{ secrets.STM_API_PASSWORD }}
-        run: python -m tmfix --verbose --output-dir output
+        run: |
+          python -m tmfix \
+            --verbose \
+            --output-dir output \
+            --save-realtime .cache/realtime-this-run.pb
+
+      - name: Draw the PDF map report
+        if: steps.plan.outputs.build == 'yes'
+        timeout-minutes: 20
+        run: |
+          python -m tmreport \
+            --realtime-file .cache/realtime-this-run.pb \
+            --output "${PDF_NAME}"
 
       # The output branch keeps no history: each run pushes a brand new
       # repository over it, so only the current feed is ever stored.
@@ -54,7 +107,12 @@ jobs:
           set -euo pipefail
 
           publish_dir="$(mktemp -d)"
-          cp output/* "$publish_dir/"
+          cp output/tripmodifications.pb "$publish_dir/"
+          cp output/tripmodifications.json "$publish_dir/"
+          cp output/report.md "$publish_dir/"
+          cp output/report.json "$publish_dir/"
+          cp output/metadata.json "$publish_dir/"
+          cp "${PDF_NAME}" "$publish_dir/"
           cp .github/output-readme.md "$publish_dir/README.md"
 
           cd "$publish_dir"

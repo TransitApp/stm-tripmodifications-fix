@@ -43,6 +43,11 @@ def build_parser() -> argparse.ArgumentParser:
         type=Path,
         help="read the realtime feed from this file instead of fetching it",
     )
+    parser.add_argument(
+        "--save-realtime",
+        type=Path,
+        help="also write the realtime feed exactly as fetched, for the map report to reuse",
+    )
     parser.add_argument("--verbose", action="store_true", help="log what each step is doing")
     return parser
 
@@ -69,7 +74,11 @@ def main(argv: list[str] | None = None) -> int:
         )
         return 2
 
-    summary = run(settings, realtime_path=args.realtime_file)
+    summary = run(
+        settings,
+        realtime_path=args.realtime_file,
+        save_realtime_path=args.save_realtime,
+    )
     print(json.dumps(summary, indent=1, ensure_ascii=False))
     return 0
 

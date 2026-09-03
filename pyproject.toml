@@ -12,9 +12,12 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = ["pytest>=8.0", "ruff>=0.6"]
+# Only the map report needs these. The ten-minute repair path installs neither.
+report = ["matplotlib>=3.8", "contextily>=1.6"]
 
 [project.scripts]
 tmfix = "tmfix.__main__:main"
+tmreport = "tmreport.__main__:main"
 
 [build-system]
 requires = ["setuptools>=68"]
@@ -34,6 +37,8 @@ src = ["src", "tests"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B", "SIM", "RUF"]
+# The report prints ranges as "0-26 m" with an en dash on purpose.
+allowed-confusables = ["\u2013", "\u2014"]
 
 [tool.ruff.lint.isort]
-known-first-party = ["tmfix", "fixtures"]
+known-first-party = ["tmfix", "tmreport", "fixtures"]

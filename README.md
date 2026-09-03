@@ -6,12 +6,22 @@ feed describes detours correctly in the middle of a line and wrongly at the
 ends of one. This repairs the ends and republishes the feed.
 
 It runs every ten minutes on GitHub Actions. The current output lives on the
-[`output`](../../tree/output) branch:
+[`output`](../../tree/output) branch, which is replaced whole on every run and
+so keeps no history:
 
-```
-https://raw.githubusercontent.com/TransitApp/stm-tripmodifications-fix/output/tripmodifications.pb
-https://raw.githubusercontent.com/TransitApp/stm-tripmodifications-fix/output/report.md
-```
+| File | What it is |
+| --- | --- |
+| [`tripmodifications.pb`](https://raw.githubusercontent.com/TransitApp/stm-tripmodifications-fix/output/tripmodifications.pb) | the repaired GTFS-RT feed |
+| [`tripmodifications.json`](https://raw.githubusercontent.com/TransitApp/stm-tripmodifications-fix/output/tripmodifications.json) | the same feed as JSON |
+| [`report.md`](https://raw.githubusercontent.com/TransitApp/stm-tripmodifications-fix/output/report.md) | what was repaired, written out |
+| [`stm-tripmodifications-report.pdf`](https://raw.githubusercontent.com/TransitApp/stm-tripmodifications-fix/output/stm-tripmodifications-report.pdf) | a before/after map of every repair |
+
+`report.json` and `metadata.json` sit beside them for anything reading this by
+machine.
+
+The first three are rebuilt every run. The PDF is not: drawing it downloads map
+tiles, so a scheduled run carries the existing one forward and only draws a new
+one when [asked](#refreshing-the-pdf) or when the branch has none.
 
 ## The bug
 
@@ -110,6 +120,38 @@ Tests and linting:
 pytest -q
 ruff check . && ruff format --check .
 ```
+
+## The map report
+
+Every repair is also drawn as a page in a PDF: the same detour shape in two
+panels, the stops as the feed claims them on the left and as the shape implies
+them on the right, over a basemap. It is what to send an agency, because it
+shows the vehicle leaving the stops behind rather than only asserting it.
+
+```bash
+pip install -e ".[report]"
+python -m tmreport --output report.pdf
+```
+
+| Option | What it does |
+| --- | --- |
+| `--realtime-file feed.pb` | draw a saved feed instead of fetching one |
+| `--no-basemap` | skip the street tiles, which is faster and needs no network |
+| `--tile-cache-dir DIR` | where downloaded tiles are kept |
+
+Notes on the drawing:
+
+- The basemap is Esri's grey canvas. CartoDB Positron now returns watermarked
+  "API KEY REQUIRED" tiles; Esri's needs no key and reads the same way. Its
+  tiles stop at zoom 16, so the code clamps to that.
+- A long cancelled run gets only its end stops named. Every stop still gets a
+  marker, and the page header gives the count.
+
+### Refreshing the PDF
+
+On the **Actions** tab, pick **Repair and publish**, choose **Run workflow**,
+and tick **Rebuild the PDF map report**. The run redraws it from the feed it
+has just fetched and publishes it with the rest.
 
 ## Running it yourself
 

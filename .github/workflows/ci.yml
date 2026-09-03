@@ -15,8 +15,11 @@ jobs:
         with:
           python-version: "3.12"
 
+      # The report extra is installed here but not in the repair workflow, so a
+      # broken import in the drawing code shows up on a pull request rather
+      # than in a run that was meant to publish a feed.
       - name: Install
-        run: pip install -e ".[dev]"
+        run: pip install -e ".[dev,report]"
 
       - name: Lint
         run: |

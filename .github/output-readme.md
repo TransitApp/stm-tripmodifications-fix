@@ -9,8 +9,13 @@ and nothing else. It is replaced from scratch on every run, so it has no history
 | `tripmodifications.pb` | The repaired GTFS-RT feed |
 | `tripmodifications.json` | The same feed as JSON |
 | `report.md` | What was repaired, for a person |
-| `report.json` | The same, for a program |
+| `stm-tripmodifications-report.pdf` | A before/after map of every repair |
+| `report.json` | The same as `report.md`, for a program |
 | `metadata.json` | When the run happened and how many entities it touched |
+
+The feed and the reports are rebuilt every run. The PDF is drawn only when
+asked for, or when this branch has none, so it can be older than the rest — its
+cover page carries the feed timestamp it was drawn from.
 
 Source data: Société de transport de Montréal (STM), licensed
 [CC-BY 4.0](https://www.stm.info/en/about/developers/terms-use).

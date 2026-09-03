@@ -87,7 +87,11 @@ def write_artifacts(
     return summary
 
 
-def run(settings: Settings, realtime_path: Path | None = None) -> dict[str, object]:
+def run(
+    settings: Settings,
+    realtime_path: Path | None = None,
+    save_realtime_path: Path | None = None,
+) -> dict[str, object]:
     """Fetch, repair and write. Reads the realtime feed from disk when given one."""
     feed = load_static_feed(settings)
 
@@ -95,6 +99,10 @@ def run(settings: Settings, realtime_path: Path | None = None) -> dict[str, obje
         payload = realtime_path.read_bytes()
     else:
         payload = download.fetch_realtime(settings.realtime_url, settings.credentials)
+
+    if save_realtime_path is not None:
+        save_realtime_path.parent.mkdir(parents=True, exist_ok=True)
+        save_realtime_path.write_bytes(payload)
 
     raw_feed = gtfs_rt.FeedMessage()
     raw_feed.ParseFromString(payload)
