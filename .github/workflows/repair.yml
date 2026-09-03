@@ -21,6 +21,7 @@ permissions:
 
 env:
   PDF_NAME: stm-tripmodifications-report.pdf
+  WEB_DIR: web
 
 jobs:
   repair:
@@ -36,7 +37,9 @@ jobs:
 
       # Take the published PDF and the report it was drawn from off the output
       # branch. Both are needed below: the PDF to carry forward, the report to
-      # tell whether it still shows the current repairs.
+      # tell whether it still shows the current repairs. The website feed is
+      # carried too, so a bad reply from stm.info leaves the last good one up
+      # rather than removing it.
       - name: Carry the published output forward
         id: carry
         run: |
@@ -48,6 +51,13 @@ jobs:
               git show "FETCH_HEAD:${PDF_NAME}" > "${PDF_NAME}"
               git show "FETCH_HEAD:report.json" > published-report.json 2>/dev/null || true
               carried=yes
+            fi
+            if git cat-file -e "FETCH_HEAD:${WEB_DIR}/tripmodifications.pb" 2>/dev/null; then
+              mkdir -p carried-web
+              for name in tripmodifications.pb tripmodifications.json \
+                          report.md report.json metadata.json; do
+                git show "FETCH_HEAD:${WEB_DIR}/$name" > "carried-web/$name" 2>/dev/null || true
+              done
             fi
           fi
           echo "carried=$carried" >> "$GITHUB_OUTPUT"
@@ -85,6 +95,13 @@ jobs:
             --verbose \
             --output-dir output \
             --save-realtime .cache/realtime-this-run.pb
+
+      # The website feed is built from the same static GTFS the repair just
+      # parsed, so it costs one cache hit and about ten seconds of requests to
+      # stm.info. A failure here must not stop the repaired feed publishing.
+      - name: Build the feed from the STM website
+        continue-on-error: true
+        run: python -m tmweb --verbose --output-dir output-web
 
       # The maps only change when the repairs do, and detours turn over on the
       # order of hours, so redrawing every ten minutes would download map tiles
@@ -147,6 +164,16 @@ jobs:
           cp output/metadata.json "$publish_dir/"
           cp "${PDF_NAME}" "$publish_dir/"
           cp .github/output-readme.md "$publish_dir/README.md"
+
+          # This run's website feed if it built, else the one already published.
+          if [ -f output-web/tripmodifications.pb ]; then
+            cp -r output-web "$publish_dir/${WEB_DIR}"
+          elif [ -f carried-web/tripmodifications.pb ]; then
+            echo "The website build failed; keeping the published feed"
+            cp -r carried-web "$publish_dir/${WEB_DIR}"
+          else
+            echo "No website feed to publish"
+          fi
 
           cd "$publish_dir"
           git init -q -b output

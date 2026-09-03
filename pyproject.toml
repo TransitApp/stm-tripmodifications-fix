@@ -18,6 +18,7 @@ report = ["matplotlib>=3.8", "contextily>=1.6"]
 [project.scripts]
 tmfix = "tmfix.__main__:main"
 tmreport = "tmreport.__main__:main"
+tmweb = "tmweb.__main__:main"
 
 [build-system]
 requires = ["setuptools>=68"]
@@ -41,4 +42,4 @@ select = ["E", "F", "I", "UP", "B", "SIM", "RUF"]
 allowed-confusables = ["\u2013", "\u2014"]
 
 [tool.ruff.lint.isort]
-known-first-party = ["tmfix", "tmreport", "fixtures"]
+known-first-party = ["tmfix", "tmreport", "tmweb", "fixtures", "web_fixtures"]

@@ -4,6 +4,7 @@ __pycache__/
 .cache/
 .tilecache/
 output/
+output-web/
 *.pdf
 .pytest_cache/
 .ruff_cache/

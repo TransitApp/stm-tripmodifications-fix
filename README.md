@@ -5,7 +5,12 @@ The [STM](https://www.stm.info)'s GTFS-RT
 feed describes detours correctly in the middle of a line and wrongly at the
 ends of one. This repairs the ends and republishes the feed.
 
-It runs every ten minutes on GitHub Actions. The current output lives on the
+It also builds a **second feed from a different source**: the detours the STM
+publishes on its own website, which say outright which stops a detour skips and
+which it serves instead, so nothing has to be inferred from a shape. See
+[Building it from the website](#building-it-from-the-website).
+
+Both run every ten minutes on GitHub Actions. The current output lives on the
 [`output`](../../tree/output) branch, which is replaced whole on every run and
 so keeps no history:
 
@@ -15,12 +20,14 @@ so keeps no history:
 | [`tripmodifications.json`](https://raw.githubusercontent.com/TransitApp/stm-tripmodifications-fix/output/tripmodifications.json) | the same feed as JSON |
 | [`report.md`](https://raw.githubusercontent.com/TransitApp/stm-tripmodifications-fix/output/report.md) | what was repaired, written out |
 | [`stm-tripmodifications-report.pdf`](https://raw.githubusercontent.com/TransitApp/stm-tripmodifications-fix/output/stm-tripmodifications-report.pdf) | a before/after map of every repair |
+| [`web/tripmodifications.pb`](https://raw.githubusercontent.com/TransitApp/stm-tripmodifications-fix/output/web/tripmodifications.pb) | the feed built from the website |
+| [`web/report.md`](https://raw.githubusercontent.com/TransitApp/stm-tripmodifications-fix/output/web/report.md) | every detour it found, written out |
 
-`report.json` and `metadata.json` sit beside them for anything reading this by
-machine.
+`report.json` and `metadata.json` sit beside each of them for anything reading
+this by machine, as does `web/tripmodifications.json`.
 
-The first three are rebuilt every run. The PDF is redrawn only when the repairs
-change: drawing it downloads map tiles, and detours turn over on the order of
+Everything but the PDF is rebuilt every run. The PDF is redrawn only when the
+repairs change: drawing it downloads map tiles, and detours turn over on the order of
 hours, so a run whose repairs match the published ones carries the existing PDF
 forward instead. It is also redrawn when [asked](#refreshing-the-pdf) and when
 the branch has none, so a missing one comes back by itself.
@@ -99,7 +106,7 @@ lists everything passed through and why. It stops short when:
 A stop with no known position is never treated as skipped: not knowing where a
 stop is says nothing about whether the bus reaches it.
 
-## Running it
+## Running the repair
 
 ```bash
 pip install -e ".[dev]"
@@ -127,6 +134,99 @@ Tests and linting:
 pytest -q
 ruff check . && ruff format --check .
 ```
+
+## Building it from the website
+
+The repair above can only narrow what the STM's feed already says. Where the
+feed says nothing — 19 of its 168 entities carried a detour shape and no
+modification at all in one snapshot — there is nothing to narrow. So a second
+tool ignores the feed and builds the modifications from the source the STM
+already publishes for its own line pages.
+
+Three endpoints, per line and direction:
+
+```
+/pub/i3/v1c/api/fr/lines
+/pub/i3/v1c/api/fr/lines/51/stops?direction=W&withconnection=0&detoured=1&canceled=1
+/pub/i3/v1c/api/fr/lines/51/routes/default?direction=W&detoured=1&canceled=1
+```
+
+They need no key. They do refuse any request without an `Origin` header naming
+`https://www.stm.info`.
+
+The stop list is what makes this worth doing. With `detoured=1&canceled=1` each
+stop carries two flags: **`cxl`** on a stop the detour skips, and **`dtr`** on a
+stop it serves instead. The cancelled range and the replacement stops are read
+straight off them. Nothing is measured against a shape to decide either, which
+is what the repair has to do and what it can only get approximately right.
+
+The route endpoint supplies `Geometry`, the scheduled shape, plus `canceled` and
+`detoured`: the runs of road the detour leaves and the runs it takes instead,
+each pair sharing its two end points exactly. Geometry is still needed for three
+things, and only these three:
+
+1. **Ordering the replacement stops.** The website appends them to the end of
+   its list rather than in service order, so each is projected onto the detour
+   it stands on and sorted by how far along it falls.
+2. **Matching each run of skipped stops to the detour that replaces it**, when a
+   line has more than one, by where they fall on the trip's shape.
+3. **The new shape**, made by splicing each detour into the trip's own
+   `shapes.txt` geometry where it leaves the line.
+
+The flags are read against the line's scheduled stop list, so they apply to
+**every route pattern of that line and direction** whose trips run today, not
+only the one the website draws. A short turn over the same closed street gets
+the same modification, with the stop sequences its own pattern uses.
+
+### What it produces
+
+Measured on one snapshot: 407 line directions read, 164 of them detoured, 194
+`TripModifications` entities, 252 modifications and 86 temporary stops. The
+STM's own feed at the same moment had 168 entities and 183 modifications.
+
+Matching the two by the trips they name: 145 entities in both, 125 with the
+same spans, 110 identical outright. 49 entities have no counterpart in the STM's
+feed at all — mostly route variants it leaves out.
+
+The two disagree most often at a terminus, and the same way every time: the STM
+cancels the end stop and then appends it to its own replacement list, so the
+trip still calls there. This feed writes the shorter thing — the stop is not
+cancelled — which is the same service either way.
+
+### What it cannot do
+
+- **It cannot name a temporary stop the website does not list.** Five
+  replacement stops were left out that way in that snapshot, and four of the
+  STM's 168 entities describe a detour the website does not. `web/report.md`
+  names both.
+- **It writes today's service date and no other.** A night trip that runs past
+  midnight belongs to the previous service date and is left out until that date
+  comes round, so between midnight and the small hours the night lines are
+  short. The website carries no dates at all, so anything further ahead would be
+  a guess.
+- **A modification that adds stops without dropping any** needs a
+  `start_stop_selector` all the same. The stop the detour leaves from is named
+  as the span and put back into the replacement list where the detour passes it,
+  which leaves the trip calling at it exactly as before.
+
+### Running the website build
+
+```bash
+pip install -e ".[dev]"
+python -m tmweb --verbose
+```
+
+It needs no credentials — only the static GTFS, which it shares with the repair
+above and caches the same way. Output lands in `./output-web`.
+
+| Option | What it does |
+| --- | --- |
+| `--service-date 20260903` | write this date instead of today in Montreal |
+| `--workers 8` | how many website requests to have in flight at once |
+| `--output-dir DIR` | where to write the artifacts |
+| `--cache-dir DIR` | where to keep the static feed and its parsed form |
+
+Reading all 407 line directions takes about ten seconds.
 
 ## The map report
 
@@ -166,6 +266,9 @@ Fork it, then set `STM_API_USERNAME` and `STM_API_PASSWORD` as repository
 secrets under **Settings → Secrets and variables → Actions**. Scheduled
 workflows are disabled on new forks; enable them on the **Actions** tab.
 
+The credentials are the repair's, not the website build's. Without them the
+repair step fails and the run stops before publishing anything.
+
 ### Operational caveats
 
 - **The schedule is approximate.** GitHub's minimum is five minutes, and
@@ -179,6 +282,10 @@ workflows are disabled on new forks; enable them on the **Actions** tab.
   `PUT /repos/{owner}/{repo}/actions/workflows/{id}/enable`. The publish step
   pushes a commit on every run, which may be enough to count as activity, but
   GitHub does not promise that.
+- **The website build is a guest on stm.info.** One run makes about 570
+  requests, none of them cached by the site for more than fifteen seconds. Six
+  runs an hour is polite; much more than that is not, and none of it is covered
+  by the developer terms the repair runs under.
 - **`raw.githubusercontent.com` is rate limited.** Unauthenticated requests
   fall under GitHub's 60-per-hour limit, and responses are cached for about
   five minutes. This is fine for a few consumers looking at the data. It is not
@@ -188,8 +295,9 @@ workflows are disabled on new forks; enable them on the **Actions** tab.
 ## Data and licence
 
 Source data: Société de transport de Montréal (STM), licensed
-[CC-BY 4.0](https://www.stm.info/en/about/developers/terms-use). This is an
-unofficial derived feed, neither published nor endorsed by the STM.
+[CC-BY 4.0](https://www.stm.info/en/about/developers/terms-use) — the developer
+feeds for the repair, the website's own line-page API for the second feed. Both
+are unofficial derived feeds, neither published nor endorsed by the STM.
 Attribution will be removed at the STM's request.
 
 The code is MIT licensed. See [LICENSE](LICENSE).

@@ -12,7 +12,7 @@ import math
 
 from google.transit import gtfs_realtime_pb2 as gtfs_rt
 
-from tmfix.geometry import LatLon
+from tmfix.geometry import LatLon, encode_polyline
 from tmfix.static_feed import StaticFeed
 
 BASE_LAT = 45.5
@@ -31,26 +31,6 @@ def at(east_m: float, north_m: float = 0.0) -> LatLon:
         BASE_LAT + north_m / _METRES_PER_DEGREE_LAT,
         BASE_LON + east_m / _METRES_PER_DEGREE_LON,
     )
-
-
-def encode_polyline(points: list[LatLon], precision: int = 5) -> str:
-    """Encode positions as a Google encoded polyline. Only the tests need this."""
-    factor = 10**precision
-    output: list[str] = []
-    previous = (0, 0)
-
-    for point in points:
-        current = (round(point.lat * factor), round(point.lon * factor))
-        for value, last in zip(current, previous, strict=True):
-            delta = value - last
-            delta = ~(delta << 1) if delta < 0 else (delta << 1)
-            while delta >= 0x20:
-                output.append(chr((0x20 | (delta & 0x1F)) + 63))
-                delta >>= 5
-            output.append(chr(delta + 63))
-        previous = current
-
-    return "".join(output)
 
 
 def straight_route(stop_count: int, prefix: str = "S") -> tuple[list[str], StaticFeed]:
