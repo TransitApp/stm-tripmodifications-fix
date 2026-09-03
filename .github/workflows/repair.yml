@@ -58,6 +58,12 @@ jobs:
             echo "build=no" >> "$GITHUB_OUTPUT"
           fi
 
+          # The static feed cache is keyed by the hour rather than by the run:
+          # at six runs an hour, keying by run would write a 45 MB entry every
+          # ten minutes and churn the cache for a zip that changes a few times
+          # a year.
+          echo "hour=$(date -u +%Y-%m-%dT%H)" >> "$GITHUB_OUTPUT"
+
           echo "Carried an existing PDF: $carried"
 
       - name: Install
@@ -68,14 +74,13 @@ jobs:
             pip install .
           fi
 
-      # Keyed on the run so every run writes a fresh entry; the restore-key
-      # picks up the newest previous one. The parsed static feed is only
-      # rebuilt when STM publishes a new zip.
+      # The restore-key picks up the newest previous entry, so a new hour
+      # starts from the last hour's zip and only conditional-GETs it.
       - name: Restore the static feed cache
         uses: actions/cache@v4
         with:
           path: .cache
-          key: static-gtfs-${{ github.run_id }}
+          key: static-gtfs-${{ steps.plan.outputs.hour }}
           restore-keys: static-gtfs-
 
       # --save-realtime keeps the bytes this run fetched, so drawing the maps
