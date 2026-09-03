@@ -7,17 +7,20 @@ from datetime import UTC, datetime
 from fixtures import STOP_SPACING_M
 from tmweb.age import minutes_since_file
 from tmweb.build import BuildResult, SkippedLine, build
+from tmweb.config import service_dates_from
 from tmweb.report import build_json, build_markdown
 from web_fixtures import (
     DETOUR_OFFSET_M,
-    SERVICE_DATE,
+    SERVICE_DATES,
     detour_sections,
     line_detour,
     site_stop,
     static_feed,
 )
 
-METADATA = {"service_date": SERVICE_DATE, "generated_at": "now", "attribution": "STM"}
+WEEK = service_dates_from(SERVICE_DATES[0], 7)
+
+METADATA = {"service_dates": SERVICE_DATES, "generated_at": "now", "attribution": "STM"}
 
 
 def sample_result() -> BuildResult:
@@ -28,7 +31,7 @@ def sample_result() -> BuildResult:
     ]
     stops.append(site_stop("T1", 5.0 * STOP_SPACING_M, DETOUR_OFFSET_M, replacement=True))
     return build(
-        [line_detour(stops, [(cancelled_line, detoured_line)])], static_feed(), SERVICE_DATE
+        [line_detour(stops, [(cancelled_line, detoured_line)])], static_feed(), SERVICE_DATES
     )
 
 
@@ -40,6 +43,12 @@ def test_the_json_counts_what_was_written():
     assert payload["stops_defined"] == 1
     assert payload["detours"][0]["entity_id"] == "web_detour_51_1"
     assert payload["detours"][0]["modifications"][0]["cancelled_stop_ids"] == ["S4", "S5", "S6"]
+
+
+def test_the_markdown_gives_the_run_of_dates_a_run_wrote():
+    text = build_markdown(sample_result(), {**METADATA, "service_dates": WEEK})
+
+    assert f"`{WEEK[0]}` to `{WEEK[-1]}`, 7 days" in text
 
 
 def test_the_markdown_names_the_span_and_the_replacements():
@@ -67,3 +76,11 @@ def test_the_age_of_a_published_run_is_read_from_its_own_timestamp(tmp_path):
     now = datetime(2026, 9, 3, 13, 5, tzinfo=UTC)
 
     assert minutes_since_file(path, now) == 65
+
+
+def test_the_dates_a_run_writes_start_today_and_cross_the_month():
+    dates = service_dates_from("20260928", 7)
+
+    assert dates[0] == "20260928"
+    assert dates[-1] == "20261004"
+    assert len(dates) == 7

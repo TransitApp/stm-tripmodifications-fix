@@ -11,6 +11,7 @@ the flags.
 from __future__ import annotations
 
 import logging
+from collections.abc import Sequence
 from dataclasses import dataclass, field
 from itertools import pairwise
 
@@ -108,13 +109,20 @@ class _Detour:
 def build(
     detours: list[LineDetour],
     feed: StaticFeed,
-    service_date: str,
+    service_dates: Sequence[str],
     config: BuildConfig | None = None,
 ) -> BuildResult:
-    """Work out the modifications every detoured line implies."""
+    """Work out the modifications every detoured line implies.
+
+    A trip is selected when it runs on any of the dates. Which of them it
+    actually runs on is in the static schedule the consumer already has, so
+    naming a trip that does not run on one of the dates says nothing new.
+    """
     config = config or BuildConfig()
     result = BuildResult()
-    running = feed.calendar.services_on(service_date)
+    running: set[str] = set()
+    for service_date in service_dates:
+        running |= feed.calendar.services_on(service_date)
 
     for line_detour in sorted(detours, key=lambda item: item.line.key):
         _build_line(line_detour, feed, running, config, result)
@@ -185,7 +193,9 @@ def _build_line(
                         result.new_stops[stop_id] = site_stop
 
     if not made_something:
-        result.skipped.append(SkippedLine(line.key, "no trip pattern running today is affected"))
+        result.skipped.append(
+            SkippedLine(line.key, "no trip pattern running on these dates is affected")
+        )
 
 
 def _pair_sections(line_detour: LineDetour, config: BuildConfig) -> list[_Detour]:

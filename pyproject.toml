@@ -18,6 +18,7 @@ report = ["matplotlib>=3.8", "contextily>=1.6"]
 [project.scripts]
 tmfix = "tmfix.__main__:main"
 tmreport = "tmreport.__main__:main"
+tmwebreport = "tmreport.web.__main__:main"
 tmweb = "tmweb.__main__:main"
 
 [build-system]

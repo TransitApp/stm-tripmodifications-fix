@@ -2,16 +2,7 @@
 
 from __future__ import annotations
 
-import logging
-import math
 from datetime import UTC, datetime
-from zoneinfo import ZoneInfo
-
-import contextily as cx
-import matplotlib
-import matplotlib.patheffects as path_effects
-
-matplotlib.use("Agg")
 
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
@@ -20,72 +11,32 @@ from matplotlib.lines import Line2D
 from tmfix.geometry import LatLon
 
 from .collect import Collected, Page
-
-USER_AGENT = "stm-tripmodifications-fix map report (+https://github.com/TransitApp/stm-tripmodifications-fix)"
-
-# CartoDB Positron now returns watermarked "API KEY REQUIRED" tiles, so the
-# basemap is Esri's grey canvas, which needs no key and reads the same way.
-BASEMAP = "Esri.WorldGrayCanvas"
-BASEMAP_MAX_ZOOM = 16
-BASEMAP_CREDIT = "Basemap: Esri, HERE, Garmin, © OpenStreetMap contributors"
-MONTREAL = ZoneInfo("America/Montreal")
-
-# A4 landscape, the format a European or Canadian office prints without thinking.
-PAGE_SIZE = (11.69, 8.27)
-
-INK = "#1c1c1c"
-MUTED = "#6b6b6b"
-SCHEDULED = "#9aa0a6"
-DETOUR = "#0b6e6e"
-CANCELLED = "#c62828"
-TEMPORARY = "#1565c0"
-CHANGED = "#e8a33d"
-
-EARTH_RADIUS_M = 6_378_137.0
-MIN_SPAN_M = 350.0
-PADDING = 0.22
-
-# A long cancelled run would otherwise bury the map under a column of names.
-# The markers still show every stop; the header already gives the count.
-MAX_STOP_LABELS = 4
+from .draw import (
+    BASEMAP_CREDIT,
+    CANCELLED,
+    CHANGED,
+    DETOUR,
+    INK,
+    MAX_STOP_LABELS,
+    MONTREAL,
+    MUTED,
+    PAGE_SIZE,
+    SCHEDULED,
+    TEMPORARY,
+    Bounds,
+    basemap,
+    clip,
+    fit_bounds,
+    frame,
+    place_labels,
+    scale_bar,
+    set_tile_cache,
+    to_mercator,
+    wrap,
+)
 
 
-def to_mercator(point: LatLon) -> tuple[float, float]:
-    """WGS84 to Web Mercator metres, which is what the tiles are drawn in."""
-    x = math.radians(point.lon) * EARTH_RADIUS_M
-    y = math.log(math.tan(math.pi / 4 + math.radians(point.lat) / 2)) * EARTH_RADIUS_M
-    return x, y
-
-
-def mercator_scale(latitude: float) -> float:
-    """Metres on the ground per Mercator metre at a latitude."""
-    return math.cos(math.radians(latitude))
-
-
-def _clip(line: list[LatLon], bounds: tuple[float, float, float, float]):
-    """Mercator points of a line, keeping the segments that touch the view."""
-    left, bottom, right, top = bounds
-    margin = max(right - left, top - bottom)
-    points = [to_mercator(point) for point in line]
-
-    kept: list[list[tuple[float, float]]] = []
-    run: list[tuple[float, float]] = []
-    for index, (x, y) in enumerate(points):
-        inside = left - margin <= x <= right + margin and bottom - margin <= y <= top + margin
-        if inside:
-            if not run and index > 0:
-                run.append(points[index - 1])
-            run.append((x, y))
-        elif run:
-            run.append((x, y))
-            kept.append(run)
-            run = []
-    if run:
-        kept.append(run)
-    return kept
-
-
-def _extent(page: Page) -> tuple[float, float, float, float]:
+def _extent(page: Page) -> Bounds:
     """A view holding the affected stops, their neighbours and the detour."""
     pattern = page.pattern
     by_sequence = {sequence: position for position, (sequence, _) in enumerate(pattern)}
@@ -115,163 +66,28 @@ def _extent(page: Page) -> tuple[float, float, float, float]:
     if not points:
         points = [location for location in page.stop_positions.values()]
 
-    xs, ys = zip(*(to_mercator(point) for point in points), strict=True)
-    left, right, bottom, top = min(xs), max(xs), min(ys), max(ys)
-
-    # The detour geometry around those stops is part of the story, so pull in the
-    # shape near them. The window is fixed before the loop: growing it as points
-    # are accepted would let one distant vertex drag in the whole route.
-    scale = mercator_scale(points[0].lat)
-    margin = 0.35 * max(right - left, top - bottom, MIN_SPAN_M / scale)
-    window = (left - margin, bottom - margin, right + margin, top + margin)
-    for x, y in (to_mercator(point) for point in page.shape):
-        if window[0] <= x <= window[2] and window[1] <= y <= window[3]:
-            left, right = min(left, x), max(right, x)
-            bottom, top = min(bottom, y), max(top, y)
-
-    width = max(right - left, MIN_SPAN_M / scale)
-    height = max(top - bottom, MIN_SPAN_M / scale)
-    # Match the panel's aspect so neither axis is stretched.
-    aspect = 1.05
-    if width / height < aspect:
-        width = height * aspect
-    else:
-        height = width / aspect
-
-    centre_x, centre_y = (left + right) / 2, (bottom + top) / 2
-    width *= 1 + PADDING
-    height *= 1 + PADDING
-    return (
-        centre_x - width / 2,
-        centre_y - height / 2,
-        centre_x + width / 2,
-        centre_y + height / 2,
-    )
-
-
-def _zoom_for(bounds: tuple[float, float, float, float]) -> int:
-    """Tile zoom that fills the panel, clamped to what the provider serves."""
-    left, _, right, _ = bounds
-    world = 2 * math.pi * EARTH_RADIUS_M
-    # A panel is roughly 1,100 device pixels wide at the DPI this is saved at.
-    zoom = math.log2(world / (right - left) * 1100 / 256)
-    return max(1, min(BASEMAP_MAX_ZOOM, round(zoom)))
-
-
-def _scale_bar(ax, bounds: tuple[float, float, float, float], latitude: float) -> None:
-    """A bar whose length is a round number of ground metres."""
-    left, bottom, right, top = bounds
-    ground_width = (right - left) * mercator_scale(latitude)
-
-    # The longest round bar that still leaves the map readable.
-    choices = (50, 100, 200, 250, 500, 1000, 2000)
-    fitting = [candidate for candidate in choices if candidate <= ground_width * 0.3]
-    length_m = fitting[-1] if fitting else choices[0]
-
-    length = length_m / mercator_scale(latitude)
-    x0 = left + (right - left) * 0.05
-    y0 = bottom + (top - bottom) * 0.05
-
-    ax.plot([x0, x0 + length], [y0, y0], color=INK, linewidth=2.4, solid_capstyle="butt", zorder=8)
-    for x in (x0, x0 + length):
-        ax.plot(
-            [x, x],
-            [y0 - (top - bottom) * 0.008, y0 + (top - bottom) * 0.008],
-            color=INK,
-            linewidth=2.4,
-            zorder=8,
-        )
-    ax.text(
-        x0 + length / 2,
-        y0 + (top - bottom) * 0.016,
-        f"{length_m} m",
-        ha="center",
-        va="bottom",
-        fontsize=7,
-        color=INK,
-        zorder=8,
-        path_effects=[path_effects.withStroke(linewidth=2.6, foreground="white")],
-    )
-
-
-def _place_labels(ax, labelled, bounds) -> None:
-    """Label the affected stops, nudging each one clear of the last.
-
-    Stops on a bus route come a block apart, so labels stack unless they are
-    pushed off each other. Working down the map and remembering the last label's
-    box is enough here; a full collision solver would be more machinery than
-    fourteen labels deserve.
-    """
-    left, bottom, right, top = bounds
-    height = top - bottom
-    # Roughly the vertical room one line of 6.6 pt text needs in data units.
-    line_height = height * 0.030
-
-    taken: list[tuple[float, float]] = []
-    for x, y, text, colour in sorted(labelled, key=lambda item: -item[1]):
-        to_the_right = x < (left + right) / 2
-        label_y = y
-        for used_x, used_y in taken:
-            same_side = (used_x < (left + right) / 2) == to_the_right
-            if same_side and abs(label_y - used_y) < line_height:
-                label_y = used_y - line_height
-        taken.append((x, label_y))
-
-        label_y = max(label_y, bottom + height * 0.02)
-        offset_y = (label_y - y) / height * ax.bbox.height
-        ax.annotate(
-            text,
-            xy=(x, y),
-            xytext=(9 if to_the_right else -9, offset_y),
-            textcoords="offset points",
-            fontsize=6.6,
-            color=colour,
-            ha="left" if to_the_right else "right",
-            va="center",
-            zorder=9,
-            annotation_clip=True,
-            path_effects=[path_effects.withStroke(linewidth=2.6, foreground="white")],
-        )
+    # The detour geometry around those stops is part of the story.
+    return fit_bounds(points, [page.shape])
 
 
 def _draw_panel(
     ax,
     page: Page,
     panel,
-    bounds,
+    bounds: Bounds,
     title: str,
     highlight: set[str],
     use_basemap: bool = True,
 ) -> None:
     """One map: the scheduled path, the detour, and the stops as this side claims them."""
     left, bottom, right, top = bounds
-    ax.set_xlim(left, right)
-    ax.set_ylim(bottom, top)
-    ax.set_xticks([])
-    ax.set_yticks([])
-    for spine in ax.spines.values():
-        spine.set_edgecolor("#c9c9c9")
-        spine.set_linewidth(0.8)
+    frame(ax, bounds)
+    basemap(ax, bounds, use_basemap)
 
-    if use_basemap:
-        try:
-            cx.add_basemap(
-                ax,
-                source=cx.providers.Esri.WorldGrayCanvas,
-                attribution=False,
-                zoom=_zoom_for(bounds),
-                headers={"User-Agent": USER_AGENT},
-            )
-        except Exception as error:  # a map without streets is poor, but better than no page
-            logging.warning("basemap tiles unavailable: %s", error)
-            ax.set_facecolor("#f2f2f0")
-    else:
-        ax.set_facecolor("#f2f2f0")
-
-    for run in _clip(page.scheduled_shape, bounds):
+    for run in clip(page.scheduled_shape, bounds):
         xs, ys = zip(*run, strict=True)
         ax.plot(xs, ys, color=SCHEDULED, linewidth=5.5, alpha=0.9, zorder=2, solid_capstyle="round")
-    for run in _clip(page.shape, bounds):
+    for run in clip(page.shape, bounds):
         xs, ys = zip(*run, strict=True)
         ax.plot(xs, ys, color=DETOUR, linewidth=2.4, zorder=3, solid_capstyle="round")
 
@@ -358,8 +174,8 @@ def _draw_panel(
         already_labelled.add(stop_id)
         labelled.append((x, y, page.stop_names.get(stop_id, stop_id), TEMPORARY))
 
-    _place_labels(ax, labelled, bounds)
-    _scale_bar(ax, bounds, (page.pattern and _first_latitude(page)) or 45.5)
+    place_labels(ax, labelled, bounds)
+    scale_bar(ax, bounds, (page.pattern and _first_latitude(page)) or 45.5)
     ax.set_title(title, fontsize=10, color=INK, pad=7, fontweight="bold")
 
 
@@ -524,7 +340,7 @@ def draw_cover(pdf: PdfPages, collected: Collected) -> None:
         "them on the left, and as the shape implies them on the right."
     )
     fig.text(
-        0.055, 0.828, _wrap(explanation, 118), fontsize=9.4, color=INK, va="top", linespacing=1.55
+        0.055, 0.828, wrap(explanation, 118), fontsize=9.4, color=INK, va="top", linespacing=1.55
     )
 
     feed_time = datetime.fromtimestamp(collected.feed_timestamp, UTC).astimezone(MONTREAL)
@@ -542,7 +358,7 @@ def draw_cover(pdf: PdfPages, collected: Collected) -> None:
         "measure 94–471 m, so the reading does not depend on where in that gap the line is drawn."
     )
     fig.text(
-        0.055, 0.628, _wrap(threshold, 118), fontsize=8.6, color=MUTED, va="top", linespacing=1.5
+        0.055, 0.628, wrap(threshold, 118), fontsize=8.6, color=MUTED, va="top", linespacing=1.5
     )
 
     _cover_table(fig, collected)
@@ -629,12 +445,6 @@ def _cover_table(fig, collected: Collected) -> None:
             )
 
 
-def _wrap(text: str, width: int) -> str:
-    import textwrap
-
-    return "\n".join(textwrap.wrap(text, width))
-
-
 def build_report(
     collected: Collected,
     output_path,
@@ -643,8 +453,7 @@ def build_report(
 ) -> int:
     """Write the PDF and return its page count."""
     if use_basemap:
-        cx.set_cache_dir(tile_cache_dir)
-        cx.tile.USER_AGENT = USER_AGENT
+        set_tile_cache(tile_cache_dir)
 
     with PdfPages(output_path) as pdf:
         draw_cover(pdf, collected)

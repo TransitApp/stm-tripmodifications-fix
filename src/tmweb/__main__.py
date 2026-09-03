@@ -7,7 +7,7 @@ import json
 import logging
 from pathlib import Path
 
-from .config import Settings
+from .config import DEFAULT_DAYS, Settings
 from .pipeline import run
 from .site import REQUESTS_PER_SECOND, WORKERS
 
@@ -31,7 +31,13 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument(
         "--service-date",
-        help="the YYYYMMDD service date to write, instead of today in Montreal",
+        help="the first YYYYMMDD service date to write, instead of today in Montreal",
+    )
+    parser.add_argument(
+        "--days",
+        type=int,
+        default=DEFAULT_DAYS,
+        help=f"how many service dates to write, counting the first (default: {DEFAULT_DAYS})",
     )
     parser.add_argument(
         "--workers",
@@ -62,6 +68,7 @@ def main(argv: list[str] | None = None) -> int:
         output_dir=args.output_dir,
         workers=args.workers,
         requests_per_second=args.rate,
+        days=args.days,
     )
     summary = run(settings, service_date=args.service_date)
     print(json.dumps(summary, indent=1, ensure_ascii=False))
