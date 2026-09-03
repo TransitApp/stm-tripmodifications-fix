@@ -39,10 +39,11 @@ LANGUAGE = "fr"
 TIMEOUT_S = 30
 ATTEMPTS = 3
 
-# Requests a second, over the whole run. The site answers in a few milliseconds,
-# so without this a handful of threads reach several hundred a second, which is
-# a burst no line page ever asks of it.
-REQUESTS_PER_SECOND = 20.0
+# Requests a second, over the whole run: without it a handful of threads reach
+# several hundred a second, a burst no line page ever asks of the site. At five
+# a run takes about two minutes, and the site hears nothing from us for the
+# rest of the half hour.
+REQUESTS_PER_SECOND = 5.0
 WORKERS = 4
 
 # The website names directions in full; the GTFS calls them by their initial.

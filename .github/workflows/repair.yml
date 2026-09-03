@@ -2,9 +2,10 @@ name: Repair and publish
 
 on:
   # Offset from the top of the hour: GitHub delays scheduled runs most when
-  # the hour turns.
+  # the hour turns. The offset is 5 so that two of the six runs an hour fall on
+  # :05 and :35, the two that read the STM website.
   schedule:
-    - cron: "3-59/10 * * * *"
+    - cron: "5-59/10 * * * *"
   workflow_dispatch:
     inputs:
       rebuild_pdf:
@@ -12,7 +13,7 @@ on:
         type: boolean
         default: false
       rebuild_web:
-        description: "Read the STM website again, whatever its age"
+        description: "Read the STM website again, even if this turn was read"
         type: boolean
         default: false
 
@@ -27,11 +28,6 @@ env:
   PDF_NAME: stm-tripmodifications-report.pdf
   WEB_PDF_NAME: stm-detours-report.pdf
   WEB_DIR: web
-  # Reading the website costs about 570 requests to stm.info, and detours turn
-  # over on the order of hours, so it is read once an hour rather than on every
-  # ten-minute run. Measured against the published feed's own age, so a dropped
-  # or delayed scheduled run does not skip an hour.
-  WEB_MAX_AGE_MINUTES: "55"
 
 jobs:
   repair:
@@ -109,6 +105,10 @@ jobs:
             --output-dir output \
             --save-realtime .cache/realtime-this-run.pb
 
+      # Reading the website costs about 570 requests to stm.info, so it happens
+      # twice an hour rather than on every ten-minute run: on the runs at :05
+      # and :35. Which turn the published feed was written in decides, so a
+      # scheduled run GitHub delays or drops does not cost a whole turn.
       - name: Decide whether to read the website
         id: web_plan
         run: |
@@ -119,11 +119,8 @@ jobs:
             reason="asked for by the dispatch"
           elif [ ! -f carried-web/metadata.json ]; then
             reason="the output branch has no website feed"
-          else
-            age="$(python -m tmweb.age carried-web/metadata.json)"
-            if [ "$age" -ge "${WEB_MAX_AGE_MINUTES}" ]; then
-              reason="the published one is $age minutes old"
-            fi
+          elif [ "$(python -m tmweb.due carried-web/metadata.json)" = "yes" ]; then
+            reason="the published one was read in an earlier turn"
           fi
 
           if [ -n "$reason" ]; then
@@ -131,7 +128,7 @@ jobs:
             echo "Reading the website: $reason"
           else
             echo "build=no" >> "$GITHUB_OUTPUT"
-            echo "Keeping the published website feed: it is still fresh"
+            echo "Keeping the published website feed: this turn was already read"
           fi
 
       # Built from the same static GTFS the repair just parsed, so it costs one

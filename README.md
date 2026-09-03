@@ -10,10 +10,10 @@ publishes on its own website, which say outright which stops a detour skips and
 which it serves instead, so nothing has to be inferred from a shape. See
 [Building it from the website](#building-it-from-the-website).
 
-The repair runs every ten minutes on GitHub Actions and the website build once
-an hour, both from the same workflow. The current output lives on the
-[`output`](../../tree/output) branch, which is replaced whole on every run and
-so keeps no history:
+The repair runs every ten minutes on GitHub Actions and the website build
+twice an hour, at 5 and 35 minutes past, both from the same workflow. The
+current output lives on the [`output`](../../tree/output) branch, which is
+replaced whole on every run and so keeps no history:
 
 | File | What it is |
 | --- | --- |
@@ -166,12 +166,15 @@ the stop lists, one per line and direction, and one more for each of the ~165
 that turn out to be detoured: about 570**, a megabyte or so gzipped.
 
 That is the whole cost, and two things keep it modest. The requests are paced
-at **20 a second** rather than sent as fast as four threads can manage, which is
-several hundred a second on replies this small. And the workflow reads the
-website **once an hour**, not on every ten-minute run, measured against the
-published feed's own timestamp so a dropped run does not skip a turn. Detours
-turn over on the order of hours, and the GTFS-RT spec's own service-level
-objective for TripModifications is about hourly.
+at **5 a second** rather than sent as fast as four threads can manage, which is
+several hundred a second on replies this small, so a run takes about two minutes
+and the site hears nothing from us for the rest of the half hour. And the
+workflow reads the website **twice an hour**, on the runs at **:05 and :35**,
+not on every ten-minute run. Which of those turns the published feed was written
+in is what decides, so a run GitHub delays or drops does not cost a whole turn.
+Detours turn over on the order of hours, so this is already ahead of them, and
+the GTFS-RT spec's own service-level objective for TripModifications is about
+hourly.
 
 ### Why not read the realtime feed for the list
 
@@ -283,12 +286,12 @@ above and caches the same way. Output lands in `./output-web`.
 | --- | --- |
 | `--service-date 20260903` | start at this date instead of today in Montreal |
 | `--days 7` | how many service dates to write, counting the first |
-| `--rate 20` | most requests to send a second |
+| `--rate 5` | most requests to send a second |
 | `--workers 4` | how many requests to have in flight at once |
 | `--output-dir DIR` | where to write the artifacts |
 | `--cache-dir DIR` | where to keep the static feed and its parsed form |
 
-Reading all 407 line directions takes about thirty seconds at the default rate.
+Reading all 407 line directions takes about two minutes at the default rate.
 
 ## The map report
 
@@ -369,13 +372,13 @@ repair step fails and the run stops before publishing anything.
   pushes a commit on every run, which may be enough to count as activity, but
   GitHub does not promise that.
 - **The website build is a guest on stm.info.** One run makes about 570
-  requests, paced at 20 a second, and the workflow only lets it run once an
-  hour — `WEB_MAX_AGE_MINUTES` in the workflow sets that. None of it is covered
-  by the developer terms the repair runs under, so leave it slow.
+  requests, paced at 5 a second, and the workflow only lets it run at :05 and
+  :35 — `tmweb.due` decides that. None of it is covered by the developer terms
+  the repair runs under, so leave it slow.
 - **A run that redraws the website report takes about ten minutes.** Two
   hundred-odd maps at a couple of seconds each, on top of everything else.
   Scheduled runs share one concurrency group, so the next ten-minute repair
-  waits for it. That happens at most once an hour, and only when the detours
+  waits for it. That happens at most twice an hour, and only when the detours
   changed.
 - **`raw.githubusercontent.com` is rate limited.** Unauthenticated requests
   fall under GitHub's 60-per-hour limit, and responses are cached for about

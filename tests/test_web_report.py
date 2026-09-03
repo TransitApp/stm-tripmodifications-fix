@@ -5,9 +5,9 @@ from __future__ import annotations
 from datetime import UTC, datetime
 
 from fixtures import STOP_SPACING_M
-from tmweb.age import minutes_since_file
 from tmweb.build import BuildResult, SkippedLine, build
 from tmweb.config import service_dates_from
+from tmweb.due import is_due, is_due_file
 from tmweb.report import build_json, build_markdown
 from web_fixtures import (
     DETOUR_OFFSET_M,
@@ -69,13 +69,28 @@ def test_lines_that_produced_nothing_are_listed():
     assert "51E: no trip pattern running today is affected" in text
 
 
-def test_the_age_of_a_published_run_is_read_from_its_own_timestamp(tmp_path):
+def test_a_read_is_due_once_the_clock_passes_the_next_turn(tmp_path):
     path = tmp_path / "metadata.json"
-    path.write_text('{"generated_at": "2026-09-03T12:00:00+00:00"}')
+    path.write_text('{"generated_at": "2026-09-03T12:06:00+00:00"}')
 
-    now = datetime(2026, 9, 3, 13, 5, tzinfo=UTC)
+    assert not is_due_file(path, datetime(2026, 9, 3, 12, 34, tzinfo=UTC))
+    assert is_due_file(path, datetime(2026, 9, 3, 12, 35, tzinfo=UTC))
 
-    assert minutes_since_file(path, now) == 65
+
+def test_a_read_delayed_into_the_next_turn_still_leaves_the_one_after_due():
+    # The :05 run ran at :12; the :35 run is still a turn of its own.
+    published = "2026-09-03T12:12:00+00:00"
+
+    assert not is_due(published, datetime(2026, 9, 3, 12, 15, tzinfo=UTC))
+    assert is_due(published, datetime(2026, 9, 3, 12, 38, tzinfo=UTC))
+
+
+def test_the_turn_the_hour_turns_in_starts_at_thirty_five_past(tmp_path):
+    path = tmp_path / "metadata.json"
+    path.write_text('{"generated_at": "2026-09-03T12:36:00+00:00"}')
+
+    assert not is_due_file(path, datetime(2026, 9, 3, 13, 4, tzinfo=UTC))
+    assert is_due_file(path, datetime(2026, 9, 3, 13, 5, tzinfo=UTC))
 
 
 def test_the_dates_a_run_writes_start_today_and_cross_the_month():
