@@ -9,11 +9,18 @@ line and direction, `stops` gives the scheduled stop list with two flags on
 it — `cxl` for a stop the detour skips and `dtr` for one it serves instead —
 and `routes/default` gives the scheduled shape along with the road sections
 the detour leaves and the ones it takes.
+
+There is no endpoint listing which lines are detoured, so finding out means
+asking for all of them: one request per line and direction, plus one more for
+each that turns out to be detoured. That is around 570 requests, so they are
+rate limited rather than sent as fast as the connection allows.
 """
 
 from __future__ import annotations
 
 import logging
+import threading
+import time
 from collections.abc import Iterable, Sequence
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
@@ -31,6 +38,12 @@ LANGUAGE = "fr"
 
 TIMEOUT_S = 30
 ATTEMPTS = 3
+
+# Requests a second, over the whole run. The site answers in a few milliseconds,
+# so without this a handful of threads reach several hundred a second, which is
+# a burst no line page ever asks of it.
+REQUESTS_PER_SECOND = 20.0
+WORKERS = 4
 
 # The website names directions in full; the GTFS calls them by their initial.
 DIRECTION_LETTERS = {"North": "N", "South": "S", "East": "E", "West": "W"}
@@ -90,13 +103,39 @@ class LineDetour:
         return bool(self.cancelled_stop_ids or self.replacement_stops)
 
 
+class _Pace:
+    """Hands out permission to send, no faster than a fixed rate."""
+
+    def __init__(self, per_second: float):
+        self.interval = 0.0 if per_second <= 0 else 1.0 / per_second
+        self.lock = threading.Lock()
+        self.next_at = 0.0
+
+    def wait(self) -> None:
+        if not self.interval:
+            return
+        with self.lock:
+            now = time.monotonic()
+            due = max(now, self.next_at)
+            self.next_at = due + self.interval
+        if due > now:
+            time.sleep(due - now)
+
+
 class Site:
     """A session against the STM website API."""
 
-    def __init__(self, base_url: str = BASE_URL, language: str = LANGUAGE, workers: int = 8):
+    def __init__(
+        self,
+        base_url: str = BASE_URL,
+        language: str = LANGUAGE,
+        workers: int = WORKERS,
+        requests_per_second: float = REQUESTS_PER_SECOND,
+    ):
         self.base_url = base_url
         self.language = language
         self.workers = workers
+        self.pace = _Pace(requests_per_second)
         self.session = requests.Session()
         self.session.headers.update({"Origin": ORIGIN, "Accept": "application/json"})
 
@@ -104,6 +143,7 @@ class Site:
         url = f"{self.base_url}/{self.language}/{path}"
         last: Exception | None = None
         for attempt in range(ATTEMPTS):
+            self.pace.wait()
             try:
                 response = self.session.get(url, params=params, timeout=TIMEOUT_S)
                 response.raise_for_status()

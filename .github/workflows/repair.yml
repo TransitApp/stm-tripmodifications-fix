@@ -11,6 +11,10 @@ on:
         description: "Rebuild the PDF map report"
         type: boolean
         default: false
+      rebuild_web:
+        description: "Read the STM website again, whatever its age"
+        type: boolean
+        default: false
 
 concurrency:
   group: repair
@@ -22,6 +26,11 @@ permissions:
 env:
   PDF_NAME: stm-tripmodifications-report.pdf
   WEB_DIR: web
+  # Reading the website costs about 570 requests to stm.info, and detours turn
+  # over on the order of hours, so it is read once an hour rather than on every
+  # ten-minute run. Measured against the published feed's own age, so a dropped
+  # or delayed scheduled run does not skip an hour.
+  WEB_MAX_AGE_MINUTES: "55"
 
 jobs:
   repair:
@@ -96,10 +105,36 @@ jobs:
             --output-dir output \
             --save-realtime .cache/realtime-this-run.pb
 
-      # The website feed is built from the same static GTFS the repair just
-      # parsed, so it costs one cache hit and about ten seconds of requests to
-      # stm.info. A failure here must not stop the repaired feed publishing.
+      - name: Decide whether to read the website
+        id: web_plan
+        run: |
+          set -euo pipefail
+
+          reason=""
+          if [ "${{ inputs.rebuild_web }}" = "true" ]; then
+            reason="asked for by the dispatch"
+          elif [ ! -f carried-web/metadata.json ]; then
+            reason="the output branch has no website feed"
+          else
+            age="$(python -m tmweb.age carried-web/metadata.json)"
+            if [ "$age" -ge "${WEB_MAX_AGE_MINUTES}" ]; then
+              reason="the published one is $age minutes old"
+            fi
+          fi
+
+          if [ -n "$reason" ]; then
+            echo "build=yes" >> "$GITHUB_OUTPUT"
+            echo "Reading the website: $reason"
+          else
+            echo "build=no" >> "$GITHUB_OUTPUT"
+            echo "Keeping the published website feed: it is still fresh"
+          fi
+
+      # Built from the same static GTFS the repair just parsed, so it costs one
+      # cache hit and half a minute of paced requests to stm.info. A failure
+      # here must not stop the repaired feed publishing.
       - name: Build the feed from the STM website
+        if: steps.web_plan.outputs.build == 'yes'
         continue-on-error: true
         run: python -m tmweb --verbose --output-dir output-web
 
@@ -165,11 +200,10 @@ jobs:
           cp "${PDF_NAME}" "$publish_dir/"
           cp .github/output-readme.md "$publish_dir/README.md"
 
-          # This run's website feed if it built, else the one already published.
+          # This run's website feed if it read one, else the one already published.
           if [ -f output-web/tripmodifications.pb ]; then
             cp -r output-web "$publish_dir/${WEB_DIR}"
           elif [ -f carried-web/tripmodifications.pb ]; then
-            echo "The website build failed; keeping the published feed"
             cp -r carried-web "$publish_dir/${WEB_DIR}"
           else
             echo "No website feed to publish"

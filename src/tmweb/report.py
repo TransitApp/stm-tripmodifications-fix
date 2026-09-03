@@ -56,6 +56,7 @@ def build_markdown(result: BuildResult, metadata: dict[str, Any]) -> str:
     lines.append(f"- Generated at: `{metadata.get('generated_at', 'unknown')}`")
     lines.append(f"- Line directions read: {metadata.get('lines_read', 'unknown')}")
     lines.append(f"- Line directions detoured: {metadata.get('lines_detoured', 'unknown')}")
+    lines.append(f"- Requests made to stm.info: {metadata.get('requests_made', 'unknown')}")
     lines.append(f"- Entities written: {len(result.plans)}")
     lines.append(
         f"- Modifications written: {sum(len(plan.modifications) for plan in result.plans)}"

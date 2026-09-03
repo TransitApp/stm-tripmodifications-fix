@@ -2,7 +2,10 @@
 
 from __future__ import annotations
 
+from datetime import UTC, datetime
+
 from fixtures import STOP_SPACING_M
+from tmweb.age import minutes_since_file
 from tmweb.build import BuildResult, SkippedLine, build
 from tmweb.report import build_json, build_markdown
 from web_fixtures import (
@@ -55,3 +58,12 @@ def test_lines_that_produced_nothing_are_listed():
 
     assert "## Lines that produced nothing" in text
     assert "51E: no trip pattern running today is affected" in text
+
+
+def test_the_age_of_a_published_run_is_read_from_its_own_timestamp(tmp_path):
+    path = tmp_path / "metadata.json"
+    path.write_text('{"generated_at": "2026-09-03T12:00:00+00:00"}')
+
+    now = datetime(2026, 9, 3, 13, 5, tzinfo=UTC)
+
+    assert minutes_since_file(path, now) == 65

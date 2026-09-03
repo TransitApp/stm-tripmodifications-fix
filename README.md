@@ -10,7 +10,8 @@ publishes on its own website, which say outright which stops a detour skips and
 which it serves instead, so nothing has to be inferred from a shape. See
 [Building it from the website](#building-it-from-the-website).
 
-Both run every ten minutes on GitHub Actions. The current output lives on the
+The repair runs every ten minutes on GitHub Actions and the website build once
+an hour, both from the same workflow. The current output lives on the
 [`output`](../../tree/output) branch, which is replaced whole on every run and
 so keeps no history:
 
@@ -154,6 +155,20 @@ Three endpoints, per line and direction:
 They need no key. They do refuse any request without an `Origin` header naming
 `https://www.stm.info`.
 
+**There is no endpoint listing which lines are detoured** — `lines/detours` and
+the like are just `lines/{id}` matching a line called "detours" — so finding out
+means asking for all of them. One run is **1 request for the line list, 407 for
+the stop lists, one per line and direction, and one more for each of the ~165
+that turn out to be detoured: about 570**, a megabyte or so gzipped.
+
+That is the whole cost, and two things keep it modest. The requests are paced
+at **20 a second** rather than sent as fast as four threads can manage, which is
+several hundred a second on replies this small. And the workflow reads the
+website **once an hour**, not on every ten-minute run, measured against the
+published feed's own timestamp so a dropped run does not skip a turn. Detours
+turn over on the order of hours, and the GTFS-RT spec's own service-level
+objective for TripModifications is about hourly.
+
 The stop list is what makes this worth doing. With `detoured=1&canceled=1` each
 stop carries two flags: **`cxl`** on a stop the detour skips, and **`dtr`** on a
 stop it serves instead. The cancelled range and the replacement stops are read
@@ -222,11 +237,12 @@ above and caches the same way. Output lands in `./output-web`.
 | Option | What it does |
 | --- | --- |
 | `--service-date 20260903` | write this date instead of today in Montreal |
-| `--workers 8` | how many website requests to have in flight at once |
+| `--rate 20` | most requests to send a second |
+| `--workers 4` | how many requests to have in flight at once |
 | `--output-dir DIR` | where to write the artifacts |
 | `--cache-dir DIR` | where to keep the static feed and its parsed form |
 
-Reading all 407 line directions takes about ten seconds.
+Reading all 407 line directions takes about thirty seconds at the default rate.
 
 ## The map report
 
@@ -283,9 +299,9 @@ repair step fails and the run stops before publishing anything.
   pushes a commit on every run, which may be enough to count as activity, but
   GitHub does not promise that.
 - **The website build is a guest on stm.info.** One run makes about 570
-  requests, none of them cached by the site for more than fifteen seconds. Six
-  runs an hour is polite; much more than that is not, and none of it is covered
-  by the developer terms the repair runs under.
+  requests, paced at 20 a second, and the workflow only lets it run once an
+  hour — `WEB_MAX_AGE_MINUTES` in the workflow sets that. None of it is covered
+  by the developer terms the repair runs under, so leave it slow.
 - **`raw.githubusercontent.com` is rate limited.** Unauthenticated requests
   fall under GitHub's 60-per-hour limit, and responses are cached for about
   five minutes. This is fine for a few consumers looking at the data. It is not

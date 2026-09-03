@@ -9,6 +9,7 @@ from pathlib import Path
 
 from .config import Settings
 from .pipeline import run
+from .site import REQUESTS_PER_SECOND, WORKERS
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -35,8 +36,14 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--workers",
         type=int,
-        default=8,
-        help="how many website requests to have in flight at once (default: 8)",
+        default=WORKERS,
+        help=f"how many website requests to have in flight at once (default: {WORKERS})",
+    )
+    parser.add_argument(
+        "--rate",
+        type=float,
+        default=REQUESTS_PER_SECOND,
+        help=f"most website requests to send a second (default: {REQUESTS_PER_SECOND:.0f})",
     )
     parser.add_argument("--verbose", action="store_true", help="log what each step is doing")
     return parser
@@ -54,6 +61,7 @@ def main(argv: list[str] | None = None) -> int:
         cache_dir=args.cache_dir,
         output_dir=args.output_dir,
         workers=args.workers,
+        requests_per_second=args.rate,
     )
     summary = run(settings, service_date=args.service_date)
     print(json.dumps(summary, indent=1, ensure_ascii=False))

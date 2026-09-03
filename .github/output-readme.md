@@ -33,7 +33,8 @@ STM's own feed carries with no modifications at all, and route variants the
 STM's feed leaves out. What it cannot do is name a temporary stop the website
 does not list; `web/report.md` says when that happened.
 
-The repaired feed and both reports are rebuilt every run. The PDF is drawn only
+The repaired feed and its reports are rebuilt every run; the website feed once
+an hour, because reading it costs about 570 requests to stm.info. The PDF is drawn only
 when asked for, or when this branch has none, so it can be older than the rest —
 its cover page carries the feed timestamp it was drawn from.
 

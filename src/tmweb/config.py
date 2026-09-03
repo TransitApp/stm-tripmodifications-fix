@@ -10,7 +10,7 @@ from zoneinfo import ZoneInfo
 from tmfix.config import STATIC_GTFS_URL
 
 from .build import BuildConfig
-from .site import BASE_URL
+from .site import BASE_URL, REQUESTS_PER_SECOND, WORKERS
 
 AGENCY_TIMEZONE = ZoneInfo("America/Montreal")
 
@@ -34,5 +34,6 @@ class Settings:
     site_url: str = BASE_URL
     cache_dir: Path = Path(".cache")
     output_dir: Path = Path("output-web")
-    workers: int = 8
+    workers: int = WORKERS
+    requests_per_second: float = REQUESTS_PER_SECOND
     build: BuildConfig = field(default_factory=BuildConfig)

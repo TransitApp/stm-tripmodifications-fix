@@ -59,7 +59,11 @@ def run(settings: Settings, service_date: str | None = None) -> dict[str, object
         FixSettings(static_gtfs_url=settings.static_gtfs_url, cache_dir=settings.cache_dir)
     )
 
-    site = Site(base_url=settings.site_url, workers=settings.workers)
+    site = Site(
+        base_url=settings.site_url,
+        workers=settings.workers,
+        requests_per_second=settings.requests_per_second,
+    )
     lines = site.lines()
     logger.info("the website lists %d line directions", len(lines))
     detours = site.detours(lines)
@@ -82,6 +86,7 @@ def run(settings: Settings, service_date: str | None = None) -> dict[str, object
         "source_url": settings.site_url,
         "lines_read": len(lines),
         "lines_detoured": len(detours),
+        "requests_made": 1 + len(lines) + len(detours),
         "attribution": ATTRIBUTION,
     }
 
