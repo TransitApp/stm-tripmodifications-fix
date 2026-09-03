@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
     inputs:
       rebuild_pdf:
-        description: "Rebuild the PDF map report"
+        description: "Rebuild the PDF map reports"
         type: boolean
         default: false
       rebuild_web:
@@ -25,6 +25,7 @@ permissions:
 
 env:
   PDF_NAME: stm-tripmodifications-report.pdf
+  WEB_PDF_NAME: stm-detours-report.pdf
   WEB_DIR: web
   # Reading the website costs about 570 requests to stm.info, and detours turn
   # over on the order of hours, so it is read once an hour rather than on every
@@ -35,7 +36,7 @@ env:
 jobs:
   repair:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
 
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -64,9 +65,12 @@ jobs:
             if git cat-file -e "FETCH_HEAD:${WEB_DIR}/tripmodifications.pb" 2>/dev/null; then
               mkdir -p carried-web
               for name in tripmodifications.pb tripmodifications.json \
-                          report.md report.json metadata.json; do
+                          report.md report.json metadata.json "${WEB_PDF_NAME}"; do
                 git show "FETCH_HEAD:${WEB_DIR}/$name" > "carried-web/$name" 2>/dev/null || true
               done
+              # The redirect creates the file even when git has nothing to show,
+              # so drop the empties rather than treat them as carried files.
+              find carried-web -type f -empty -delete
             fi
           fi
           echo "carried=$carried" >> "$GITHUB_OUTPUT"
@@ -171,8 +175,45 @@ jobs:
             echo "Keeping the published PDF: the repairs are unchanged"
           fi
 
+      # Same rule as the repair report, against the same kind of fingerprint:
+      # the maps change only when the detours do. A run that did not read the
+      # website has nothing new to draw and keeps the published PDF.
+      - name: Decide whether to draw the website map report
+        id: web_pdf
+        run: |
+          set -euo pipefail
+
+          if [ ! -f output-web/report.json ]; then
+            echo "build=no" >> "$GITHUB_OUTPUT"
+            echo "Keeping the published website PDF: the website was not read this run"
+            exit 0
+          fi
+
+          reason=""
+          if [ "${{ inputs.rebuild_pdf }}" = "true" ]; then
+            reason="asked for by the dispatch"
+          elif [ ! -f "carried-web/${WEB_PDF_NAME}" ]; then
+            reason="the output branch has no website PDF"
+          elif [ ! -f carried-web/report.json ]; then
+            reason="the published PDF has no report to compare against"
+          else
+            published="$(python -m tmweb.signature carried-web/report.json)"
+            current="$(python -m tmweb.signature output-web/report.json)"
+            if [ "$published" != "$current" ]; then
+              reason="the detours changed ($published -> $current)"
+            fi
+          fi
+
+          if [ -n "$reason" ]; then
+            echo "build=yes" >> "$GITHUB_OUTPUT"
+            echo "Drawing the website PDF: $reason"
+          else
+            echo "build=no" >> "$GITHUB_OUTPUT"
+            echo "Keeping the published website PDF: the detours are unchanged"
+          fi
+
       - name: Install the drawing dependencies
-        if: steps.plan.outputs.build == 'yes'
+        if: steps.plan.outputs.build == 'yes' || steps.web_pdf.outputs.build == 'yes'
         run: pip install ".[report]"
 
       - name: Draw the PDF map report
@@ -182,6 +223,17 @@ jobs:
           python -m tmreport \
             --realtime-file .cache/realtime-this-run.pb \
             --output "${PDF_NAME}"
+
+      # One page per detour, around two hundred of them, so this is the longest
+      # step of the runs that draw it. It reads the feed written above and asks
+      # stm.info for nothing.
+      - name: Draw the website map report
+        if: steps.web_pdf.outputs.build == 'yes'
+        timeout-minutes: 25
+        run: |
+          python -m tmreport.web \
+            --feed output-web/tripmodifications.pb \
+            --output "output-web/${WEB_PDF_NAME}"
 
       # The output branch keeps no history: each run pushes a brand new
       # repository over it, so only the current feed is ever stored.
@@ -202,6 +254,9 @@ jobs:
 
           # This run's website feed if it read one, else the one already published.
           if [ -f output-web/tripmodifications.pb ]; then
+            if [ ! -f "output-web/${WEB_PDF_NAME}" ] && [ -f "carried-web/${WEB_PDF_NAME}" ]; then
+              cp "carried-web/${WEB_PDF_NAME}" output-web/
+            fi
             cp -r output-web "$publish_dir/${WEB_DIR}"
           elif [ -f carried-web/tripmodifications.pb ]; then
             cp -r carried-web "$publish_dir/${WEB_DIR}"

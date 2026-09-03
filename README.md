@@ -23,20 +23,24 @@ so keeps no history:
 | [`stm-tripmodifications-report.pdf`](https://raw.githubusercontent.com/TransitApp/stm-tripmodifications-fix/output/stm-tripmodifications-report.pdf) | a before/after map of every repair |
 | [`web/tripmodifications.pb`](https://raw.githubusercontent.com/TransitApp/stm-tripmodifications-fix/output/web/tripmodifications.pb) | the feed built from the website |
 | [`web/report.md`](https://raw.githubusercontent.com/TransitApp/stm-tripmodifications-fix/output/web/report.md) | every detour it found, written out |
+| [`web/stm-detours-report.pdf`](https://raw.githubusercontent.com/TransitApp/stm-tripmodifications-fix/output/web/stm-detours-report.pdf) | a map of every detour in that feed |
 
 `report.json` and `metadata.json` sit beside each of them for anything reading
 this by machine, as does `web/tripmodifications.json`.
 
-Everything but the PDF is rebuilt every run. The PDF is redrawn only when the
-repairs change: drawing it downloads map tiles, and detours turn over on the order of
-hours, so a run whose repairs match the published ones carries the existing PDF
-forward instead. It is also redrawn when [asked](#refreshing-the-pdf) and when
-the branch has none, so a missing one comes back by itself.
+Everything but the two PDFs is rebuilt every run. Each of them is redrawn only
+when what it draws changes: drawing downloads map tiles, and detours turn over on
+the order of hours, so a run whose repairs match the published ones carries the
+existing PDF forward instead. Both are also redrawn when
+[asked](#refreshing-the-pdfs) and when the branch has none, so a missing one
+comes back by itself.
 
 The comparison ignores what moves between runs without changing the maps — the
-feed timestamp, which trip was sampled, and the measured distances. Everything
-the pages show is in it: which entities were repaired, how each range moved,
-and which stops were added or dropped.
+feed timestamp, which trip was sampled, the measured distances, and for the
+website feed the service dates and the number of trips running. Everything the
+pages show is in it: for the repair, which entities were repaired, how each
+range moved, and which stops were added or dropped; for the website feed, every
+span and the stops each one drops and serves.
 
 ## The bug
 
@@ -303,11 +307,35 @@ Notes on the drawing:
 - A long cancelled run gets only its end stops named. Every stop still gets a
   marker, and the page header gives the count.
 
-### Refreshing the PDF
+## The website map report
+
+The website feed gets a report of its own: one page per detour, with the stops
+it skips and the stops it serves instead named beside the map. It is drawn from
+the feed `tmweb` wrote rather than from stm.info, so it costs the website
+nothing and can be run against any published copy of the feed.
+
+```bash
+pip install -e ".[report]"
+python -m tmreport.web --output detours.pdf
+```
+
+| Option | What it does |
+| --- | --- |
+| `--feed FILE` | the feed to draw (default `output-web/tripmodifications.pb`) |
+| `--metadata FILE` | the `metadata.json` beside it, which the cover reads |
+| `--no-basemap` | skip the street tiles, which is faster and needs no network |
+| `--tile-cache-dir DIR` | where downloaded tiles are kept |
+
+Route patterns of the same line carrying the same detour share a page, which
+brought 252 modifications down to 226 pages in one snapshot. That is still
+around eight minutes of drawing, so the workflow redraws it only when the
+detours change, on the same rule as the repair report.
+
+### Refreshing the PDFs
 
 On the **Actions** tab, pick **Repair and publish**, choose **Run workflow**,
-and tick **Rebuild the PDF map report**. The run redraws it from the feed it
-has just fetched and publishes it with the rest.
+and tick **Rebuild the PDF map reports**. The run redraws both from the feeds
+it has just built and publishes them with the rest.
 
 ## Running it yourself
 
@@ -335,6 +363,11 @@ repair step fails and the run stops before publishing anything.
   requests, paced at 20 a second, and the workflow only lets it run once an
   hour — `WEB_MAX_AGE_MINUTES` in the workflow sets that. None of it is covered
   by the developer terms the repair runs under, so leave it slow.
+- **A run that redraws the website report takes about ten minutes.** Two
+  hundred-odd maps at a couple of seconds each, on top of everything else.
+  Scheduled runs share one concurrency group, so the next ten-minute repair
+  waits for it. That happens at most once an hour, and only when the detours
+  changed.
 - **`raw.githubusercontent.com` is rate limited.** Unauthenticated requests
   fall under GitHub's 60-per-hour limit, and responses are cached for about
   five minutes. This is fine for a few consumers looking at the data. It is not
