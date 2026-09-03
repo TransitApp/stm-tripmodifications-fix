@@ -169,6 +169,32 @@ published feed's own timestamp so a dropped run does not skip a turn. Detours
 turn over on the order of hours, and the GTFS-RT spec's own service-level
 objective for TripModifications is about hourly.
 
+### Why not read the realtime feed for the list
+
+The STM's realtime feed already names the detoured lines in its entity IDs, and
+asking the website only about those would halve the requests. It would also lose
+a fifth of the detours. Measured on two feeds sampled minutes apart:
+
+| | Route directions |
+| --- | --- |
+| Named by the realtime feed | 147 |
+| Flagged as detoured by the website | 163 |
+| In both | 129 |
+| **Website only** | **34** |
+| Realtime feed only | 18 |
+
+The 34 are not edge cases. 368 East skips seventeen stops and serves thirteen
+others, 100 West skips six and serves three, 460 West skips five and serves two.
+None of them has an entity in the realtime feed at all, not even an empty one.
+They are exactly what this feed exists to carry.
+
+The 18 the other way are the opposite case: fourteen carry no modification at
+all — a shape that moved while the stops did not — and the rest describe a
+detour the website has stopped showing.
+
+Reading the feed for the list would also make this need the STM API credentials
+the repair uses, and tie the second source to the feed it exists to check.
+
 The stop list is what makes this worth doing. With `detoured=1&canceled=1` each
 stop carries two flags: **`cxl`** on a stop the detour skips, and **`dtr`** on a
 stop it serves instead. The cancelled range and the replacement stops are read
