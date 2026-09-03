@@ -19,9 +19,16 @@ so keeps no history:
 `report.json` and `metadata.json` sit beside them for anything reading this by
 machine.
 
-The first three are rebuilt every run. The PDF is not: drawing it downloads map
-tiles, so a scheduled run carries the existing one forward and only draws a new
-one when [asked](#refreshing-the-pdf) or when the branch has none.
+The first three are rebuilt every run. The PDF is redrawn only when the repairs
+change: drawing it downloads map tiles, and detours turn over on the order of
+hours, so a run whose repairs match the published ones carries the existing PDF
+forward instead. It is also redrawn when [asked](#refreshing-the-pdf) and when
+the branch has none, so a missing one comes back by itself.
+
+The comparison ignores what moves between runs without changing the maps — the
+feed timestamp, which trip was sampled, and the measured distances. Everything
+the pages show is in it: which entities were repaired, how each range moved,
+and which stops were added or dropped.
 
 ## The bug
 

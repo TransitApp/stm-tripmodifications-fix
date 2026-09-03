@@ -34,10 +34,11 @@ jobs:
         with:
           python-version: "3.12"
 
-      # Whether the PDF has to be drawn decides how much gets installed, so it
-      # is settled before anything else.
-      - name: Decide whether to draw the PDF
-        id: plan
+      # Take the published PDF and the report it was drawn from off the output
+      # branch. Both are needed below: the PDF to carry forward, the report to
+      # tell whether it still shows the current repairs.
+      - name: Carry the published output forward
+        id: carry
         run: |
           set -euo pipefail
 
@@ -45,18 +46,11 @@ jobs:
           if git fetch --depth=1 --no-tags origin output 2>/dev/null; then
             if git cat-file -e "FETCH_HEAD:${PDF_NAME}" 2>/dev/null; then
               git show "FETCH_HEAD:${PDF_NAME}" > "${PDF_NAME}"
+              git show "FETCH_HEAD:report.json" > published-report.json 2>/dev/null || true
               carried=yes
             fi
           fi
-
-          # Draw it when asked, and whenever the output branch has none. The
-          # second case makes the first run complete on its own and a lost PDF
-          # come back by itself.
-          if [ "${{ inputs.rebuild_pdf }}" = "true" ] || [ "$carried" = "no" ]; then
-            echo "build=yes" >> "$GITHUB_OUTPUT"
-          else
-            echo "build=no" >> "$GITHUB_OUTPUT"
-          fi
+          echo "carried=$carried" >> "$GITHUB_OUTPUT"
 
           # The static feed cache is keyed by the hour rather than by the run:
           # at six runs an hour, keying by run would write a 45 MB entry every
@@ -66,13 +60,10 @@ jobs:
 
           echo "Carried an existing PDF: $carried"
 
+      # Only the repair runs every ten minutes, so it alone installs by default.
+      # The drawing dependencies come later, and only on the runs that draw.
       - name: Install
-        run: |
-          if [ "${{ steps.plan.outputs.build }}" = "yes" ]; then
-            pip install ".[report]"
-          else
-            pip install .
-          fi
+        run: pip install .
 
       # The restore-key picks up the newest previous entry, so a new hour
       # starts from the last hour's zip and only conditional-GETs it.
@@ -80,7 +71,7 @@ jobs:
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: .cache
-          key: static-gtfs-${{ steps.plan.outputs.hour }}
+          key: static-gtfs-${{ steps.carry.outputs.hour }}
           restore-keys: static-gtfs-
 
       # --save-realtime keeps the bytes this run fetched, so drawing the maps
@@ -94,6 +85,43 @@ jobs:
             --verbose \
             --output-dir output \
             --save-realtime .cache/realtime-this-run.pb
+
+      # The maps only change when the repairs do, and detours turn over on the
+      # order of hours, so redrawing every ten minutes would download map tiles
+      # to produce the same pages again. The fingerprint ignores the feed
+      # timestamp, the sampled trip and the measured distances — see
+      # tmfix/signature.py.
+      - name: Decide whether to draw the PDF
+        id: plan
+        run: |
+          set -euo pipefail
+
+          reason=""
+          if [ "${{ inputs.rebuild_pdf }}" = "true" ]; then
+            reason="asked for by the dispatch"
+          elif [ "${{ steps.carry.outputs.carried }}" = "no" ]; then
+            reason="the output branch has no PDF"
+          elif [ ! -f published-report.json ]; then
+            reason="the published PDF has no report to compare against"
+          else
+            published="$(python -m tmfix.signature published-report.json)"
+            current="$(python -m tmfix.signature output/report.json)"
+            if [ "$published" != "$current" ]; then
+              reason="the repairs changed ($published -> $current)"
+            fi
+          fi
+
+          if [ -n "$reason" ]; then
+            echo "build=yes" >> "$GITHUB_OUTPUT"
+            echo "Drawing the PDF: $reason"
+          else
+            echo "build=no" >> "$GITHUB_OUTPUT"
+            echo "Keeping the published PDF: the repairs are unchanged"
+          fi
+
+      - name: Install the drawing dependencies
+        if: steps.plan.outputs.build == 'yes'
+        run: pip install ".[report]"
 
       - name: Draw the PDF map report
         if: steps.plan.outputs.build == 'yes'
