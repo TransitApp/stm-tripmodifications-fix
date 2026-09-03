@@ -84,6 +84,18 @@ def test_the_shape_follows_the_detour():
     )
 
 
+def test_a_detour_that_takes_no_new_road_keeps_the_scheduled_shape():
+    # The website marks the stops as skipped but publishes no road to take
+    # instead: the bus runs the same way and passes them without stopping.
+    cancelled_line, _ = detour_sections(range(4, 7))
+    detour = line_detour(scheduled_stops(10, range(4, 7)), [(cancelled_line, None)])
+
+    (plan,) = build([detour], static_feed(), SERVICE_DATES).plans
+
+    assert plan.modifications[0].cancelled_stop_ids == ["S4", "S5", "S6"]
+    assert plan.shape == static_feed().shapes["51_1"]
+
+
 def test_a_detour_that_drops_nothing_names_the_stop_it_leaves_from():
     _, detoured_line = detour_sections(range(4, 7))
     added = site_stop("T1", 5.0 * STOP_SPACING_M, DETOUR_OFFSET_M, replacement=True)

@@ -75,7 +75,7 @@ class PatternPlan:
     line_description: str
     trip_ids: list[str]
     modifications: list[ModificationPlan]
-    shape: list[LatLon] | None
+    shape: list[LatLon]
 
 
 @dataclass
@@ -549,13 +549,19 @@ def _overlapping(modifications: list[ModificationPlan]) -> bool:
     return False
 
 
-def _detoured_shape(shape: list[LatLon], placed: list[_Placed]) -> list[LatLon] | None:
-    """The trip's shape with each detour spliced in where it leaves the line."""
+def _detoured_shape(shape: list[LatLon], placed: list[_Placed]) -> list[LatLon]:
+    """The trip's shape with each detour spliced in where it leaves the line.
+
+    A detour that only drops stops leaves the road unchanged, and the scheduled
+    shape is then written out as it stands. The trip could name no shape at
+    all, which the spec reads as the same thing, but a consumer that looks the
+    ID up without checking whether it is set finds nothing and fails.
+    """
     replacements = [
         (item.start_m, item.end_m, item.detour.detoured) for item in placed if item.detour.detoured
     ]
     if not replacements:
-        return None
+        return shape
     return splice(shape, replacements)
 
 

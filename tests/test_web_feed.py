@@ -19,12 +19,17 @@ from web_fixtures import (
 )
 
 
-def sample_result():
-    cancelled_line, detoured_line = detour_sections(range(4, 7))
-    stops = [
+def scheduled_stops():
+    """The line's ten stops, the middle three of them skipped."""
+    return [
         site_stop(f"S{index}", (index - 1) * STOP_SPACING_M, cancelled=4 <= index <= 6)
         for index in range(1, 11)
     ]
+
+
+def sample_result():
+    cancelled_line, detoured_line = detour_sections(range(4, 7))
+    stops = scheduled_stops()
     stops.append(site_stop("T1", 5.0 * STOP_SPACING_M, DETOUR_OFFSET_M, replacement=True))
     detour = line_detour(stops, [(cancelled_line, detoured_line)])
     return build([detour], static_feed(), SERVICE_DATES)
@@ -73,6 +78,26 @@ def test_the_published_shape_leaves_the_scheduled_one():
     points = decode_polyline(shape.encoded_polyline)
     assert len(points) > 2
     assert max(point.lat for point in points) > 45.5
+
+
+def test_a_detour_that_leaves_the_road_alone_still_names_a_shape():
+    # Nothing says the shape changes, and the trip could name no shape at all,
+    # but a consumer looking the ID up without checking finds nothing.
+    cancelled_line, _ = detour_sections(range(4, 7))
+    detour = line_detour(scheduled_stops(), [(cancelled_line, None)])
+    result = build([detour], static_feed(), SERVICE_DATES)
+
+    feed = build_feed(result, SERVICE_DATES, timestamp=1)
+
+    defined = {entity.shape.shape_id for entity in feed.entity if entity.HasField("shape")}
+    named = {
+        selected.shape_id
+        for entity in feed.entity
+        if entity.HasField("trip_modifications")
+        for selected in entity.trip_modifications.selected_trips
+    }
+    assert named == {"web_shape_51_1"}
+    assert named <= defined
 
 
 def test_every_service_date_a_run_writes_is_on_the_entity():

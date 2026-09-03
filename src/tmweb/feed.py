@@ -42,8 +42,7 @@ def build_feed(
         _add_stop(feed, result.new_stops[stop_id])
 
     for plan in result.plans:
-        if plan.shape:
-            _add_shape(feed, plan)
+        _add_shape(feed, plan)
         _add_modifications(feed, plan, service_dates)
 
     return feed
@@ -65,7 +64,7 @@ def _add_shape(feed: gtfs_rt.FeedMessage, plan: PatternPlan) -> None:
     entity = feed.entity.add()
     entity.id = f"web_shape_entity_{plan.route_pattern_id}"
     entity.shape.shape_id = shape_id_for(plan)
-    entity.shape.encoded_polyline = encode_polyline(plan.shape or [])
+    entity.shape.encoded_polyline = encode_polyline(plan.shape)
 
 
 def _add_modifications(
@@ -79,8 +78,7 @@ def _add_modifications(
 
     selected = modifications.selected_trips.add()
     selected.trip_ids.extend(plan.trip_ids)
-    if plan.shape:
-        selected.shape_id = shape_id_for(plan)
+    selected.shape_id = shape_id_for(plan)
     modifications.service_dates.extend(service_dates)
 
     for planned in plan.modifications:
