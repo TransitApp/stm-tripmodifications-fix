@@ -17,8 +17,8 @@ AGENCY_TIMEZONE = ZoneInfo("America/Montreal")
 
 # How many service dates a run writes, counting today. The website says nothing
 # about how long a detour lasts, so this is an assumption: a detour published
-# now is taken to hold for the week.
-DEFAULT_DAYS = 7
+# now is taken to hold for today and the fortnight after it.
+DEFAULT_DAYS = 15
 
 ATTRIBUTION = (
     "Source data: Societe de transport de Montreal (STM), "

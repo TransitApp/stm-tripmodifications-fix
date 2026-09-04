@@ -7,7 +7,7 @@ from google.transit import gtfs_realtime_pb2 as gtfs_rt
 from fixtures import STOP_SPACING_M
 from tmfix.geometry import decode_polyline
 from tmweb.build import build
-from tmweb.config import service_dates_from
+from tmweb.config import DEFAULT_DAYS, service_dates_from
 from tmweb.feed import build_feed
 from web_fixtures import (
     DETOUR_OFFSET_M,
@@ -107,3 +107,11 @@ def test_every_service_date_a_run_writes_is_on_the_entity():
     entity = next(entity for entity in feed.entity if entity.HasField("trip_modifications"))
     assert list(entity.trip_modifications.service_dates) == dates
     assert dates[-1] == "20260909"
+
+
+def test_the_default_run_writes_today_and_the_fortnight_after_it():
+    dates = service_dates_from("20260903", DEFAULT_DAYS)
+
+    assert dates[0] == "20260903"
+    assert dates[-1] == "20260917"
+    assert len(dates) == 15

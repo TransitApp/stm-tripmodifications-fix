@@ -241,9 +241,9 @@ Measured on one snapshot: 407 line directions read, 164 of them detoured, 194
 `TripModifications` entities, 252 modifications and 86 temporary stops. The
 STM's own feed at the same moment had 168 entities and 183 modifications.
 
-Naming a week of trips rather than a day of them is most of the feed's size: the
-entities in that snapshot name 22,820 trip IDs over seven days where today alone
-would name 6,849.
+Naming a fortnight of trips rather than a day of them is most of the feed's
+size: the entities in a later snapshot name 24,502 trip IDs over fifteen days
+where today alone would name 7,394.
 
 Matching the two by the trips they name: 145 entities in both, 125 with the
 same spans, 110 identical outright. 49 entities have no counterpart in the STM's
@@ -260,13 +260,15 @@ cancelled — which is the same service either way.
   replacement stops were left out that way in that snapshot, and four of the
   STM's 168 entities describe a detour the website does not. `web/report.md`
   names both.
-- **It writes the same detour for a week.** The website carries no dates at all
-  and says nothing about how long a detour lasts, so a run writes today's
-  service date and the six after it, each carrying the detours as they stand
-  now. A detour lifted tomorrow stays in the feed for the rest of the week, and
-  one starting on Thursday is missing until the run that day. `--days 1` writes
-  today alone. A trip running in the small hours belongs to the day before and
-  is left out, so the night lines are short until the run that follows midnight.
+- **It writes the same detour for a fortnight.** The website carries no dates at
+  all and says nothing about how long a detour lasts, so a run writes today's
+  service date and the fourteen after it, each carrying the detours as they
+  stand now. Today is written whole, so a trip that has already left is still in
+  the feed. A detour lifted tomorrow stays in the feed for the rest of the
+  fortnight, and one starting on Thursday is missing until the run that day.
+  `--days 1` writes today alone. A trip running in the small hours belongs to
+  the day before and is left out, so the night lines are short until the run
+  that follows midnight.
 - **A modification that adds stops without dropping any** needs a
   `start_stop_selector` all the same. The stop the detour leaves from is named
   as the span and put back into the replacement list where the detour passes it,
@@ -285,7 +287,7 @@ above and caches the same way. Output lands in `./output-web`.
 | Option | What it does |
 | --- | --- |
 | `--service-date 20260903` | start at this date instead of today in Montreal |
-| `--days 7` | how many service dates to write, counting the first |
+| `--days 15` | how many service dates to write, counting the first |
 | `--rate 5` | most requests to send a second |
 | `--workers 4` | how many requests to have in flight at once |
 | `--output-dir DIR` | where to write the artifacts |
