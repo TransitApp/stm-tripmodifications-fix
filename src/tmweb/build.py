@@ -89,8 +89,12 @@ class SkippedLine:
 @dataclass
 class BuildResult:
     plans: list[PatternPlan] = field(default_factory=list)
-    # Replacement stops the static feed does not have, which the feed must define.
-    new_stops: dict[str, SiteStop] = field(default_factory=dict)
+    # Every replacement stop named, defined in the feed whether or not the
+    # static GTFS has it: a consumer holding a different version of the GTFS
+    # than this run read would otherwise drop the stops its own copy lacks.
+    stops: dict[str, SiteStop] = field(default_factory=dict)
+    # Of those, the ones the static feed this run read does not have at all.
+    temporary_stops: set[str] = field(default_factory=set)
     skipped: list[SkippedLine] = field(default_factory=list)
     dropped_replacements: dict[str, list[str]] = field(default_factory=dict)
 
@@ -190,10 +194,11 @@ def _build_line(
         result.plans.append(plan)
         for modification in plan.modifications:
             for stop_id in modification.replacement_stop_ids:
+                site_stop = _find_stop(line_detour, stop_id)
+                if site_stop is not None:
+                    result.stops[stop_id] = site_stop
                 if feed.position(stop_id) is None:
-                    site_stop = _find_stop(line_detour, stop_id)
-                    if site_stop is not None:
-                        result.new_stops[stop_id] = site_stop
+                    result.temporary_stops.add(stop_id)
 
     if not made_something:
         result.skipped.append(

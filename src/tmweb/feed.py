@@ -1,9 +1,10 @@
 """Writing the plans out as a GTFS-RT feed.
 
 Each route pattern becomes one `TripModifications` entity, its detoured shape
-one `Shape` entity, and every replacement stop the static GTFS does not have
-one `Stop` entity. The IDs all carry a `web_` prefix so nothing in this feed
-can be mistaken for an entity of the STM's own.
+one `Shape` entity, and every replacement stop one `Stop` entity. The entity
+IDs all carry a `web_` prefix so nothing in this feed can be mistaken for an
+entity of the STM's own; the stop IDs are the ones the website uses, which for
+a stop the STM already runs is the ID the static GTFS gives it.
 """
 
 from __future__ import annotations
@@ -32,14 +33,18 @@ def entity_id_for(plan: PatternPlan) -> str:
 def build_feed(
     result: BuildResult, service_dates: Sequence[str], timestamp: int
 ) -> gtfs_rt.FeedMessage:
-    """Assemble the whole feed: the stops, the shapes and the modifications."""
+    """Assemble the whole feed: the stops, the shapes and the modifications.
+
+    Every replacement stop is defined, not only the ones the static GTFS
+    lacks, so the feed stands on its own against any version of the GTFS.
+    """
     feed = gtfs_rt.FeedMessage()
     feed.header.gtfs_realtime_version = "2.0"
     feed.header.incrementality = gtfs_rt.FeedHeader.FULL_DATASET
     feed.header.timestamp = timestamp
 
-    for stop_id in sorted(result.new_stops):
-        _add_stop(feed, result.new_stops[stop_id])
+    for stop_id in sorted(result.stops):
+        _add_stop(feed, result.stops[stop_id])
 
     for plan in result.plans:
         _add_shape(feed, plan)

@@ -71,10 +71,11 @@ def run(settings: Settings, service_date: str | None = None) -> dict[str, object
     service_dates = service_dates_from(service_date or service_date_now(), settings.days)
     result = build(detours, static, service_dates, settings.build)
     logger.info(
-        "%d entities, %d modifications, %d temporary stops",
+        "%d entities, %d modifications, %d stops defined (%d temporary)",
         len(result.plans),
         sum(len(plan.modifications) for plan in result.plans),
-        len(result.new_stops),
+        len(result.stops),
+        len(result.temporary_stops),
     )
 
     generated_at = datetime.now(UTC)

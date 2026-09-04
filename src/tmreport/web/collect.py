@@ -68,7 +68,7 @@ class Collected:
 
 
 def _feed_stops(feed: gtfs_rt.FeedMessage) -> dict[str, tuple[str, LatLon]]:
-    """The stops the feed defines itself, which are the temporary ones."""
+    """The stops the feed defines itself, temporary or not."""
     stops: dict[str, tuple[str, LatLon]] = {}
     for entity in feed.entity:
         if not entity.HasField("stop") or not entity.stop.stop_id:
@@ -160,7 +160,7 @@ def collect(
         service_dates=service_dates,
         entities=entities,
         modifications=modifications,
-        temporary_stops=len(feed_stops),
+        temporary_stops=sum(1 for stop_id in feed_stops if static.position(stop_id) is None),
         undrawable=undrawable,
         metadata=metadata or {},
     )

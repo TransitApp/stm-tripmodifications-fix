@@ -62,7 +62,8 @@ def test_replacement_stops_are_ordered_along_the_detour():
 
     (plan,) = result.plans
     assert plan.modifications[0].replacement_stop_ids == ["T1", "T2"]
-    assert set(result.new_stops) == {"T1", "T2"}
+    assert set(result.stops) == {"T1", "T2"}
+    assert result.temporary_stops == {"T1", "T2"}
 
 
 def test_a_replacement_stop_off_every_detour_is_left_out():
