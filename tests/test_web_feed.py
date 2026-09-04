@@ -109,9 +109,9 @@ def test_every_service_date_a_run_writes_is_on_the_entity():
     assert dates[-1] == "20260909"
 
 
-def test_the_default_run_writes_today_and_the_fortnight_after_it():
+def test_the_default_run_writes_a_fortnight_counting_today():
     dates = service_dates_from("20260903", DEFAULT_DAYS)
 
     assert dates[0] == "20260903"
-    assert dates[-1] == "20260917"
-    assert len(dates) == 15
+    assert dates[-1] == "20260916"
+    assert len(dates) == 14

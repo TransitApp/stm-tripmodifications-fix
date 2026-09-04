@@ -15,10 +15,12 @@ from .site import BASE_URL, REQUESTS_PER_SECOND, WORKERS
 
 AGENCY_TIMEZONE = ZoneInfo("America/Montreal")
 
-# How many service dates a run writes, counting today. The website says nothing
-# about how long a detour lasts, so this is an assumption: a detour published
-# now is taken to hold for today and the fortnight after it.
-DEFAULT_DAYS = 15
+# How many service dates a run writes, counting today, which is written whole
+# however much of it is past. The website says nothing about how long a detour
+# lasts, so this is an assumption: a detour published now is taken to hold for
+# the fortnight. Dates rather than a rolling window, so it moves at midnight
+# and not between runs.
+DEFAULT_DAYS = 14
 
 ATTRIBUTION = (
     "Source data: Societe de transport de Montreal (STM), "

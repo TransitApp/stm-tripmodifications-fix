@@ -242,7 +242,7 @@ Measured on one snapshot: 407 line directions read, 164 of them detoured, 194
 STM's own feed at the same moment had 168 entities and 183 modifications.
 
 Naming a fortnight of trips rather than a day of them is most of the feed's
-size: the entities in a later snapshot name 24,502 trip IDs over fifteen days
+size: the entities in a later snapshot name 24,502 trip IDs over the fortnight
 where today alone would name 7,394.
 
 Matching the two by the trips they name: 145 entities in both, 125 with the
@@ -262,10 +262,12 @@ cancelled — which is the same service either way.
   names both.
 - **It writes the same detour for a fortnight.** The website carries no dates at
   all and says nothing about how long a detour lasts, so a run writes today's
-  service date and the fourteen after it, each carrying the detours as they
-  stand now. Today is written whole, so a trip that has already left is still in
-  the feed. A detour lifted tomorrow stays in the feed for the rest of the
-  fortnight, and one starting on Thursday is missing until the run that day.
+  service date and the thirteen after it, each carrying the detours as they
+  stand now. Today is written whole however much of it is past, so a trip that
+  has already left is still in the feed, and the window moves at midnight rather
+  than between runs. A detour lifted tomorrow stays in the feed for the rest of
+  the fortnight, and one starting on Thursday is missing until the run that
+  day.
   `--days 1` writes today alone. A trip running in the small hours belongs to
   the day before and is left out, so the night lines are short until the run
   that follows midnight.
@@ -287,7 +289,7 @@ above and caches the same way. Output lands in `./output-web`.
 | Option | What it does |
 | --- | --- |
 | `--service-date 20260903` | start at this date instead of today in Montreal |
-| `--days 15` | how many service dates to write, counting the first |
+| `--days 14` | how many service dates to write, counting the first |
 | `--rate 5` | most requests to send a second |
 | `--workers 4` | how many requests to have in flight at once |
 | `--output-dir DIR` | where to write the artifacts |
