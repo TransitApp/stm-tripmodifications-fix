@@ -35,8 +35,7 @@ def build_json(result: BuildResult, metadata: dict[str, Any]) -> dict[str, Any]:
         **metadata,
         "entities": len(result.plans),
         "modifications": sum(len(plan.modifications) for plan in result.plans),
-        "stops_defined": len(result.stops),
-        "temporary_stops": len(result.temporary_stops),
+        "stops_defined": len(result.new_stops),
         "lines_with_nothing_to_say": len(result.skipped),
         "detours": [_plan_json(plan) for plan in result.plans],
         "skipped_lines": [
@@ -72,10 +71,7 @@ def build_markdown(result: BuildResult, metadata: dict[str, Any]) -> str:
     lines.append(
         f"- Modifications written: {sum(len(plan.modifications) for plan in result.plans)}"
     )
-    lines.append(
-        f"- Stops defined: {len(result.stops)}, "
-        f"of which the static GTFS does not have: {len(result.temporary_stops)}"
-    )
+    lines.append(f"- Temporary stops defined: {len(result.new_stops)}")
     lines.append("")
 
     if result.plans:

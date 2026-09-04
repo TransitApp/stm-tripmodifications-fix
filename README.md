@@ -235,13 +235,6 @@ The flags are read against the line's scheduled stop list, so they apply to
 only the one the website draws. A short turn over the same closed street gets
 the same modification, with the stop sequences its own pattern uses.
 
-**Every replacement stop is written out as a `Stop` entity**, not only the ones
-the STM's own GTFS has no record of. Most of them are ordinary stops with
-ordinary IDs, and the website gives their position to the same six decimals the
-GTFS does, so defining them costs a few kilobytes and says nothing new. What it
-buys is that a consumer holding a different version of the GTFS than the run
-read still has every stop the feed names.
-
 ### What it produces
 
 Measured on one snapshot: 407 line directions read, 164 of them detoured, 194
