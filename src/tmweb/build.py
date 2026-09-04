@@ -89,10 +89,11 @@ class SkippedLine:
 @dataclass
 class BuildResult:
     plans: list[PatternPlan] = field(default_factory=list)
-    # Replacement stops the static feed does not have, which the feed must
-    # define. Only those: a `Stop` entity carrying an ID the static feed
-    # already uses is a redefinition, which a consumer is right to refuse.
-    new_stops: dict[str, SiteStop] = field(default_factory=dict)
+    # Replacement stops no trip running on these dates calls at, which the feed
+    # defines itself: the ones the website invents, and the few the GTFS lists
+    # but nothing serves. Only those — a `Stop` entity carrying an ID a
+    # consumer already has is a redefinition, which it is right to refuse.
+    defined_stops: dict[str, SiteStop] = field(default_factory=dict)
     skipped: list[SkippedLine] = field(default_factory=list)
     dropped_replacements: dict[str, list[str]] = field(default_factory=dict)
 
@@ -129,17 +130,39 @@ def build(
     for service_date in service_dates:
         running |= feed.calendar.services_on(service_date)
 
+    with_service = _stops_with_service(feed, running)
     for line_detour in sorted(detours, key=lambda item: item.line.key):
-        _build_line(line_detour, feed, running, config, result)
+        _build_line(line_detour, feed, running, with_service, config, result)
 
     result.plans.sort(key=lambda plan: plan.route_pattern_id)
     return result
+
+
+def _stops_with_service(feed: StaticFeed, running: set[str]) -> set[str]:
+    """Every stop a trip running on these dates calls at.
+
+    Which stops a consumer has is not what stops.txt lists but what its own
+    build of the feed kept, and a build that drops the stops nothing serves is
+    a normal thing to do: one such build of this GTFS has 8,629 stops, exactly
+    the 8,629 with service. A detour can serve one of the others — 97 West
+    ends at a stop only the seasonal 711 calls at — so the feed has to define
+    them rather than name them and hope.
+    """
+    served: set[str] = set()
+    for route_pattern_id, trips in feed.trips_by_route_pattern.items():
+        if not any(service_id in running for _, service_id in trips):
+            continue
+        pattern = feed.pattern_for_route_pattern(route_pattern_id)
+        if pattern:
+            served.update(stop_id for _, stop_id in pattern)
+    return served
 
 
 def _build_line(
     line_detour: LineDetour,
     feed: StaticFeed,
     running: set[str],
+    with_service: set[str],
     config: BuildConfig,
     result: BuildResult,
 ) -> None:
@@ -192,10 +215,11 @@ def _build_line(
         result.plans.append(plan)
         for modification in plan.modifications:
             for stop_id in modification.replacement_stop_ids:
-                if feed.position(stop_id) is None:
-                    site_stop = _find_stop(line_detour, stop_id)
-                    if site_stop is not None:
-                        result.new_stops[stop_id] = site_stop
+                if stop_id in with_service:
+                    continue
+                site_stop = _find_stop(line_detour, stop_id)
+                if site_stop is not None:
+                    result.defined_stops[stop_id] = site_stop
 
     if not made_something:
         result.skipped.append(

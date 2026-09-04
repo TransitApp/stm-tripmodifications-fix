@@ -62,7 +62,33 @@ def test_replacement_stops_are_ordered_along_the_detour():
 
     (plan,) = result.plans
     assert plan.modifications[0].replacement_stop_ids == ["T1", "T2"]
-    assert set(result.new_stops) == {"T1", "T2"}
+    assert set(result.defined_stops) == {"T1", "T2"}
+
+
+def test_a_stop_the_gtfs_has_but_no_trip_serves_is_defined_too():
+    # A consumer's own build of the GTFS may keep only the stops with service,
+    # so naming this one by ID alone would leave it out of the trip.
+    feed = static_feed()
+    feed.stop_positions["S99"] = at(4.5 * STOP_SPACING_M)
+    replacements = [site_stop("S99", 4.5 * STOP_SPACING_M, DETOUR_OFFSET_M, replacement=True)]
+
+    result = build([one_detour(range(4, 7), replacements)], feed, SERVICE_DATES)
+
+    (plan,) = result.plans
+    assert plan.modifications[0].replacement_stop_ids == ["S99"]
+    assert set(result.defined_stops) == {"S99"}
+
+
+def test_a_stop_a_running_trip_serves_is_named_rather_than_defined():
+    # Redefining a stop the consumer already has is what it refuses.
+    feed = static_feed()
+    replacements = [site_stop("S5", 4.5 * STOP_SPACING_M, DETOUR_OFFSET_M, replacement=True)]
+
+    result = build([one_detour(range(4, 7), replacements)], feed, SERVICE_DATES)
+
+    (plan,) = result.plans
+    assert plan.modifications[0].replacement_stop_ids == ["S5"]
+    assert result.defined_stops == {}
 
 
 def test_a_replacement_stop_off_every_detour_is_left_out():

@@ -439,7 +439,7 @@ def _facts(collected: Collected) -> str:
 
     lines.append(
         f"{collected.entities} entities   ·   {collected.modifications} modifications   ·   "
-        f"{collected.temporary_stops} temporary stops   ·   {len(collected.pages)} drawn below"
+        f"{collected.defined_stops} stops defined   ·   {len(collected.pages)} drawn below"
     )
     if collected.undrawable:
         lines.append(

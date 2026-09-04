@@ -60,7 +60,7 @@ class Collected:
     service_dates: list[str]
     entities: int
     modifications: int
-    temporary_stops: int
+    defined_stops: int
     # Modifications a page could not be drawn for, because the static feed no
     # longer has the trip the feed names.
     undrawable: int = 0
@@ -68,7 +68,8 @@ class Collected:
 
 
 def _feed_stops(feed: gtfs_rt.FeedMessage) -> dict[str, tuple[str, LatLon]]:
-    """The stops the feed defines itself, which are the temporary ones."""
+    """The stops the feed defines itself: the temporary ones, and the few the
+    GTFS lists but no running trip serves."""
     stops: dict[str, tuple[str, LatLon]] = {}
     for entity in feed.entity:
         if not entity.HasField("stop") or not entity.stop.stop_id:
@@ -160,7 +161,7 @@ def collect(
         service_dates=service_dates,
         entities=entities,
         modifications=modifications,
-        temporary_stops=len(feed_stops),
+        defined_stops=len(feed_stops),
         undrawable=undrawable,
         metadata=metadata or {},
     )

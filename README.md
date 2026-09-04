@@ -235,6 +235,17 @@ The flags are read against the line's scheduled stop list, so they apply to
 only the one the website draws. A short turn over the same closed street gets
 the same modification, with the stop sequences its own pattern uses.
 
+A replacement stop is named by its ID when a trip running on the feed's dates
+already calls there, and **written out as a `Stop` entity when none does** —
+the temporary stops the website invents, and the handful `stops.txt` lists that
+nothing serves. Which of the two a consumer needs depends on the stops its own
+build of the GTFS kept, and a build that drops the stops without service is a
+normal thing to do: one such build has 8,629 stops, exactly the 8,629 with
+service. 97 West ends at a stop only the seasonal 711 calls at, so a consumer
+holding that build had no record of it. Defining more than that is not an
+option — a `Stop` entity carrying an ID the consumer already has is a
+redefinition, which it is right to refuse.
+
 ### What it produces
 
 Measured on one snapshot: 407 line directions read, 164 of them detoured, 194

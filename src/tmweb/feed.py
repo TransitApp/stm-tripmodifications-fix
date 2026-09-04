@@ -38,8 +38,8 @@ def build_feed(
     feed.header.incrementality = gtfs_rt.FeedHeader.FULL_DATASET
     feed.header.timestamp = timestamp
 
-    for stop_id in sorted(result.new_stops):
-        _add_stop(feed, result.new_stops[stop_id])
+    for stop_id in sorted(result.defined_stops):
+        _add_stop(feed, result.defined_stops[stop_id])
 
     for plan in result.plans:
         _add_shape(feed, plan)
