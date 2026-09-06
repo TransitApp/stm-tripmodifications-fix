@@ -1,0 +1,4566 @@
+{
+ "generated_at": "2026-09-06T22:40:40+00:00",
+ "service_dates": [
+  "20260906",
+  "20260907",
+  "20260908",
+  "20260909",
+  "20260910",
+  "20260911",
+  "20260912",
+  "20260913",
+  "20260914",
+  "20260915",
+  "20260916",
+  "20260917",
+  "20260918",
+  "20260919"
+ ],
+ "source_url": "https://api.stm.info/pub/i3/v1c/api",
+ "lines_read": 407,
+ "lines_detoured": 142,
+ "requests_made": 550,
+ "attribution": "Source data: Societe de transport de Montreal (STM), licensed CC-BY 4.0. This is an unofficial derived feed.",
+ "entities": 169,
+ "modifications": 218,
+ "stops_defined": 84,
+ "lines_with_nothing_to_say": 0,
+ "detours": [
+  {
+   "entity_id": "web_detour_100_16",
+   "route_pattern_id": "100_16",
+   "route_id": "100",
+   "direction": "W",
+   "line_description": "Crémazie",
+   "trips": 9,
+   "modifications": [
+    {
+     "start_stop_sequence": 5,
+     "end_stop_sequence": 10,
+     "cancelled_stop_ids": [
+      "55855",
+      "55602",
+      "62018",
+      "55511",
+      "55494",
+      "62033"
+     ],
+     "replacement_stop_ids": [
+      "temp_stop_2171",
+      "temp_stop_1358",
+      "temp_stop_1825"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_100_18",
+   "route_pattern_id": "100_18",
+   "route_id": "100",
+   "direction": "W",
+   "line_description": "Crémazie",
+   "trips": 201,
+   "modifications": [
+    {
+     "start_stop_sequence": 22,
+     "end_stop_sequence": 27,
+     "cancelled_stop_ids": [
+      "55855",
+      "55602",
+      "62018",
+      "55511",
+      "55494",
+      "62033"
+     ],
+     "replacement_stop_ids": [
+      "temp_stop_2171",
+      "temp_stop_1358",
+      "temp_stop_1825"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_105_8",
+   "route_pattern_id": "105_8",
+   "route_id": "105",
+   "direction": "W",
+   "line_description": "Sherbrooke",
+   "trips": 370,
+   "modifications": [
+    {
+     "start_stop_sequence": 5,
+     "end_stop_sequence": 5,
+     "cancelled_stop_ids": [
+      "51313"
+     ],
+     "replacement_stop_ids": [
+      "temp_stop_2604"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_106_10",
+   "route_pattern_id": "106_10",
+   "route_id": "106",
+   "direction": "E",
+   "line_description": "Newman",
+   "trips": 311,
+   "modifications": [
+    {
+     "start_stop_sequence": 7,
+     "end_stop_sequence": 7,
+     "cancelled_stop_ids": [
+      "56791"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    },
+    {
+     "start_stop_sequence": 10,
+     "end_stop_sequence": 12,
+     "cancelled_stop_ids": [
+      "56806",
+      "57049",
+      "57083"
+     ],
+     "replacement_stop_ids": [
+      "temp_stop_2080",
+      "56817"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_106_9",
+   "route_pattern_id": "106_9",
+   "route_id": "106",
+   "direction": "W",
+   "line_description": "Newman",
+   "trips": 336,
+   "modifications": [
+    {
+     "start_stop_sequence": 14,
+     "end_stop_sequence": 18,
+     "cancelled_stop_ids": [
+      "56833",
+      "56836",
+      "56818",
+      "57050",
+      "57048"
+     ],
+     "replacement_stop_ids": [
+      "56832"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_107_15",
+   "route_pattern_id": "107_15",
+   "route_id": "107",
+   "direction": "E",
+   "line_description": "Verdun",
+   "trips": 179,
+   "modifications": [
+    {
+     "start_stop_sequence": 5,
+     "end_stop_sequence": 6,
+     "cancelled_stop_ids": [
+      "62256",
+      "62257"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_107_16",
+   "route_pattern_id": "107_16",
+   "route_id": "107",
+   "direction": "W",
+   "line_description": "Verdun",
+   "trips": 179,
+   "modifications": [
+    {
+     "start_stop_sequence": 46,
+     "end_stop_sequence": 46,
+     "cancelled_stop_ids": [
+      "62263"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_108_12",
+   "route_pattern_id": "108_12",
+   "route_id": "108",
+   "direction": "E",
+   "line_description": "Bannantyne",
+   "trips": 159,
+   "modifications": [
+    {
+     "start_stop_sequence": 15,
+     "end_stop_sequence": 15,
+     "cancelled_stop_ids": [
+      "56599"
+     ],
+     "replacement_stop_ids": [
+      "56600"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_108_13",
+   "route_pattern_id": "108_13",
+   "route_id": "108",
+   "direction": "W",
+   "line_description": "Bannantyne",
+   "trips": 157,
+   "modifications": [
+    {
+     "start_stop_sequence": 27,
+     "end_stop_sequence": 27,
+     "cancelled_stop_ids": [
+      "56703"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_10_2",
+   "route_pattern_id": "10_2",
+   "route_id": "10",
+   "direction": "N",
+   "line_description": "De Lorimier",
+   "trips": 166,
+   "modifications": [
+    {
+     "start_stop_sequence": 1,
+     "end_stop_sequence": 4,
+     "cancelled_stop_ids": [
+      "53051",
+      "53045",
+      "53010",
+      "52895"
+     ],
+     "replacement_stop_ids": [
+      "52869"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_10_6",
+   "route_pattern_id": "10_6",
+   "route_id": "10",
+   "direction": "S",
+   "line_description": "De Lorimier",
+   "trips": 166,
+   "modifications": [
+    {
+     "start_stop_sequence": 13,
+     "end_stop_sequence": 15,
+     "cancelled_stop_ids": [
+      "51740",
+      "51825",
+      "51860"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    },
+    {
+     "start_stop_sequence": 25,
+     "end_stop_sequence": 26,
+     "cancelled_stop_ids": [
+      "52685",
+      "52742"
+     ],
+     "replacement_stop_ids": [
+      "52640",
+      "52764"
+     ],
+     "kept_stop_id": null
+    },
+    {
+     "start_stop_sequence": 32,
+     "end_stop_sequence": 32,
+     "cancelled_stop_ids": [
+      "53051"
+     ],
+     "replacement_stop_ids": [
+      "temp_stop_2531"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_110_21",
+   "route_pattern_id": "110_21",
+   "route_id": "110",
+   "direction": "E",
+   "line_description": "Centrale",
+   "trips": 169,
+   "modifications": [
+    {
+     "start_stop_sequence": 7,
+     "end_stop_sequence": 8,
+     "cancelled_stop_ids": [
+      "57205",
+      "57342"
+     ],
+     "replacement_stop_ids": [
+      "temp_stop_2050"
+     ],
+     "kept_stop_id": null
+    },
+    {
+     "start_stop_sequence": 21,
+     "end_stop_sequence": 21,
+     "cancelled_stop_ids": [
+      "57263"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    },
+    {
+     "start_stop_sequence": 35,
+     "end_stop_sequence": 35,
+     "cancelled_stop_ids": [
+      "56791"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    },
+    {
+     "start_stop_sequence": 41,
+     "end_stop_sequence": 43,
+     "cancelled_stop_ids": [
+      "56871",
+      "57093",
+      "56883"
+     ],
+     "replacement_stop_ids": [
+      "temp_stop_1480"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_110_22",
+   "route_pattern_id": "110_22",
+   "route_id": "110",
+   "direction": "W",
+   "line_description": "Centrale",
+   "trips": 165,
+   "modifications": [
+    {
+     "start_stop_sequence": 28,
+     "end_stop_sequence": 29,
+     "cancelled_stop_ids": [
+      "56882",
+      "56876"
+     ],
+     "replacement_stop_ids": [
+      "temp_stop_1481"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_113_11",
+   "route_pattern_id": "113_11",
+   "route_id": "113",
+   "direction": "W",
+   "line_description": "Lapierre",
+   "trips": 200,
+   "modifications": [
+    {
+     "start_stop_sequence": 22,
+     "end_stop_sequence": 23,
+     "cancelled_stop_ids": [
+      "56784",
+      "56764"
+     ],
+     "replacement_stop_ids": [
+      "temp_stop_2545",
+      "temp_stop_2583"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_113_12",
+   "route_pattern_id": "113_12",
+   "route_id": "113",
+   "direction": "E",
+   "line_description": "Lapierre",
+   "trips": 193,
+   "modifications": [
+    {
+     "start_stop_sequence": 6,
+     "end_stop_sequence": 7,
+     "cancelled_stop_ids": [
+      "56763",
+      "56782"
+     ],
+     "replacement_stop_ids": [
+      "temp_stop_2554",
+      "temp_stop_2592"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_119_8",
+   "route_pattern_id": "119_8",
+   "route_id": "119",
+   "direction": "W",
+   "line_description": "Rockland",
+   "trips": 107,
+   "modifications": [
+    {
+     "start_stop_sequence": 7,
+     "end_stop_sequence": 10,
+     "cancelled_stop_ids": [
+      "51642",
+      "62402",
+      "51525",
+      "51502"
+     ],
+     "replacement_stop_ids": [
+      "temp_stop_2609"
+     ],
+     "kept_stop_id": null
+    },
+    {
+     "start_stop_sequence": 13,
+     "end_stop_sequence": 14,
+     "cancelled_stop_ids": [
+      "56197",
+      "56192"
+     ],
+     "replacement_stop_ids": [
+      "temp_stop_2408"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_119_9",
+   "route_pattern_id": "119_9",
+   "route_id": "119",
+   "direction": "E",
+   "line_description": "Rockland",
+   "trips": 103,
+   "modifications": [
+    {
+     "start_stop_sequence": 25,
+     "end_stop_sequence": 26,
+     "cancelled_stop_ids": [
+      "56193",
+      "56198"
+     ],
+     "replacement_stop_ids": [
+      "temp_stop_2549"
+     ],
+     "kept_stop_id": null
+    },
+    {
+     "start_stop_sequence": 29,
+     "end_stop_sequence": 31,
+     "cancelled_stop_ids": [
+      "51504",
+      "51526",
+      "51556"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_11_19",
+   "route_pattern_id": "11_19",
+   "route_id": "11",
+   "direction": "W",
+   "line_description": "Parc-du-Mont-Royal",
+   "trips": 183,
+   "modifications": [
+    {
+     "start_stop_sequence": 3,
+     "end_stop_sequence": 13,
+     "cancelled_stop_ids": [
+      "52160",
+      "52137",
+      "52100",
+      "61802",
+      "52055",
+      "52035",
+      "52005",
+      "51972",
+      "51937",
+      "51881",
+      "54159"
+     ],
+     "replacement_stop_ids": [
+      "52001",
+      "temp_stop_2181",
+      "51919",
+      "51855",
+      "51828"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_11_20",
+   "route_pattern_id": "11_20",
+   "route_id": "11",
+   "direction": "E",
+   "line_description": "Parc-du-Mont-Royal",
+   "trips": 175,
+   "modifications": [
+    {
+     "start_stop_sequence": 24,
+     "end_stop_sequence": 29,
+     "cancelled_stop_ids": [
+      "51966",
+      "52006",
+      "52036",
+      "52057",
+      "52083",
+      "52138"
+     ],
+     "replacement_stop_ids": [
+      "51827",
+      "51856",
+      "51921",
+      "61719",
+      "52002",
+      "52019",
+      "52161"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_124_12",
+   "route_pattern_id": "124_12",
+   "route_id": "124",
+   "direction": "N",
+   "line_description": "Victoria",
+   "trips": 147,
+   "modifications": [
+    {
+     "start_stop_sequence": 3,
+     "end_stop_sequence": 5,
+     "cancelled_stop_ids": [
+      "56254",
+      "56243",
+      "56237"
+     ],
+     "replacement_stop_ids": [
+      "56250"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_124_13",
+   "route_pattern_id": "124_13",
+   "route_id": "124",
+   "direction": "S",
+   "line_description": "Victoria",
+   "trips": 141,
+   "modifications": [
+    {
+     "start_stop_sequence": 36,
+     "end_stop_sequence": 40,
+     "cancelled_stop_ids": [
+      "56239",
+      "56231",
+      "56236",
+      "56244",
+      "56249"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_125_11",
+   "route_pattern_id": "125_11",
+   "route_id": "125",
+   "direction": "W",
+   "line_description": "Ontario",
+   "trips": 5,
+   "modifications": [
+    {
+     "start_stop_sequence": 10,
+     "end_stop_sequence": 15,
+     "cancelled_stop_ids": [
+      "53189",
+      "53169",
+      "53154",
+      "53140",
+      "53122",
+      "53113"
+     ],
+     "replacement_stop_ids": [
+      "temp_stop_2348",
+      "temp_stop_2233",
+      "temp_stop_2429",
+      "temp_stop_1750"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_125_12",
+   "route_pattern_id": "125_12",
+   "route_id": "125",
+   "direction": "E",
+   "line_description": "Ontario",
+   "trips": 5,
+   "modifications": [
+    {
+     "start_stop_sequence": 7,
+     "end_stop_sequence": 13,
+     "cancelled_stop_ids": [
+      "53115",
+      "53123",
+      "53141",
+      "53155",
+      "53170",
+      "53191",
+      "53217"
+     ],
+     "replacement_stop_ids": [
+      "temp_stop_2430",
+      "53084",
+      "temp_stop_1754",
+      "temp_stop_2346",
+      "temp_stop_1755"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_125_13",
+   "route_pattern_id": "125_13",
+   "route_id": "125",
+   "direction": "E",
+   "line_description": "Ontario",
+   "trips": 164,
+   "modifications": [
+    {
+     "start_stop_sequence": 19,
+     "end_stop_sequence": 19,
+     "cancelled_stop_ids": [
+      "52994"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    },
+    {
+     "start_stop_sequence": 26,
+     "end_stop_sequence": 32,
+     "cancelled_stop_ids": [
+      "53115",
+      "53123",
+      "53141",
+      "53155",
+      "53170",
+      "53191",
+      "53217"
+     ],
+     "replacement_stop_ids": [
+      "temp_stop_2430",
+      "53084",
+      "temp_stop_1754",
+      "temp_stop_2346",
+      "temp_stop_1755"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_125_14",
+   "route_pattern_id": "125_14",
+   "route_id": "125",
+   "direction": "W",
+   "line_description": "Ontario",
+   "trips": 167,
+   "modifications": [
+    {
+     "start_stop_sequence": 10,
+     "end_stop_sequence": 15,
+     "cancelled_stop_ids": [
+      "53189",
+      "53169",
+      "53154",
+      "53140",
+      "53122",
+      "53113"
+     ],
+     "replacement_stop_ids": [
+      "temp_stop_2348",
+      "temp_stop_2233",
+      "temp_stop_2429",
+      "temp_stop_1750"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_129_31",
+   "route_pattern_id": "129_31",
+   "route_id": "129",
+   "direction": "N",
+   "line_description": "Côte-Sainte-Catherine",
+   "trips": 115,
+   "modifications": [
+    {
+     "start_stop_sequence": 13,
+     "end_stop_sequence": 15,
+     "cancelled_stop_ids": [
+      "56216",
+      "56215",
+      "56212"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_129_32",
+   "route_pattern_id": "129_32",
+   "route_id": "129",
+   "direction": "S",
+   "line_description": "Côte-Sainte-Catherine",
+   "trips": 127,
+   "modifications": [
+    {
+     "start_stop_sequence": 27,
+     "end_stop_sequence": 35,
+     "cancelled_stop_ids": [
+      "56213",
+      "62804",
+      "62779",
+      "53703",
+      "60664",
+      "52250",
+      "52298",
+      "52365",
+      "52443"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_129_33",
+   "route_pattern_id": "129_33",
+   "route_id": "129",
+   "direction": "N",
+   "line_description": "Côte-Sainte-Catherine",
+   "trips": 39,
+   "modifications": [
+    {
+     "start_stop_sequence": 12,
+     "end_stop_sequence": 14,
+     "cancelled_stop_ids": [
+      "56216",
+      "56215",
+      "56212"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_129_34",
+   "route_pattern_id": "129_34",
+   "route_id": "129",
+   "direction": "S",
+   "line_description": "Côte-Sainte-Catherine",
+   "trips": 39,
+   "modifications": [
+    {
+     "start_stop_sequence": 23,
+     "end_stop_sequence": 31,
+     "cancelled_stop_ids": [
+      "56213",
+      "62804",
+      "62779",
+      "53703",
+      "60664",
+      "52250",
+      "52298",
+      "52365",
+      "52443"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_129_35",
+   "route_pattern_id": "129_35",
+   "route_id": "129",
+   "direction": "S",
+   "line_description": "Côte-Sainte-Catherine",
+   "trips": 2,
+   "modifications": [
+    {
+     "start_stop_sequence": 27,
+     "end_stop_sequence": 35,
+     "cancelled_stop_ids": [
+      "56213",
+      "62804",
+      "62779",
+      "53703",
+      "60664",
+      "52250",
+      "52298",
+      "52365",
+      "52443"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_129_36",
+   "route_pattern_id": "129_36",
+   "route_id": "129",
+   "direction": "N",
+   "line_description": "Côte-Sainte-Catherine",
+   "trips": 1,
+   "modifications": [
+    {
+     "start_stop_sequence": 13,
+     "end_stop_sequence": 15,
+     "cancelled_stop_ids": [
+      "56216",
+      "56215",
+      "56212"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_131_6",
+   "route_pattern_id": "131_6",
+   "route_id": "131",
+   "direction": "N",
+   "line_description": "De l'Assomption",
+   "trips": 214,
+   "modifications": [
+    {
+     "start_stop_sequence": 10,
+     "end_stop_sequence": 11,
+     "cancelled_stop_ids": [
+      "52385",
+      "52253"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_131_7",
+   "route_pattern_id": "131_7",
+   "route_id": "131",
+   "direction": "S",
+   "line_description": "De l'Assomption",
+   "trips": 220,
+   "modifications": [
+    {
+     "start_stop_sequence": 1,
+     "end_stop_sequence": 1,
+     "cancelled_stop_ids": [
+      "54952"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    },
+    {
+     "start_stop_sequence": 5,
+     "end_stop_sequence": 6,
+     "cancelled_stop_ids": [
+      "52255",
+      "52386"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_131_8",
+   "route_pattern_id": "131_8",
+   "route_id": "131",
+   "direction": "S",
+   "line_description": "De l'Assomption",
+   "trips": 17,
+   "modifications": [
+    {
+     "start_stop_sequence": 3,
+     "end_stop_sequence": 3,
+     "cancelled_stop_ids": [
+      "54952"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    },
+    {
+     "start_stop_sequence": 7,
+     "end_stop_sequence": 8,
+     "cancelled_stop_ids": [
+      "52255",
+      "52386"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_131_9",
+   "route_pattern_id": "131_9",
+   "route_id": "131",
+   "direction": "N",
+   "line_description": "De l'Assomption",
+   "trips": 16,
+   "modifications": [
+    {
+     "start_stop_sequence": 10,
+     "end_stop_sequence": 11,
+     "cancelled_stop_ids": [
+      "52385",
+      "52253"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_136_11",
+   "route_pattern_id": "136_11",
+   "route_id": "136",
+   "direction": "S",
+   "line_description": "Viau",
+   "trips": 221,
+   "modifications": [
+    {
+     "start_stop_sequence": 22,
+     "end_stop_sequence": 23,
+     "cancelled_stop_ids": [
+      "52235",
+      "52359"
+     ],
+     "replacement_stop_ids": [
+      "temp_stop_2435",
+      "52360"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_136_12",
+   "route_pattern_id": "136_12",
+   "route_id": "136",
+   "direction": "N",
+   "line_description": "Viau",
+   "trips": 228,
+   "modifications": [
+    {
+     "start_stop_sequence": 10,
+     "end_stop_sequence": 12,
+     "cancelled_stop_ids": [
+      "52357",
+      "52234",
+      "52116"
+     ],
+     "replacement_stop_ids": [
+      "temp_stop_2432",
+      "temp_stop_2433",
+      "temp_stop_2434"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_138_15",
+   "route_pattern_id": "138_15",
+   "route_id": "138",
+   "direction": "E",
+   "line_description": "Notre-Dame-de-Grâce",
+   "trips": 94,
+   "modifications": [
+    {
+     "start_stop_sequence": 20,
+     "end_stop_sequence": 20,
+     "cancelled_stop_ids": [
+      "54173"
+     ],
+     "replacement_stop_ids": [
+      "51163"
+     ],
+     "kept_stop_id": null
+    },
+    {
+     "start_stop_sequence": 31,
+     "end_stop_sequence": 32,
+     "cancelled_stop_ids": [
+      "56244",
+      "56249"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_138_16",
+   "route_pattern_id": "138_16",
+   "route_id": "138",
+   "direction": "W",
+   "line_description": "Notre-Dame-de-Grâce",
+   "trips": 92,
+   "modifications": [
+    {
+     "start_stop_sequence": 12,
+     "end_stop_sequence": 16,
+     "cancelled_stop_ids": [
+      "56254",
+      "56243",
+      "56238",
+      "51400",
+      "51371"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_13_12",
+   "route_pattern_id": "13_12",
+   "route_id": "13",
+   "direction": "N",
+   "line_description": "Christophe-Colomb",
+   "trips": 122,
+   "modifications": [
+    {
+     "start_stop_sequence": 2,
+     "end_stop_sequence": 2,
+     "cancelled_stop_ids": [
+      "51685"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_13_13",
+   "route_pattern_id": "13_13",
+   "route_id": "13",
+   "direction": "N",
+   "line_description": "Christophe-Colomb",
+   "trips": 34,
+   "modifications": [
+    {
+     "start_stop_sequence": 2,
+     "end_stop_sequence": 2,
+     "cancelled_stop_ids": [
+      "51685"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_140_15",
+   "route_pattern_id": "140_15",
+   "route_id": "140",
+   "direction": "E",
+   "line_description": "Fleury",
+   "trips": 138,
+   "modifications": [
+    {
+     "start_stop_sequence": 15,
+     "end_stop_sequence": 17,
+     "cancelled_stop_ids": [
+      "50392",
+      "62405",
+      "62407"
+     ],
+     "replacement_stop_ids": [
+      "50393",
+      "50438"
+     ],
+     "kept_stop_id": null
+    },
+    {
+     "start_stop_sequence": 57,
+     "end_stop_sequence": 57,
+     "cancelled_stop_ids": [
+      "62045"
+     ],
+     "replacement_stop_ids": [
+      "temp_stop_2340"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_140_17",
+   "route_pattern_id": "140_17",
+   "route_id": "140",
+   "direction": "E",
+   "line_description": "Fleury",
+   "trips": 31,
+   "modifications": [
+    {
+     "start_stop_sequence": 14,
+     "end_stop_sequence": 16,
+     "cancelled_stop_ids": [
+      "50392",
+      "62405",
+      "62407"
+     ],
+     "replacement_stop_ids": [
+      "50393",
+      "50438"
+     ],
+     "kept_stop_id": null
+    },
+    {
+     "start_stop_sequence": 56,
+     "end_stop_sequence": 56,
+     "cancelled_stop_ids": [
+      "62045"
+     ],
+     "replacement_stop_ids": [
+      "temp_stop_2340"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_140_19",
+   "route_pattern_id": "140_19",
+   "route_id": "140",
+   "direction": "W",
+   "line_description": "Fleury",
+   "trips": 144,
+   "modifications": [
+    {
+     "start_stop_sequence": 1,
+     "end_stop_sequence": 1,
+     "cancelled_stop_ids": [
+      "62045"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_140_20",
+   "route_pattern_id": "140_20",
+   "route_id": "140",
+   "direction": "W",
+   "line_description": "Fleury",
+   "trips": 28,
+   "modifications": [
+    {
+     "start_stop_sequence": 1,
+     "end_stop_sequence": 1,
+     "cancelled_stop_ids": [
+      "62045"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_141_18",
+   "route_pattern_id": "141_18",
+   "route_id": "141",
+   "direction": "E",
+   "line_description": "Jean-Talon Est",
+   "trips": 377,
+   "modifications": [
+    {
+     "start_stop_sequence": 1,
+     "end_stop_sequence": 1,
+     "cancelled_stop_ids": [
+      "54184"
+     ],
+     "replacement_stop_ids": [
+      "51570",
+      "60771"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_144_7",
+   "route_pattern_id": "144_7",
+   "route_id": "144",
+   "direction": "E",
+   "line_description": "Des Pins",
+   "trips": 198,
+   "modifications": [
+    {
+     "start_stop_sequence": 10,
+     "end_stop_sequence": 11,
+     "cancelled_stop_ids": [
+      "53843",
+      "52140"
+     ],
+     "replacement_stop_ids": [
+      "temp_stop_2536"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_14_10",
+   "route_pattern_id": "14_10",
+   "route_id": "14",
+   "direction": "S",
+   "line_description": "Atateken",
+   "trips": 67,
+   "modifications": [
+    {
+     "start_stop_sequence": 18,
+     "end_stop_sequence": 20,
+     "cancelled_stop_ids": [
+      "52954",
+      "52930",
+      "54013"
+     ],
+     "replacement_stop_ids": [
+      "temp_stop_2258"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_14_9",
+   "route_pattern_id": "14_9",
+   "route_id": "14",
+   "direction": "N",
+   "line_description": "Atateken",
+   "trips": 70,
+   "modifications": [
+    {
+     "start_stop_sequence": 5,
+     "end_stop_sequence": 5,
+     "cancelled_stop_ids": [
+      "60614"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_150_7",
+   "route_pattern_id": "150_7",
+   "route_id": "150",
+   "direction": "E",
+   "line_description": "René-Lévesque",
+   "trips": 172,
+   "modifications": [
+    {
+     "start_stop_sequence": 21,
+     "end_stop_sequence": 21,
+     "cancelled_stop_ids": [
+      "53064"
+     ],
+     "replacement_stop_ids": [
+      "54043"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_160_18",
+   "route_pattern_id": "160_18",
+   "route_id": "160",
+   "direction": "W",
+   "line_description": "Barclay",
+   "trips": 184,
+   "modifications": [
+    {
+     "start_stop_sequence": 3,
+     "end_stop_sequence": 4,
+     "cancelled_stop_ids": [
+      "51481",
+      "51441"
+     ],
+     "replacement_stop_ids": [
+      "51440"
+     ],
+     "kept_stop_id": null
+    },
+    {
+     "start_stop_sequence": 17,
+     "end_stop_sequence": 18,
+     "cancelled_stop_ids": [
+      "50916",
+      "50864"
+     ],
+     "replacement_stop_ids": [
+      "50973",
+      "temp_stop_2356"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_161_20",
+   "route_pattern_id": "161_20",
+   "route_id": "161",
+   "direction": "W",
+   "line_description": "Van Horne",
+   "trips": 313,
+   "modifications": [
+    {
+     "start_stop_sequence": 1,
+     "end_stop_sequence": 1,
+     "cancelled_stop_ids": [
+      "51648"
+     ],
+     "replacement_stop_ids": [
+      "51646"
+     ],
+     "kept_stop_id": null
+    },
+    {
+     "start_stop_sequence": 33,
+     "end_stop_sequence": 34,
+     "cancelled_stop_ids": [
+      "56380",
+      "56371"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_161_21",
+   "route_pattern_id": "161_21",
+   "route_id": "161",
+   "direction": "E",
+   "line_description": "Van Horne",
+   "trips": 292,
+   "modifications": [
+    {
+     "start_stop_sequence": 36,
+     "end_stop_sequence": 36,
+     "cancelled_stop_ids": [
+      "51648"
+     ],
+     "replacement_stop_ids": [
+      "51649",
+      "51646"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_162_9",
+   "route_pattern_id": "162_9",
+   "route_id": "162",
+   "direction": "W",
+   "line_description": "Westminster",
+   "trips": 156,
+   "modifications": [
+    {
+     "start_stop_sequence": 29,
+     "end_stop_sequence": 32,
+     "cancelled_stop_ids": [
+      "56372",
+      "56377",
+      "56381",
+      "56384"
+     ],
+     "replacement_stop_ids": [
+      "56366",
+      "temp_stop_2342"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_164_13",
+   "route_pattern_id": "164_13",
+   "route_id": "164",
+   "direction": "E",
+   "line_description": "Dudemaine",
+   "trips": 174,
+   "modifications": [
+    {
+     "start_stop_sequence": 31,
+     "end_stop_sequence": 32,
+     "cancelled_stop_ids": [
+      "50223",
+      "50227"
+     ],
+     "replacement_stop_ids": [
+      "temp_stop_2464"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_164_14",
+   "route_pattern_id": "164_14",
+   "route_id": "164",
+   "direction": "W",
+   "line_description": "Dudemaine",
+   "trips": 176,
+   "modifications": [
+    {
+     "start_stop_sequence": 16,
+     "end_stop_sequence": 17,
+     "cancelled_stop_ids": [
+      "50222",
+      "50214"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_165_14",
+   "route_pattern_id": "165_14",
+   "route_id": "165",
+   "direction": "S",
+   "line_description": "Côte-des-Neiges",
+   "trips": 415,
+   "modifications": [
+    {
+     "start_stop_sequence": 32,
+     "end_stop_sequence": 35,
+     "cancelled_stop_ids": [
+      "52196",
+      "52285",
+      "52330",
+      "52201"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_165_15",
+   "route_pattern_id": "165_15",
+   "route_id": "165",
+   "direction": "N",
+   "line_description": "Côte-des-Neiges",
+   "trips": 434,
+   "modifications": [
+    {
+     "start_stop_sequence": 1,
+     "end_stop_sequence": 1,
+     "cancelled_stop_ids": [
+      "52201"
+     ],
+     "replacement_stop_ids": [
+      "52147"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_166_16",
+   "route_pattern_id": "166_16",
+   "route_id": "166",
+   "direction": "N",
+   "line_description": "Queen-Mary",
+   "trips": 126,
+   "modifications": [
+    {
+     "start_stop_sequence": 1,
+     "end_stop_sequence": 1,
+     "cancelled_stop_ids": [
+      "52195"
+     ],
+     "replacement_stop_ids": [
+      "temp_stop_1721"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_166_17",
+   "route_pattern_id": "166_17",
+   "route_id": "166",
+   "direction": "S",
+   "line_description": "Queen-Mary",
+   "trips": 120,
+   "modifications": [
+    {
+     "start_stop_sequence": 32,
+     "end_stop_sequence": 38,
+     "cancelled_stop_ids": [
+      "52147",
+      "52196",
+      "53762",
+      "52285",
+      "52330",
+      "52236",
+      "52195"
+     ],
+     "replacement_stop_ids": [
+      "52115",
+      "temp_stop_1721"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_166_19",
+   "route_pattern_id": "166_19",
+   "route_id": "166",
+   "direction": "N",
+   "line_description": "Queen-Mary",
+   "trips": 6,
+   "modifications": [
+    {
+     "start_stop_sequence": 3,
+     "end_stop_sequence": 3,
+     "cancelled_stop_ids": [
+      "52195"
+     ],
+     "replacement_stop_ids": [
+      "temp_stop_1721"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_16_10",
+   "route_pattern_id": "16_10",
+   "route_id": "16",
+   "direction": "W",
+   "line_description": "Graham",
+   "trips": 130,
+   "modifications": [
+    {
+     "start_stop_sequence": 34,
+     "end_stop_sequence": 34,
+     "cancelled_stop_ids": [
+      "55572"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_16_9",
+   "route_pattern_id": "16_9",
+   "route_id": "16",
+   "direction": "E",
+   "line_description": "Graham",
+   "trips": 130,
+   "modifications": [
+    {
+     "start_stop_sequence": 28,
+     "end_stop_sequence": 28,
+     "cancelled_stop_ids": [
+      "56088"
+     ],
+     "replacement_stop_ids": [
+      "temp_stop_2611"
+     ],
+     "kept_stop_id": null
+    },
+    {
+     "start_stop_sequence": 33,
+     "end_stop_sequence": 33,
+     "cancelled_stop_ids": [
+      "51065"
+     ],
+     "replacement_stop_ids": [
+      "51064"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_17_14",
+   "route_pattern_id": "17_14",
+   "route_id": "17",
+   "direction": "N",
+   "line_description": "Décarie",
+   "trips": 129,
+   "modifications": [
+    {
+     "start_stop_sequence": 7,
+     "end_stop_sequence": 7,
+     "cancelled_stop_ids": [],
+     "replacement_stop_ids": [
+      "61993",
+      "51523"
+     ],
+     "kept_stop_id": "51523"
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_17_15",
+   "route_pattern_id": "17_15",
+   "route_id": "17",
+   "direction": "S",
+   "line_description": "Décarie",
+   "trips": 126,
+   "modifications": [
+    {
+     "start_stop_sequence": 31,
+     "end_stop_sequence": 32,
+     "cancelled_stop_ids": [
+      "51491",
+      "61992"
+     ],
+     "replacement_stop_ids": [
+      "temp_stop_1045",
+      "temp_stop_1046",
+      "temp_stop_2133"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_180_17",
+   "route_pattern_id": "180_17",
+   "route_id": "180",
+   "direction": "W",
+   "line_description": "De Salaberry",
+   "trips": 169,
+   "modifications": [
+    {
+     "start_stop_sequence": 30,
+     "end_stop_sequence": 30,
+     "cancelled_stop_ids": [],
+     "replacement_stop_ids": [
+      "54319",
+      "temp_stop_2418"
+     ],
+     "kept_stop_id": "54319"
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_189_18",
+   "route_pattern_id": "189_18",
+   "route_id": "189",
+   "direction": "E",
+   "line_description": "Notre-Dame",
+   "trips": 222,
+   "modifications": [
+    {
+     "start_stop_sequence": 22,
+     "end_stop_sequence": 27,
+     "cancelled_stop_ids": [
+      "54466",
+      "53609",
+      "53625",
+      "53639",
+      "53651",
+      "53657"
+     ],
+     "replacement_stop_ids": [
+      "54467",
+      "temp_stop_2216",
+      "temp_stop_2217",
+      "temp_stop_2218",
+      "temp_stop_1186",
+      "temp_stop_2242",
+      "temp_stop_2220",
+      "temp_stop_2310"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_189_19",
+   "route_pattern_id": "189_19",
+   "route_id": "189",
+   "direction": "W",
+   "line_description": "Notre-Dame",
+   "trips": 209,
+   "modifications": [
+    {
+     "start_stop_sequence": 27,
+     "end_stop_sequence": 31,
+     "cancelled_stop_ids": [
+      "53649",
+      "53638",
+      "53624",
+      "53608",
+      "54464"
+     ],
+     "replacement_stop_ids": [
+      "temp_stop_2593",
+      "temp_stop_2222",
+      "temp_stop_1670",
+      "temp_stop_1671",
+      "temp_stop_1672",
+      "temp_stop_1673",
+      "54465"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_18_25",
+   "route_pattern_id": "18_25",
+   "route_id": "18",
+   "direction": "W",
+   "line_description": "Beaubien",
+   "trips": 313,
+   "modifications": [
+    {
+     "start_stop_sequence": 42,
+     "end_stop_sequence": 43,
+     "cancelled_stop_ids": [
+      "51481",
+      "51441"
+     ],
+     "replacement_stop_ids": [
+      "51440"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_193_17",
+   "route_pattern_id": "193_17",
+   "route_id": "193",
+   "direction": "E",
+   "line_description": "Jarry",
+   "trips": 244,
+   "modifications": [
+    {
+     "start_stop_sequence": 5,
+     "end_stop_sequence": 5,
+     "cancelled_stop_ids": [
+      "50848"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    },
+    {
+     "start_stop_sequence": 44,
+     "end_stop_sequence": 45,
+     "cancelled_stop_ids": [
+      "54732",
+      "54552"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_193_18",
+   "route_pattern_id": "193_18",
+   "route_id": "193",
+   "direction": "W",
+   "line_description": "Jarry",
+   "trips": 232,
+   "modifications": [
+    {
+     "start_stop_sequence": 3,
+     "end_stop_sequence": 4,
+     "cancelled_stop_ids": [
+      "54559",
+      "54550"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_195_23",
+   "route_pattern_id": "195_23",
+   "route_id": "195",
+   "direction": "W",
+   "line_description": "Dorval / Angrignon",
+   "trips": 167,
+   "modifications": [
+    {
+     "start_stop_sequence": 18,
+     "end_stop_sequence": 19,
+     "cancelled_stop_ids": [
+      "56784",
+      "56764"
+     ],
+     "replacement_stop_ids": [
+      "temp_stop_2583"
+     ],
+     "kept_stop_id": null
+    },
+    {
+     "start_stop_sequence": 26,
+     "end_stop_sequence": 26,
+     "cancelled_stop_ids": [
+      "57350"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    },
+    {
+     "start_stop_sequence": 36,
+     "end_stop_sequence": 36,
+     "cancelled_stop_ids": [
+      "57193"
+     ],
+     "replacement_stop_ids": [
+      "temp_stop_2599"
+     ],
+     "kept_stop_id": null
+    },
+    {
+     "start_stop_sequence": 51,
+     "end_stop_sequence": 51,
+     "cancelled_stop_ids": [
+      "57121"
+     ],
+     "replacement_stop_ids": [
+      "57125"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_195_24",
+   "route_pattern_id": "195_24",
+   "route_id": "195",
+   "direction": "E",
+   "line_description": "Dorval / Angrignon",
+   "trips": 165,
+   "modifications": [
+    {
+     "start_stop_sequence": 11,
+     "end_stop_sequence": 11,
+     "cancelled_stop_ids": [
+      "57122"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    },
+    {
+     "start_stop_sequence": 26,
+     "end_stop_sequence": 26,
+     "cancelled_stop_ids": [
+      "57348"
+     ],
+     "replacement_stop_ids": [
+      "temp_stop_1439"
+     ],
+     "kept_stop_id": null
+    },
+    {
+     "start_stop_sequence": 38,
+     "end_stop_sequence": 38,
+     "cancelled_stop_ids": [
+      "57263"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    },
+    {
+     "start_stop_sequence": 46,
+     "end_stop_sequence": 48,
+     "cancelled_stop_ids": [
+      "56763",
+      "56788",
+      "56799"
+     ],
+     "replacement_stop_ids": [
+      "temp_stop_2569",
+      "56786"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_195_25",
+   "route_pattern_id": "195_25",
+   "route_id": "195",
+   "direction": "W",
+   "line_description": "Dorval / Angrignon",
+   "trips": 2,
+   "modifications": [
+    {
+     "start_stop_sequence": 18,
+     "end_stop_sequence": 19,
+     "cancelled_stop_ids": [
+      "56784",
+      "56764"
+     ],
+     "replacement_stop_ids": [
+      "temp_stop_2583"
+     ],
+     "kept_stop_id": null
+    },
+    {
+     "start_stop_sequence": 26,
+     "end_stop_sequence": 26,
+     "cancelled_stop_ids": [
+      "57350"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    },
+    {
+     "start_stop_sequence": 36,
+     "end_stop_sequence": 36,
+     "cancelled_stop_ids": [
+      "57193"
+     ],
+     "replacement_stop_ids": [
+      "temp_stop_2599"
+     ],
+     "kept_stop_id": null
+    },
+    {
+     "start_stop_sequence": 51,
+     "end_stop_sequence": 51,
+     "cancelled_stop_ids": [
+      "57121"
+     ],
+     "replacement_stop_ids": [
+      "57125"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_197_22",
+   "route_pattern_id": "197_22",
+   "route_id": "197",
+   "direction": "E",
+   "line_description": "Rosemont",
+   "trips": 133,
+   "modifications": [
+    {
+     "start_stop_sequence": 2,
+     "end_stop_sequence": 2,
+     "cancelled_stop_ids": [
+      "51685"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_197_23",
+   "route_pattern_id": "197_23",
+   "route_id": "197",
+   "direction": "E",
+   "line_description": "Rosemont",
+   "trips": 75,
+   "modifications": [
+    {
+     "start_stop_sequence": 2,
+     "end_stop_sequence": 2,
+     "cancelled_stop_ids": [
+      "51685"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    },
+    {
+     "start_stop_sequence": 39,
+     "end_stop_sequence": 41,
+     "cancelled_stop_ids": [
+      "54290",
+      "54291",
+      "54292"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_202_23",
+   "route_pattern_id": "202_23",
+   "route_id": "202",
+   "direction": "E",
+   "line_description": "Dawson",
+   "trips": 153,
+   "modifications": [
+    {
+     "start_stop_sequence": 58,
+     "end_stop_sequence": 61,
+     "cancelled_stop_ids": [
+      "55842",
+      "55844",
+      "55601",
+      "55622"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_202_24",
+   "route_pattern_id": "202_24",
+   "route_id": "202",
+   "direction": "W",
+   "line_description": "Dawson",
+   "trips": 160,
+   "modifications": [
+    {
+     "start_stop_sequence": 21,
+     "end_stop_sequence": 24,
+     "cancelled_stop_ids": [
+      "55855",
+      "55602",
+      "55779",
+      "55860"
+     ],
+     "replacement_stop_ids": [
+      "temp_stop_2171"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_202_25",
+   "route_pattern_id": "202_25",
+   "route_id": "202",
+   "direction": "E",
+   "line_description": "Dawson",
+   "trips": 8,
+   "modifications": [
+    {
+     "start_stop_sequence": 18,
+     "end_stop_sequence": 21,
+     "cancelled_stop_ids": [
+      "55842",
+      "55844",
+      "55601",
+      "55622"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_204_11",
+   "route_pattern_id": "204_11",
+   "route_id": "204",
+   "direction": "E",
+   "line_description": "Cardinal",
+   "trips": 140,
+   "modifications": [
+    {
+     "start_stop_sequence": 34,
+     "end_stop_sequence": 34,
+     "cancelled_stop_ids": [],
+     "replacement_stop_ids": [
+      "57448",
+      "temp_stop_2612"
+     ],
+     "kept_stop_id": "57448"
+    },
+    {
+     "start_stop_sequence": 38,
+     "end_stop_sequence": 39,
+     "cancelled_stop_ids": [
+      "62768",
+      "62769"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_204_12",
+   "route_pattern_id": "204_12",
+   "route_id": "204",
+   "direction": "W",
+   "line_description": "Cardinal",
+   "trips": 133,
+   "modifications": [
+    {
+     "start_stop_sequence": 1,
+     "end_stop_sequence": 2,
+     "cancelled_stop_ids": [
+      "62769"
+     ],
+     "replacement_stop_ids": [
+      "temp_stop_2612",
+      "57453"
+     ],
+     "kept_stop_id": "57453"
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_207_7",
+   "route_pattern_id": "207_7",
+   "route_id": "207",
+   "direction": "N",
+   "line_description": "Jacques-Bizard",
+   "trips": 145,
+   "modifications": [
+    {
+     "start_stop_sequence": 15,
+     "end_stop_sequence": 16,
+     "cancelled_stop_ids": [
+      "58127",
+      "58125"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_207_8",
+   "route_pattern_id": "207_8",
+   "route_id": "207",
+   "direction": "S",
+   "line_description": "Jacques-Bizard",
+   "trips": 144,
+   "modifications": [
+    {
+     "start_stop_sequence": 26,
+     "end_stop_sequence": 27,
+     "cancelled_stop_ids": [
+      "58126",
+      "58128"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_208_10",
+   "route_pattern_id": "208_10",
+   "route_id": "208",
+   "direction": "W",
+   "line_description": "Brunswick",
+   "trips": 142,
+   "modifications": [
+    {
+     "start_stop_sequence": 41,
+     "end_stop_sequence": 46,
+     "cancelled_stop_ids": [
+      "57904",
+      "57897",
+      "57982",
+      "57891",
+      "57669",
+      "57901"
+     ],
+     "replacement_stop_ids": [
+      "temp_stop_1212",
+      "57900"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_208_11",
+   "route_pattern_id": "208_11",
+   "route_id": "208",
+   "direction": "E",
+   "line_description": "Brunswick",
+   "trips": 145,
+   "modifications": [
+    {
+     "start_stop_sequence": 8,
+     "end_stop_sequence": 13,
+     "cancelled_stop_ids": [
+      "57985",
+      "57672",
+      "57892",
+      "57890",
+      "57899",
+      "57903"
+     ],
+     "replacement_stop_ids": [
+      "57902",
+      "temp_stop_1211"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_209_12",
+   "route_pattern_id": "209_12",
+   "route_id": "209",
+   "direction": "S",
+   "line_description": "Des Sources / YUL Aéroport",
+   "trips": 167,
+   "modifications": [
+    {
+     "start_stop_sequence": 42,
+     "end_stop_sequence": 42,
+     "cancelled_stop_ids": [
+      "62027"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_209_14",
+   "route_pattern_id": "209_14",
+   "route_id": "209",
+   "direction": "N",
+   "line_description": "Des Sources / YUL Aéroport",
+   "trips": 167,
+   "modifications": [
+    {
+     "start_stop_sequence": 1,
+     "end_stop_sequence": 1,
+     "cancelled_stop_ids": [
+      "62027"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_20_10",
+   "route_pattern_id": "20_10",
+   "route_id": "20",
+   "direction": "W",
+   "line_description": "Crémazie / Marché Central",
+   "trips": 12,
+   "modifications": [
+    {
+     "start_stop_sequence": 13,
+     "end_stop_sequence": 15,
+     "cancelled_stop_ids": [
+      "53947",
+      "50669",
+      "50619"
+     ],
+     "replacement_stop_ids": [
+      "temp_stop_2400",
+      "50563"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_20_7",
+   "route_pattern_id": "20_7",
+   "route_id": "20",
+   "direction": "W",
+   "line_description": "Crémazie / Marché Central",
+   "trips": 149,
+   "modifications": [
+    {
+     "start_stop_sequence": 12,
+     "end_stop_sequence": 14,
+     "cancelled_stop_ids": [
+      "53947",
+      "50669",
+      "50619"
+     ],
+     "replacement_stop_ids": [
+      "temp_stop_2400",
+      "50563"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_211_24",
+   "route_pattern_id": "211_24",
+   "route_id": "211",
+   "direction": "E",
+   "line_description": "Bord-du-Lac",
+   "trips": 167,
+   "modifications": [
+    {
+     "start_stop_sequence": 32,
+     "end_stop_sequence": 34,
+     "cancelled_stop_ids": [
+      "57423",
+      "57519",
+      "57518"
+     ],
+     "replacement_stop_ids": [
+      "temp_stop_2473"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_211_26",
+   "route_pattern_id": "211_26",
+   "route_id": "211",
+   "direction": "E",
+   "line_description": "Bord-du-Lac",
+   "trips": 12,
+   "modifications": [
+    {
+     "start_stop_sequence": 27,
+     "end_stop_sequence": 29,
+     "cancelled_stop_ids": [
+      "57423",
+      "57519",
+      "57518"
+     ],
+     "replacement_stop_ids": [
+      "temp_stop_2473"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_214_3",
+   "route_pattern_id": "214_3",
+   "route_id": "214",
+   "direction": "E",
+   "line_description": "Stuart-Graham / YUL Aéroport",
+   "trips": 140,
+   "modifications": [
+    {
+     "start_stop_sequence": 3,
+     "end_stop_sequence": 4,
+     "cancelled_stop_ids": [
+      "61737",
+      "57515"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_214_4",
+   "route_pattern_id": "214_4",
+   "route_id": "214",
+   "direction": "W",
+   "line_description": "Stuart-Graham / YUL Aéroport",
+   "trips": 137,
+   "modifications": [
+    {
+     "start_stop_sequence": 3,
+     "end_stop_sequence": 5,
+     "cancelled_stop_ids": [
+      "57516",
+      "61736",
+      "62705"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_22_8",
+   "route_pattern_id": "22_8",
+   "route_id": "22",
+   "direction": "W",
+   "line_description": "Notre-Dame",
+   "trips": 142,
+   "modifications": [
+    {
+     "start_stop_sequence": 35,
+     "end_stop_sequence": 36,
+     "cancelled_stop_ids": [
+      "53182",
+      "53138"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_28_20",
+   "route_pattern_id": "28_20",
+   "route_id": "28",
+   "direction": "S",
+   "line_description": "Honoré-Beaugrand",
+   "trips": 169,
+   "modifications": [
+    {
+     "start_stop_sequence": 38,
+     "end_stop_sequence": 38,
+     "cancelled_stop_ids": [],
+     "replacement_stop_ids": [
+      "temp_stop_2320",
+      "53398"
+     ],
+     "kept_stop_id": "53398"
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_29_3",
+   "route_pattern_id": "29_3",
+   "route_id": "29",
+   "direction": "E",
+   "line_description": "Rachel",
+   "trips": 126,
+   "modifications": [
+    {
+     "start_stop_sequence": 2,
+     "end_stop_sequence": 7,
+     "cancelled_stop_ids": [
+      "52291",
+      "52226",
+      "52172",
+      "52103",
+      "52152",
+      "52208"
+     ],
+     "replacement_stop_ids": [
+      "52364",
+      "61891"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_350_3",
+   "route_pattern_id": "350_3",
+   "route_id": "350",
+   "direction": "W",
+   "line_description": "Verdun / LaSalle",
+   "trips": 37,
+   "modifications": [
+    {
+     "start_stop_sequence": 34,
+     "end_stop_sequence": 35,
+     "cancelled_stop_ids": [
+      "56637",
+      "56635"
+     ],
+     "replacement_stop_ids": [
+      "62237",
+      "56634"
+     ],
+     "kept_stop_id": null
+    },
+    {
+     "start_stop_sequence": 97,
+     "end_stop_sequence": 98,
+     "cancelled_stop_ids": [
+      "56882",
+      "56876"
+     ],
+     "replacement_stop_ids": [
+      "temp_stop_1481"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_350_4",
+   "route_pattern_id": "350_4",
+   "route_id": "350",
+   "direction": "E",
+   "line_description": "Verdun / LaSalle",
+   "trips": 20,
+   "modifications": [
+    {
+     "start_stop_sequence": 4,
+     "end_stop_sequence": 5,
+     "cancelled_stop_ids": [
+      "56774",
+      "56791"
+     ],
+     "replacement_stop_ids": [
+      "temp_stop_2285"
+     ],
+     "kept_stop_id": null
+    },
+    {
+     "start_stop_sequence": 11,
+     "end_stop_sequence": 13,
+     "cancelled_stop_ids": [
+      "56871",
+      "57093",
+      "56883"
+     ],
+     "replacement_stop_ids": [
+      "temp_stop_1480"
+     ],
+     "kept_stop_id": null
+    },
+    {
+     "start_stop_sequence": 71,
+     "end_stop_sequence": 72,
+     "cancelled_stop_ids": [
+      "56636",
+      "56638"
+     ],
+     "replacement_stop_ids": [
+      "56630",
+      "62232"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_355_3",
+   "route_pattern_id": "355_3",
+   "route_id": "355",
+   "direction": "N",
+   "line_description": "Pie-IX",
+   "trips": 26,
+   "modifications": [
+    {
+     "start_stop_sequence": 27,
+     "end_stop_sequence": 34,
+     "cancelled_stop_ids": [
+      "53109",
+      "53115",
+      "53123",
+      "53141",
+      "53155",
+      "53170",
+      "61701",
+      "53125"
+     ],
+     "replacement_stop_ids": [
+      "temp_stop_1752",
+      "temp_stop_2232",
+      "temp_stop_1753",
+      "temp_stop_1754"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_355_4",
+   "route_pattern_id": "355_4",
+   "route_id": "355",
+   "direction": "S",
+   "line_description": "Pie-IX",
+   "trips": 24,
+   "modifications": [
+    {
+     "start_stop_sequence": 39,
+     "end_stop_sequence": 45,
+     "cancelled_stop_ids": [
+      "53157",
+      "61583",
+      "53169",
+      "53154",
+      "53140",
+      "53122",
+      "53113"
+     ],
+     "replacement_stop_ids": [
+      "temp_stop_2233",
+      "temp_stop_1756",
+      "temp_stop_1750"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_356_7",
+   "route_pattern_id": "356_7",
+   "route_id": "356",
+   "direction": "E",
+   "line_description": "Lachine / YUL Aéroport / Des Sources",
+   "trips": 23,
+   "modifications": [
+    {
+     "start_stop_sequence": 31,
+     "end_stop_sequence": 31,
+     "cancelled_stop_ids": [
+      "57516"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_359_6",
+   "route_pattern_id": "359_6",
+   "route_id": "359",
+   "direction": "N",
+   "line_description": "Papineau",
+   "trips": 28,
+   "modifications": [
+    {
+     "start_stop_sequence": 2,
+     "end_stop_sequence": 3,
+     "cancelled_stop_ids": [
+      "53010",
+      "52895"
+     ],
+     "replacement_stop_ids": [
+      "52869"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_360_5",
+   "route_pattern_id": "360_5",
+   "route_id": "360",
+   "direction": "E",
+   "line_description": "Av. des Pins",
+   "trips": 20,
+   "modifications": [
+    {
+     "start_stop_sequence": 10,
+     "end_stop_sequence": 11,
+     "cancelled_stop_ids": [
+      "53843",
+      "52140"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    },
+    {
+     "start_stop_sequence": 29,
+     "end_stop_sequence": 29,
+     "cancelled_stop_ids": [
+      "52994"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_361_7",
+   "route_pattern_id": "361_7",
+   "route_id": "361",
+   "direction": "N",
+   "line_description": "Saint-Denis",
+   "trips": 72,
+   "modifications": [
+    {
+     "start_stop_sequence": 2,
+     "end_stop_sequence": 5,
+     "cancelled_stop_ids": [
+      "53811",
+      "52969",
+      "53998",
+      "53673"
+     ],
+     "replacement_stop_ids": [
+      "temp_stop_1602"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_363_4",
+   "route_pattern_id": "363_4",
+   "route_id": "363",
+   "direction": "N",
+   "line_description": "Saint-Laurent",
+   "trips": 43,
+   "modifications": [
+    {
+     "start_stop_sequence": 2,
+     "end_stop_sequence": 3,
+     "cancelled_stop_ids": [
+      "53811",
+      "52947"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    },
+    {
+     "start_stop_sequence": 10,
+     "end_stop_sequence": 19,
+     "cancelled_stop_ids": [
+      "52511",
+      "52400",
+      "52291",
+      "52226",
+      "52172",
+      "52103",
+      "52039",
+      "51971",
+      "51875",
+      "51827"
+     ],
+     "replacement_stop_ids": [
+      "temp_stop_2501",
+      "52390",
+      "61891",
+      "61895",
+      "61893",
+      "61896",
+      "51828"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_363_5",
+   "route_pattern_id": "363_5",
+   "route_id": "363",
+   "direction": "S",
+   "line_description": "Saint-Laurent",
+   "trips": 23,
+   "modifications": [
+    {
+     "start_stop_sequence": 43,
+     "end_stop_sequence": 43,
+     "cancelled_stop_ids": [
+      "52807"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_365_7",
+   "route_pattern_id": "365_7",
+   "route_id": "365",
+   "direction": "S",
+   "line_description": "Du Parc",
+   "trips": 25,
+   "modifications": [
+    {
+     "start_stop_sequence": 47,
+     "end_stop_sequence": 55,
+     "cancelled_stop_ids": [
+      "51751",
+      "51799",
+      "51882",
+      "53703",
+      "60664",
+      "52250",
+      "52298",
+      "52365",
+      "52443"
+     ],
+     "replacement_stop_ids": [
+      "52211",
+      "52363",
+      "52486"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_368_5",
+   "route_pattern_id": "368_5",
+   "route_id": "368",
+   "direction": "W",
+   "line_description": "Avenue-du-Mont-Royal",
+   "trips": 22,
+   "modifications": [
+    {
+     "start_stop_sequence": 9,
+     "end_stop_sequence": 23,
+     "cancelled_stop_ids": [
+      "52417",
+      "52381",
+      "52351",
+      "52306",
+      "52273",
+      "52232",
+      "52184",
+      "52160",
+      "52137",
+      "52100",
+      "52055",
+      "52035",
+      "52005",
+      "51972",
+      "51937"
+     ],
+     "replacement_stop_ids": [
+      "52258",
+      "52221",
+      "52179",
+      "52143",
+      "52111",
+      "52080",
+      "52040",
+      "52017",
+      "52001",
+      "temp_stop_2181",
+      "51919",
+      "51855",
+      "51828"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_368_6",
+   "route_pattern_id": "368_6",
+   "route_id": "368",
+   "direction": "E",
+   "line_description": "Avenue-du-Mont-Royal",
+   "trips": 20,
+   "modifications": [
+    {
+     "start_stop_sequence": 54,
+     "end_stop_sequence": 67,
+     "cancelled_stop_ids": [
+      "51966",
+      "52006",
+      "52036",
+      "52057",
+      "52084",
+      "52138",
+      "52162",
+      "52185",
+      "52230",
+      "52274",
+      "52308",
+      "62799",
+      "52383",
+      "52418"
+     ],
+     "replacement_stop_ids": [
+      "51856",
+      "51921",
+      "61719",
+      "52002",
+      "52019",
+      "52041",
+      "52081",
+      "52112",
+      "52145",
+      "52223"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_369_4",
+   "route_pattern_id": "369_4",
+   "route_id": "369",
+   "direction": "N",
+   "line_description": "Côte-des-Neiges",
+   "trips": 36,
+   "modifications": [
+    {
+     "start_stop_sequence": 4,
+     "end_stop_sequence": 5,
+     "cancelled_stop_ids": [
+      "52330",
+      "52201"
+     ],
+     "replacement_stop_ids": [
+      "temp_stop_1721"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_36_26",
+   "route_pattern_id": "36_26",
+   "route_id": "36",
+   "direction": "W",
+   "line_description": "Monk",
+   "trips": 169,
+   "modifications": [
+    {
+     "start_stop_sequence": 2,
+     "end_stop_sequence": 3,
+     "cancelled_stop_ids": [
+      "52753",
+      "62354"
+     ],
+     "replacement_stop_ids": [
+      "temp_stop_2170"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_370_6",
+   "route_pattern_id": "370_6",
+   "route_id": "370",
+   "direction": "E",
+   "line_description": "Rosemont",
+   "trips": 20,
+   "modifications": [
+    {
+     "start_stop_sequence": 36,
+     "end_stop_sequence": 37,
+     "cancelled_stop_ids": [
+      "51648",
+      "51685"
+     ],
+     "replacement_stop_ids": [
+      "51649"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_370_7",
+   "route_pattern_id": "370_7",
+   "route_id": "370",
+   "direction": "W",
+   "line_description": "Rosemont",
+   "trips": 23,
+   "modifications": [
+    {
+     "start_stop_sequence": 76,
+     "end_stop_sequence": 77,
+     "cancelled_stop_ids": [
+      "56380",
+      "56371"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_371_4",
+   "route_pattern_id": "371_4",
+   "route_id": "371",
+   "direction": "N",
+   "line_description": "Décarie",
+   "trips": 28,
+   "modifications": [
+    {
+     "start_stop_sequence": 13,
+     "end_stop_sequence": 13,
+     "cancelled_stop_ids": [],
+     "replacement_stop_ids": [
+      "61993",
+      "51523"
+     ],
+     "kept_stop_id": "51523"
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_371_5",
+   "route_pattern_id": "371_5",
+   "route_id": "371",
+   "direction": "S",
+   "line_description": "Décarie",
+   "trips": 28,
+   "modifications": [
+    {
+     "start_stop_sequence": 52,
+     "end_stop_sequence": 52,
+     "cancelled_stop_ids": [
+      "61992"
+     ],
+     "replacement_stop_ids": [
+      "temp_stop_1045",
+      "temp_stop_1046",
+      "temp_stop_2133"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_378_5",
+   "route_pattern_id": "378_5",
+   "route_id": "378",
+   "direction": "E",
+   "line_description": "Sauvé / YUL Aéroport",
+   "trips": 16,
+   "modifications": [
+    {
+     "start_stop_sequence": 1,
+     "end_stop_sequence": 1,
+     "cancelled_stop_ids": [
+      "61626"
+     ],
+     "replacement_stop_ids": [
+      "temp_stop_2450"
+     ],
+     "kept_stop_id": null
+    },
+    {
+     "start_stop_sequence": 20,
+     "end_stop_sequence": 22,
+     "cancelled_stop_ids": [
+      "55844",
+      "55601",
+      "55622"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_378_6",
+   "route_pattern_id": "378_6",
+   "route_id": "378",
+   "direction": "W",
+   "line_description": "Sauvé / YUL Aéroport",
+   "trips": 12,
+   "modifications": [
+    {
+     "start_stop_sequence": 47,
+     "end_stop_sequence": 50,
+     "cancelled_stop_ids": [
+      "55855",
+      "55602",
+      "55779",
+      "55860"
+     ],
+     "replacement_stop_ids": [
+      "temp_stop_2171"
+     ],
+     "kept_stop_id": null
+    },
+    {
+     "start_stop_sequence": 67,
+     "end_stop_sequence": 67,
+     "cancelled_stop_ids": [
+      "61626"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_37_12",
+   "route_pattern_id": "37_12",
+   "route_id": "37",
+   "direction": "E",
+   "line_description": "Jolicoeur",
+   "trips": 159,
+   "modifications": [
+    {
+     "start_stop_sequence": 22,
+     "end_stop_sequence": 24,
+     "cancelled_stop_ids": [
+      "56647",
+      "56651",
+      "56649"
+     ],
+     "replacement_stop_ids": [
+      "temp_stop_2491",
+      "56685",
+      "56630",
+      "56648"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_37_13",
+   "route_pattern_id": "37_13",
+   "route_id": "37",
+   "direction": "W",
+   "line_description": "Jolicoeur",
+   "trips": 159,
+   "modifications": [
+    {
+     "start_stop_sequence": 6,
+     "end_stop_sequence": 7,
+     "cancelled_stop_ids": [
+      "56650",
+      "56646"
+     ],
+     "replacement_stop_ids": [
+      "56686",
+      "temp_stop_2407",
+      "temp_stop_1953"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_380_10",
+   "route_pattern_id": "380_10",
+   "route_id": "380",
+   "direction": "E",
+   "line_description": "Henri-Bourassa",
+   "trips": 19,
+   "modifications": [
+    {
+     "start_stop_sequence": 71,
+     "end_stop_sequence": 72,
+     "cancelled_stop_ids": [
+      "54236",
+      "51464"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_380_11",
+   "route_pattern_id": "380_11",
+   "route_id": "380",
+   "direction": "E",
+   "line_description": "Henri-Bourassa",
+   "trips": 2,
+   "modifications": [
+    {
+     "start_stop_sequence": 38,
+     "end_stop_sequence": 39,
+     "cancelled_stop_ids": [
+      "54236",
+      "51464"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_382_5",
+   "route_pattern_id": "382_5",
+   "route_id": "382",
+   "direction": "E",
+   "line_description": "Pierrefonds / Saint-Charles",
+   "trips": 16,
+   "modifications": [
+    {
+     "start_stop_sequence": 86,
+     "end_stop_sequence": 87,
+     "cancelled_stop_ids": [
+      "55590",
+      "55615"
+     ],
+     "replacement_stop_ids": [
+      "55614"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_411_8",
+   "route_pattern_id": "411_8",
+   "route_id": "411",
+   "direction": "E",
+   "line_description": "Express Lionel-Groulx",
+   "trips": 172,
+   "modifications": [
+    {
+     "start_stop_sequence": 30,
+     "end_stop_sequence": 30,
+     "cancelled_stop_ids": [
+      "57423"
+     ],
+     "replacement_stop_ids": [
+      "temp_stop_2473"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_43_17",
+   "route_pattern_id": "43_17",
+   "route_id": "43",
+   "direction": "W",
+   "line_description": "Monselet",
+   "trips": 154,
+   "modifications": [
+    {
+     "start_stop_sequence": 51,
+     "end_stop_sequence": 53,
+     "cancelled_stop_ids": [
+      "61240",
+      "55031",
+      "55033"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_43_18",
+   "route_pattern_id": "43_18",
+   "route_id": "43",
+   "direction": "E",
+   "line_description": "Monselet",
+   "trips": 148,
+   "modifications": [
+    {
+     "start_stop_sequence": 5,
+     "end_stop_sequence": 7,
+     "cancelled_stop_ids": [
+      "55029",
+      "60433",
+      "60505"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    },
+    {
+     "start_stop_sequence": 36,
+     "end_stop_sequence": 37,
+     "cancelled_stop_ids": [
+      "54236",
+      "51464"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_44_13",
+   "route_pattern_id": "44_13",
+   "route_id": "44",
+   "direction": "S",
+   "line_description": "Armand-Bombardier",
+   "trips": 242,
+   "modifications": [
+    {
+     "start_stop_sequence": 27,
+     "end_stop_sequence": 29,
+     "cancelled_stop_ids": [
+      "54584",
+      "54686",
+      "54595"
+     ],
+     "replacement_stop_ids": [
+      "temp_stop_1167"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_44_14",
+   "route_pattern_id": "44_14",
+   "route_id": "44",
+   "direction": "N",
+   "line_description": "Armand-Bombardier",
+   "trips": 247,
+   "modifications": [
+    {
+     "start_stop_sequence": 8,
+     "end_stop_sequence": 10,
+     "cancelled_stop_ids": [
+      "54594",
+      "54685",
+      "54580"
+     ],
+     "replacement_stop_ids": [
+      "temp_stop_1168",
+      "54697",
+      "54578"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_44_15",
+   "route_pattern_id": "44_15",
+   "route_id": "44",
+   "direction": "S",
+   "line_description": "Armand-Bombardier",
+   "trips": 1,
+   "modifications": [
+    {
+     "start_stop_sequence": 10,
+     "end_stop_sequence": 12,
+     "cancelled_stop_ids": [
+      "54584",
+      "54686",
+      "54595"
+     ],
+     "replacement_stop_ids": [
+      "temp_stop_1167"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_45_15",
+   "route_pattern_id": "45_15",
+   "route_id": "45",
+   "direction": "N",
+   "line_description": "Papineau",
+   "trips": 180,
+   "modifications": [
+    {
+     "start_stop_sequence": 2,
+     "end_stop_sequence": 3,
+     "cancelled_stop_ids": [
+      "53010",
+      "52895"
+     ],
+     "replacement_stop_ids": [
+      "52869"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_48_38",
+   "route_pattern_id": "48_38",
+   "route_id": "48",
+   "direction": "E",
+   "line_description": "Perras",
+   "trips": 119,
+   "modifications": [
+    {
+     "start_stop_sequence": 3,
+     "end_stop_sequence": 3,
+     "cancelled_stop_ids": [
+      "50409"
+     ],
+     "replacement_stop_ids": [
+      "62757"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_48_39",
+   "route_pattern_id": "48_39",
+   "route_id": "48",
+   "direction": "E",
+   "line_description": "Perras",
+   "trips": 189,
+   "modifications": [
+    {
+     "start_stop_sequence": 3,
+     "end_stop_sequence": 3,
+     "cancelled_stop_ids": [
+      "50409"
+     ],
+     "replacement_stop_ids": [
+      "62757"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_49_44",
+   "route_pattern_id": "49_44",
+   "route_id": "49",
+   "direction": "E",
+   "line_description": "Maurice-Duplessis",
+   "trips": 270,
+   "modifications": [
+    {
+     "start_stop_sequence": 3,
+     "end_stop_sequence": 3,
+     "cancelled_stop_ids": [
+      "50409"
+     ],
+     "replacement_stop_ids": [
+      "62757"
+     ],
+     "kept_stop_id": null
+    },
+    {
+     "start_stop_sequence": 22,
+     "end_stop_sequence": 23,
+     "cancelled_stop_ids": [
+      "54236",
+      "51464"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_49_45",
+   "route_pattern_id": "49_45",
+   "route_id": "49",
+   "direction": "E",
+   "line_description": "Maurice-Duplessis",
+   "trips": 3,
+   "modifications": [
+    {
+     "start_stop_sequence": 3,
+     "end_stop_sequence": 3,
+     "cancelled_stop_ids": [
+      "50409"
+     ],
+     "replacement_stop_ids": [
+      "62757"
+     ],
+     "kept_stop_id": null
+    },
+    {
+     "start_stop_sequence": 22,
+     "end_stop_sequence": 22,
+     "cancelled_stop_ids": [
+      "54236"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_50_14",
+   "route_pattern_id": "50_14",
+   "route_id": "50",
+   "direction": "W",
+   "line_description": "Vieux-Montréal / Vieux-Port",
+   "trips": 119,
+   "modifications": [
+    {
+     "start_stop_sequence": 14,
+     "end_stop_sequence": 15,
+     "cancelled_stop_ids": [
+      "53843",
+      "54346"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_50_16",
+   "route_pattern_id": "50_16",
+   "route_id": "50",
+   "direction": "E",
+   "line_description": "Vieux-Montréal / Vieux-Port",
+   "trips": 119,
+   "modifications": [
+    {
+     "start_stop_sequence": 1,
+     "end_stop_sequence": 1,
+     "cancelled_stop_ids": [
+      "54346"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    },
+    {
+     "start_stop_sequence": 19,
+     "end_stop_sequence": 19,
+     "cancelled_stop_ids": [
+      "60801"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_55_22",
+   "route_pattern_id": "55_22",
+   "route_id": "55",
+   "direction": "N",
+   "line_description": "Saint-Laurent",
+   "trips": 314,
+   "modifications": [
+    {
+     "start_stop_sequence": 8,
+     "end_stop_sequence": 17,
+     "cancelled_stop_ids": [
+      "52511",
+      "52400",
+      "52291",
+      "52226",
+      "52172",
+      "52103",
+      "52039",
+      "51971",
+      "51875",
+      "51827"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_55_24",
+   "route_pattern_id": "55_24",
+   "route_id": "55",
+   "direction": "S",
+   "line_description": "Saint-Laurent",
+   "trips": 228,
+   "modifications": [
+    {
+     "start_stop_sequence": 43,
+     "end_stop_sequence": 45,
+     "cancelled_stop_ids": [
+      "52807",
+      "52851",
+      "53811"
+     ],
+     "replacement_stop_ids": [
+      "62803",
+      "53969"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_56_6",
+   "route_pattern_id": "56_6",
+   "route_id": "56",
+   "direction": "N",
+   "line_description": "St-Hubert",
+   "trips": 156,
+   "modifications": [
+    {
+     "start_stop_sequence": 2,
+     "end_stop_sequence": 4,
+     "cancelled_stop_ids": [
+      "51686",
+      "51607",
+      "51549"
+     ],
+     "replacement_stop_ids": [
+      "61906",
+      "temp_stop_1204"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_56_7",
+   "route_pattern_id": "56_7",
+   "route_id": "56",
+   "direction": "S",
+   "line_description": "St-Hubert",
+   "trips": 156,
+   "modifications": [
+    {
+     "start_stop_sequence": 25,
+     "end_stop_sequence": 26,
+     "cancelled_stop_ids": [
+      "51595",
+      "51672"
+     ],
+     "replacement_stop_ids": [
+      "51551",
+      "62183",
+      "51684"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_57_8",
+   "route_pattern_id": "57_8",
+   "route_id": "57",
+   "direction": "S",
+   "line_description": "Charlevoix",
+   "trips": 170,
+   "modifications": [
+    {
+     "start_stop_sequence": 18,
+     "end_stop_sequence": 20,
+     "cancelled_stop_ids": [
+      "53029",
+      "54231",
+      "52911"
+     ],
+     "replacement_stop_ids": [
+      "temp_stop_2251",
+      "52912"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_57_9",
+   "route_pattern_id": "57_9",
+   "route_id": "57",
+   "direction": "N",
+   "line_description": "Charlevoix",
+   "trips": 167,
+   "modifications": [
+    {
+     "start_stop_sequence": 2,
+     "end_stop_sequence": 2,
+     "cancelled_stop_ids": [
+      "54307"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_61_23",
+   "route_pattern_id": "61_23",
+   "route_id": "61",
+   "direction": "W",
+   "line_description": "Wellington",
+   "trips": 159,
+   "modifications": [
+    {
+     "start_stop_sequence": 3,
+     "end_stop_sequence": 4,
+     "cancelled_stop_ids": [
+      "52661",
+      "52744"
+     ],
+     "replacement_stop_ids": [
+      "62248"
+     ],
+     "kept_stop_id": null
+    },
+    {
+     "start_stop_sequence": 20,
+     "end_stop_sequence": 26,
+     "cancelled_stop_ids": [
+      "56637",
+      "56635",
+      "56632",
+      "56626",
+      "56620",
+      "56618",
+      "56613"
+     ],
+     "replacement_stop_ids": [
+      "62237",
+      "62378",
+      "56588",
+      "56686",
+      "temp_stop_2407",
+      "56641",
+      "56705"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_61_24",
+   "route_pattern_id": "61_24",
+   "route_id": "61",
+   "direction": "E",
+   "line_description": "Wellington",
+   "trips": 159,
+   "modifications": [
+    {
+     "start_stop_sequence": 25,
+     "end_stop_sequence": 31,
+     "cancelled_stop_ids": [
+      "56619",
+      "56621",
+      "56627",
+      "56631",
+      "56636",
+      "56638",
+      "62242"
+     ],
+     "replacement_stop_ids": [
+      "56642",
+      "56685",
+      "56630",
+      "62232",
+      "62233"
+     ],
+     "kept_stop_id": null
+    },
+    {
+     "start_stop_sequence": 48,
+     "end_stop_sequence": 49,
+     "cancelled_stop_ids": [
+      "52659",
+      "52617"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_61_25",
+   "route_pattern_id": "61_25",
+   "route_id": "61",
+   "direction": "W",
+   "line_description": "Wellington",
+   "trips": 23,
+   "modifications": [
+    {
+     "start_stop_sequence": 3,
+     "end_stop_sequence": 4,
+     "cancelled_stop_ids": [
+      "52661",
+      "52744"
+     ],
+     "replacement_stop_ids": [
+      "62248"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_61_26",
+   "route_pattern_id": "61_26",
+   "route_id": "61",
+   "direction": "E",
+   "line_description": "Wellington",
+   "trips": 22,
+   "modifications": [
+    {
+     "start_stop_sequence": 11,
+     "end_stop_sequence": 12,
+     "cancelled_stop_ids": [
+      "52659",
+      "52617"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_64_9",
+   "route_pattern_id": "64_9",
+   "route_id": "64",
+   "direction": "S",
+   "line_description": "Grenet",
+   "trips": 310,
+   "modifications": [
+    {
+     "start_stop_sequence": 18,
+     "end_stop_sequence": 19,
+     "cancelled_stop_ids": [
+      "55590",
+      "55615"
+     ],
+     "replacement_stop_ids": [
+      "55614"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_66_10",
+   "route_pattern_id": "66_10",
+   "route_id": "66",
+   "direction": "S",
+   "line_description": "The Boulevard",
+   "trips": 146,
+   "modifications": [
+    {
+     "start_stop_sequence": 32,
+     "end_stop_sequence": 37,
+     "cancelled_stop_ids": [
+      "52147",
+      "52196",
+      "53762",
+      "52285",
+      "52330",
+      "61832"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_66_13",
+   "route_pattern_id": "66_13",
+   "route_id": "66",
+   "direction": "N",
+   "line_description": "The Boulevard",
+   "trips": 7,
+   "modifications": [
+    {
+     "start_stop_sequence": 3,
+     "end_stop_sequence": 3,
+     "cancelled_stop_ids": [
+      "61832"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_711_77",
+   "route_pattern_id": "711_77",
+   "route_id": "711",
+   "direction": "E",
+   "line_description": "Parc-du-Mont-Royal / Oratoire",
+   "trips": 75,
+   "modifications": [
+    {
+     "start_stop_sequence": 16,
+     "end_stop_sequence": 18,
+     "cancelled_stop_ids": [
+      "51879",
+      "51798",
+      "51750"
+     ],
+     "replacement_stop_ids": [
+      "temp_stop_2014"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_711_78",
+   "route_pattern_id": "711_78",
+   "route_id": "711",
+   "direction": "W",
+   "line_description": "Parc-du-Mont-Royal / Oratoire",
+   "trips": 75,
+   "modifications": [
+    {
+     "start_stop_sequence": 2,
+     "end_stop_sequence": 3,
+     "cancelled_stop_ids": [
+      "52017",
+      "52001"
+     ],
+     "replacement_stop_ids": [
+      "61719"
+     ],
+     "kept_stop_id": null
+    },
+    {
+     "start_stop_sequence": 8,
+     "end_stop_sequence": 9,
+     "cancelled_stop_ids": [
+      "51799",
+      "54159"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_71_12",
+   "route_pattern_id": "71_12",
+   "route_id": "71",
+   "direction": "N",
+   "line_description": "Pointe-Saint-Charles",
+   "trips": 157,
+   "modifications": [
+    {
+     "start_stop_sequence": 20,
+     "end_stop_sequence": 22,
+     "cancelled_stop_ids": [
+      "53029",
+      "54231",
+      "52911"
+     ],
+     "replacement_stop_ids": [
+      "52912"
+     ],
+     "kept_stop_id": null
+    },
+    {
+     "start_stop_sequence": 31,
+     "end_stop_sequence": 31,
+     "cancelled_stop_ids": [
+      "52424"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    },
+    {
+     "start_stop_sequence": 33,
+     "end_stop_sequence": 33,
+     "cancelled_stop_ids": [
+      "52236"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_71_13",
+   "route_pattern_id": "71_13",
+   "route_id": "71",
+   "direction": "S",
+   "line_description": "Pointe-Saint-Charles",
+   "trips": 154,
+   "modifications": [
+    {
+     "start_stop_sequence": 2,
+     "end_stop_sequence": 4,
+     "cancelled_stop_ids": [
+      "52238",
+      "52425",
+      "52501"
+     ],
+     "replacement_stop_ids": [
+      "52329"
+     ],
+     "kept_stop_id": null
+    },
+    {
+     "start_stop_sequence": 12,
+     "end_stop_sequence": 12,
+     "cancelled_stop_ids": [
+      "54307"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_747_17",
+   "route_pattern_id": "747_17",
+   "route_id": "747",
+   "direction": "E",
+   "line_description": "YUL Aéroport Montréal-Trudeau",
+   "trips": 344,
+   "modifications": [
+    {
+     "start_stop_sequence": 3,
+     "end_stop_sequence": 3,
+     "cancelled_stop_ids": [
+      "52326"
+     ],
+     "replacement_stop_ids": [
+      "54163"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_74_7",
+   "route_pattern_id": "74_7",
+   "route_id": "74",
+   "direction": "N",
+   "line_description": "Bridge",
+   "trips": 147,
+   "modifications": [
+    {
+     "start_stop_sequence": 1,
+     "end_stop_sequence": 2,
+     "cancelled_stop_ids": [
+      "61555",
+      "61554"
+     ],
+     "replacement_stop_ids": [
+      "temp_stop_1025"
+     ],
+     "kept_stop_id": null
+    },
+    {
+     "start_stop_sequence": 4,
+     "end_stop_sequence": 4,
+     "cancelled_stop_ids": [
+      "60204"
+     ],
+     "replacement_stop_ids": [
+      "temp_stop_1619"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_74_8",
+   "route_pattern_id": "74_8",
+   "route_id": "74",
+   "direction": "S",
+   "line_description": "Bridge",
+   "trips": 137,
+   "modifications": [
+    {
+     "start_stop_sequence": 8,
+     "end_stop_sequence": 11,
+     "cancelled_stop_ids": [
+      "52944",
+      "52919",
+      "61735",
+      "58852"
+     ],
+     "replacement_stop_ids": [
+      "53920"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_74_9",
+   "route_pattern_id": "74_9",
+   "route_id": "74",
+   "direction": "S",
+   "line_description": "Bridge",
+   "trips": 10,
+   "modifications": [
+    {
+     "start_stop_sequence": 7,
+     "end_stop_sequence": 7,
+     "cancelled_stop_ids": [],
+     "replacement_stop_ids": [
+      "52971",
+      "53920"
+     ],
+     "kept_stop_id": "52971"
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_79_4",
+   "route_pattern_id": "79_4",
+   "route_id": "79",
+   "direction": "E",
+   "line_description": "Gouin",
+   "trips": 177,
+   "modifications": [
+    {
+     "start_stop_sequence": 52,
+     "end_stop_sequence": 56,
+     "cancelled_stop_ids": [
+      "50267",
+      "50272",
+      "50275",
+      "50282",
+      "50291"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_79_8",
+   "route_pattern_id": "79_8",
+   "route_id": "79",
+   "direction": "W",
+   "line_description": "Gouin",
+   "trips": 177,
+   "modifications": [
+    {
+     "start_stop_sequence": 4,
+     "end_stop_sequence": 7,
+     "cancelled_stop_ids": [
+      "62375",
+      "50274",
+      "50271",
+      "50266"
+     ],
+     "replacement_stop_ids": [
+      "62372"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_80_13",
+   "route_pattern_id": "80_13",
+   "route_id": "80",
+   "direction": "S",
+   "line_description": "Du Parc",
+   "trips": 252,
+   "modifications": [
+    {
+     "start_stop_sequence": 19,
+     "end_stop_sequence": 29,
+     "cancelled_stop_ids": [
+      "51799",
+      "51882",
+      "53703",
+      "60664",
+      "52250",
+      "52298",
+      "52365",
+      "52443",
+      "52534",
+      "52608",
+      "60683"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_81_27",
+   "route_pattern_id": "81_27",
+   "route_id": "81",
+   "direction": "N",
+   "line_description": "Saint-Jean-Baptiste",
+   "trips": 132,
+   "modifications": [
+    {
+     "start_stop_sequence": 1,
+     "end_stop_sequence": 1,
+     "cancelled_stop_ids": [
+      "62135"
+     ],
+     "replacement_stop_ids": [
+      "53621"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_81_28",
+   "route_pattern_id": "81_28",
+   "route_id": "81",
+   "direction": "S",
+   "line_description": "Saint-Jean-Baptiste",
+   "trips": 130,
+   "modifications": [
+    {
+     "start_stop_sequence": 29,
+     "end_stop_sequence": 31,
+     "cancelled_stop_ids": [
+      "53621",
+      "53650",
+      "62135"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_86_22",
+   "route_pattern_id": "86_22",
+   "route_id": "86",
+   "direction": "W",
+   "line_description": "Pointe-aux-Trembles",
+   "trips": 158,
+   "modifications": [
+    {
+     "start_stop_sequence": 65,
+     "end_stop_sequence": 70,
+     "cancelled_stop_ids": [
+      "53650",
+      "53638",
+      "53632",
+      "53624",
+      "53608",
+      "54464"
+     ],
+     "replacement_stop_ids": [
+      "temp_stop_1909",
+      "temp_stop_1670",
+      "temp_stop_1671",
+      "temp_stop_1672",
+      "temp_stop_1673",
+      "54465"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_86_23",
+   "route_pattern_id": "86_23",
+   "route_id": "86",
+   "direction": "E",
+   "line_description": "Pointe-aux-Trembles",
+   "trips": 157,
+   "modifications": [
+    {
+     "start_stop_sequence": 29,
+     "end_stop_sequence": 33,
+     "cancelled_stop_ids": [
+      "53609",
+      "53625",
+      "53633",
+      "53639",
+      "60546"
+     ],
+     "replacement_stop_ids": [
+      "54467",
+      "temp_stop_2216",
+      "temp_stop_2217",
+      "temp_stop_2218",
+      "temp_stop_1186"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_90_19",
+   "route_pattern_id": "90_19",
+   "route_id": "90",
+   "direction": "E",
+   "line_description": "Saint-Jacques",
+   "trips": 232,
+   "modifications": [
+    {
+     "start_stop_sequence": 45,
+     "end_stop_sequence": 45,
+     "cancelled_stop_ids": [
+      "56272"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_90_20",
+   "route_pattern_id": "90_20",
+   "route_id": "90",
+   "direction": "E",
+   "line_description": "Saint-Jacques",
+   "trips": 6,
+   "modifications": [
+    {
+     "start_stop_sequence": 25,
+     "end_stop_sequence": 25,
+     "cancelled_stop_ids": [
+      "56272"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_92_14",
+   "route_pattern_id": "92_14",
+   "route_id": "92",
+   "direction": "E",
+   "line_description": "Jean-Talon Ouest",
+   "trips": 161,
+   "modifications": [
+    {
+     "start_stop_sequence": 2,
+     "end_stop_sequence": 2,
+     "cancelled_stop_ids": [
+      "62425"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_97_17",
+   "route_pattern_id": "97_17",
+   "route_id": "97",
+   "direction": "W",
+   "line_description": "Avenue-du-Mont-Royal",
+   "trips": 205,
+   "modifications": [
+    {
+     "start_stop_sequence": 2,
+     "end_stop_sequence": 3,
+     "cancelled_stop_ids": [
+      "62339",
+      "52956"
+     ],
+     "replacement_stop_ids": [],
+     "kept_stop_id": null
+    },
+    {
+     "start_stop_sequence": 19,
+     "end_stop_sequence": 36,
+     "cancelled_stop_ids": [
+      "52417",
+      "52381",
+      "52351",
+      "52306",
+      "52273",
+      "52232",
+      "52184",
+      "52160",
+      "52137",
+      "52100",
+      "58725",
+      "52055",
+      "52035",
+      "52005",
+      "51972",
+      "51937",
+      "54079",
+      "54010"
+     ],
+     "replacement_stop_ids": [
+      "52258",
+      "52221",
+      "52179",
+      "52143",
+      "52111",
+      "52080",
+      "52040",
+      "52017",
+      "52001",
+      "temp_stop_2181",
+      "51919",
+      "51855",
+      "51828"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_97_18",
+   "route_pattern_id": "97_18",
+   "route_id": "97",
+   "direction": "E",
+   "line_description": "Avenue-du-Mont-Royal",
+   "trips": 224,
+   "modifications": [
+    {
+     "start_stop_sequence": 1,
+     "end_stop_sequence": 17,
+     "cancelled_stop_ids": [
+      "54010",
+      "51883",
+      "62800",
+      "51966",
+      "52006",
+      "52036",
+      "52057",
+      "52084",
+      "52138",
+      "52162",
+      "52185",
+      "52230",
+      "52274",
+      "52308",
+      "62799",
+      "52383",
+      "52418"
+     ],
+     "replacement_stop_ids": [
+      "51856",
+      "51921",
+      "61719",
+      "52002",
+      "52019",
+      "52041",
+      "52081",
+      "52112",
+      "52145",
+      "52180",
+      "52223"
+     ],
+     "kept_stop_id": null
+    },
+    {
+     "start_stop_sequence": 34,
+     "end_stop_sequence": 34,
+     "cancelled_stop_ids": [
+      "53018"
+     ],
+     "replacement_stop_ids": [
+      "62145"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  },
+  {
+   "entity_id": "web_detour_97_19",
+   "route_pattern_id": "97_19",
+   "route_id": "97",
+   "direction": "W",
+   "line_description": "Avenue-du-Mont-Royal",
+   "trips": 4,
+   "modifications": [
+    {
+     "start_stop_sequence": 3,
+     "end_stop_sequence": 20,
+     "cancelled_stop_ids": [
+      "52417",
+      "52381",
+      "52351",
+      "52306",
+      "52273",
+      "52232",
+      "52184",
+      "52160",
+      "52137",
+      "52100",
+      "58725",
+      "52055",
+      "52035",
+      "52005",
+      "51972",
+      "51937",
+      "54079",
+      "54010"
+     ],
+     "replacement_stop_ids": [
+      "52258",
+      "52221",
+      "52179",
+      "52143",
+      "52111",
+      "52080",
+      "52040",
+      "52017",
+      "52001",
+      "temp_stop_2181",
+      "51919",
+      "51855",
+      "51828"
+     ],
+     "kept_stop_id": null
+    }
+   ]
+  }
+ ],
+ "skipped_lines": [],
+ "replacement_stops_left_out": [
+  {
+   "line": "108W",
+   "stop_ids": [
+    "56592"
+   ]
+  },
+  {
+   "line": "140W",
+   "stop_ids": [
+    "temp_stop_2340"
+   ]
+  },
+  {
+   "line": "370W",
+   "stop_ids": [
+    "temp_stop_2551"
+   ]
+  },
+  {
+   "line": "378W",
+   "stop_ids": [
+    "temp_stop_2450"
+   ]
+  },
+  {
+   "line": "66S",
+   "stop_ids": [
+    "temp_stop_1895"
+   ]
+  }
+ ]
+}
