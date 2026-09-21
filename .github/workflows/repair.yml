@@ -172,13 +172,20 @@ jobs:
             echo "Keeping the published PDF: the repairs are unchanged"
           fi
 
-      # Same rule as the repair report, against the same kind of fingerprint:
-      # the maps change only when the detours do. A run that did not read the
-      # website has nothing new to draw and keeps the published PDF.
+      # Drawn only when a dispatch asks for it. It is around two hundred pages
+      # and the longest step of any run that draws it, and a failure in it
+      # stops the repaired feed from publishing at all. Every other run keeps
+      # the published website PDF.
       - name: Decide whether to draw the website map report
         id: web_pdf
         run: |
           set -euo pipefail
+
+          if [ "${{ inputs.rebuild_pdf }}" != "true" ]; then
+            echo "build=no" >> "$GITHUB_OUTPUT"
+            echo "Keeping the published website PDF: it is drawn only when asked for"
+            exit 0
+          fi
 
           if [ ! -f output-web/report.json ]; then
             echo "build=no" >> "$GITHUB_OUTPUT"
@@ -186,28 +193,8 @@ jobs:
             exit 0
           fi
 
-          reason=""
-          if [ "${{ inputs.rebuild_pdf }}" = "true" ]; then
-            reason="asked for by the dispatch"
-          elif [ ! -f "carried-web/${WEB_PDF_NAME}" ]; then
-            reason="the output branch has no website PDF"
-          elif [ ! -f carried-web/report.json ]; then
-            reason="the published PDF has no report to compare against"
-          else
-            published="$(python -m tmweb.signature carried-web/report.json)"
-            current="$(python -m tmweb.signature output-web/report.json)"
-            if [ "$published" != "$current" ]; then
-              reason="the detours changed ($published -> $current)"
-            fi
-          fi
-
-          if [ -n "$reason" ]; then
-            echo "build=yes" >> "$GITHUB_OUTPUT"
-            echo "Drawing the website PDF: $reason"
-          else
-            echo "build=no" >> "$GITHUB_OUTPUT"
-            echo "Keeping the published website PDF: the detours are unchanged"
-          fi
+          echo "build=yes" >> "$GITHUB_OUTPUT"
+          echo "Drawing the website PDF: asked for by the dispatch"
 
       - name: Install the drawing dependencies
         if: steps.plan.outputs.build == 'yes' || steps.web_pdf.outputs.build == 'yes'

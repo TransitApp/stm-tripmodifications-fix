@@ -28,19 +28,19 @@ replaced whole on every run and so keeps no history:
 `report.json` and `metadata.json` sit beside each of them for anything reading
 this by machine, as does `web/tripmodifications.json`.
 
-Everything but the two PDFs is rebuilt every run. Each of them is redrawn only
+Everything but the two PDFs is rebuilt every run. The repair PDF is redrawn only
 when what it draws changes: drawing downloads map tiles, and detours turn over on
 the order of hours, so a run whose repairs match the published ones carries the
-existing PDF forward instead. Both are also redrawn when
+existing PDF forward instead. It is also redrawn when
 [asked](#refreshing-the-pdfs) and when the branch has none, so a missing one
-comes back by itself.
+comes back by itself. The website PDF is only ever drawn when asked: it is a page
+per detour, the longest step of any run that draws it, and a failure in it stops
+the repaired feed from publishing.
 
 The comparison ignores what moves between runs without changing the maps — the
-feed timestamp, which trip was sampled, the measured distances, and for the
-website feed the service dates and the number of trips running. Everything the
-pages show is in it: for the repair, which entities were repaired, how each
-range moved, and which stops were added or dropped; for the website feed, every
-span and the stops each one drops and serves.
+feed timestamp, which trip was sampled, and the measured distances. Everything
+the pages show is in it: which entities were repaired, how each range moved, and
+which stops were added or dropped.
 
 ## The bug
 
@@ -361,14 +361,16 @@ python -m tmreport.web --output detours.pdf
 
 Route patterns of the same line carrying the same detour share a page, which
 brought 252 modifications down to 226 pages in one snapshot. That is still
-around eight minutes of drawing, so the workflow redraws it only when the
-detours change, on the same rule as the repair report.
+around eight minutes of drawing, so the workflow draws it only when a dispatch
+asks for it, and carries the published one forward on every other run.
 
 ### Refreshing the PDFs
 
 On the **Actions** tab, pick **Repair and publish**, choose **Run workflow**,
-and tick **Rebuild the PDF map reports**. The run redraws both from the feeds
-it has just built and publishes them with the rest.
+and tick **Rebuild the PDF map reports**. The run redraws both from the feeds it
+has just built and publishes them with the rest. The website PDF also needs that
+run to have read the website, so tick **Read the STM website again** with it
+unless the run falls on one of the two turns an hour that read it anyway.
 
 ## Running it yourself
 
