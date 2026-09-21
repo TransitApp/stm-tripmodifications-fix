@@ -2,7 +2,10 @@
 
 from __future__ import annotations
 
+import pytest
+
 from fixtures import STOP_SPACING_M, at
+from tmfix.geometry import cumulative_lengths
 from tmfix.static_feed import Calendar
 from tmweb.build import BuildConfig, build
 from tmweb.config import service_dates_from
@@ -16,8 +19,9 @@ from web_fixtures import (
     static_feed,
 )
 
-# How far a moved terminus sits from the one it replaces, as the website's own
-# cases do: near enough that the two sections still pair on their other end.
+# How far a moved terminus sits from the one it replaces. The two roads still
+# meet exactly at the point the detour leaves the line from, which is what
+# pairs them; only the far ends are this far apart.
 TERMINUS_SHIFT_M = 150.0
 
 
@@ -229,6 +233,95 @@ def test_a_detour_at_the_start_of_the_line_moves_where_the_shape_begins():
     # The old terminus is gone: none of the scheduled shape is left in front of
     # the detour, which would be drawn as a spike between the two termini.
     assert plan.shape[0] == detoured_line[0]
+
+
+def terminus_moved_by(shift_m: float):
+    """A detour that leaves the line before the last stop and moves the terminus.
+
+    The two roads meet exactly where the detour leaves the line and end
+    `shift_m` apart, which is all the old distance rule ever measured.
+    """
+    end = 10 * STOP_SPACING_M
+    cancelled_line = [at(8.5 * STOP_SPACING_M), at(end)]
+    detoured_line = [
+        at(8.5 * STOP_SPACING_M),
+        at(9.5 * STOP_SPACING_M, shift_m),
+        at(end, shift_m),
+    ]
+    moved = site_stop("T1", end, shift_m, replacement=True)
+    stops = [*scheduled_stops(10, range(10, 11)), moved]
+    return line_detour(stops, [(cancelled_line, detoured_line)])
+
+
+def test_a_terminus_moved_past_the_old_pairing_rule_still_takes_its_road():
+    # The far ends are 300 m apart, past the 200 m the build used to allow, so
+    # the road the website published was thrown away whole.
+    (plan,) = build([terminus_moved_by(300.0)], static_feed(), SERVICE_DATES).plans
+
+    assert plan.modifications[0].replacement_stop_ids == ["T1"]
+    assert plan.shape[-1] == at(10 * STOP_SPACING_M, 300.0)
+
+
+def test_a_terminus_moved_kilometres_away_takes_its_road_too():
+    # Nothing weighs up how far the new terminus is: the road the website
+    # publishes for a cancelled road is the road the trip runs.
+    (plan,) = build([terminus_moved_by(4_000.0)], static_feed(), SERVICE_DATES).plans
+
+    assert plan.modifications[0].replacement_stop_ids == ["T1"]
+    assert plan.shape[-1] == at(10 * STOP_SPACING_M, 4_000.0)
+
+
+def test_two_roads_that_share_no_end_are_not_paired():
+    # A metre apart where they would meet. The website writes a shared end as
+    # the very same coordinate, so a metre is already two different places and
+    # nothing says the two roads describe the same detour. The trip then keeps
+    # the scheduled shape, as it does where no replacement road is published.
+    end = 10 * STOP_SPACING_M
+    cancelled_line = [at(8.5 * STOP_SPACING_M), at(end)]
+    detoured_line = [at(8.5 * STOP_SPACING_M + 1.0), at(end, 300.0)]
+    moved = site_stop("T1", end, 300.0, replacement=True)
+    stops = [*scheduled_stops(10, range(10, 11)), moved]
+    detour = line_detour(stops, [(cancelled_line, detoured_line)])
+
+    (plan,) = build([detour], static_feed(), SERVICE_DATES).plans
+
+    assert plan.modifications[0].replacement_stop_ids == []
+    assert plan.shape == static_feed().shapes["51_1"]
+
+
+def test_roads_published_in_a_different_order_pair_on_their_shared_end():
+    # 166 South publishes its two lists in a different order from each other.
+    # Taken by list position, each cancelled road would be given the other
+    # one's replacement, kilometres from the road it stands in for.
+    first_cancelled, first_detoured = detour_sections(range(2, 4))
+    second_cancelled, second_detoured = detour_sections(range(7, 9))
+    stops = [
+        site_stop(f"S{index}", (index - 1) * STOP_SPACING_M, cancelled=index in {2, 3, 7, 8})
+        for index in range(1, 11)
+    ]
+    stops.append(site_stop("T1", 2.0 * STOP_SPACING_M, DETOUR_OFFSET_M, replacement=True))
+    stops.append(site_stop("T2", 7.0 * STOP_SPACING_M, DETOUR_OFFSET_M, replacement=True))
+    in_order = [(first_cancelled, first_detoured), (second_cancelled, second_detoured)]
+    swapped = [(first_cancelled, second_detoured), (second_cancelled, first_detoured)]
+
+    (expected,) = build([line_detour(stops, in_order)], static_feed(), SERVICE_DATES).plans
+    (plan,) = build([line_detour(stops, swapped)], static_feed(), SERVICE_DATES).plans
+
+    assert [item.replacement_stop_ids for item in plan.modifications] == [["T1"], ["T2"]]
+    assert plan.shape == expected.shape
+
+
+def test_a_replacement_road_no_cancelled_road_claims_is_reported():
+    _, detoured_line = detour_sections(range(4, 7))
+    added = site_stop("T1", 5.0 * STOP_SPACING_M, DETOUR_OFFSET_M, replacement=True)
+    detour = line_detour([*scheduled_stops(), added], [(None, detoured_line)])
+
+    result = build([detour], static_feed(), SERVICE_DATES)
+
+    (length,) = result.unclaimed_replacements["51E"]
+    assert length == pytest.approx(cumulative_lengths(detoured_line)[-1])
+    # Reported, not filtered: the road is still spliced into the shape.
+    assert result.plans[0].shape != static_feed().shapes["51_1"]
 
 
 def test_a_detour_at_the_end_of_the_line_moves_where_the_shape_ends():

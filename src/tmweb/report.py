@@ -45,6 +45,10 @@ def build_json(result: BuildResult, metadata: dict[str, Any]) -> dict[str, Any]:
             {"line": line, "stop_ids": stop_ids}
             for line, stop_ids in sorted(result.dropped_replacements.items())
         ],
+        "replacement_roads_left_over": [
+            {"line": line, "lengths_m": [round(length) for length in lengths]}
+            for line, lengths in sorted(result.unclaimed_replacements.items())
+        ],
     }
 
 
@@ -108,6 +112,20 @@ def build_markdown(result: BuildResult, metadata: dict[str, Any]) -> str:
         lines.append("")
         for line, stop_ids in sorted(result.dropped_replacements.items()):
             lines.append(f"- {line}: {', '.join(f'`{stop}`' for stop in stop_ids)}")
+        lines.append("")
+
+    if result.unclaimed_replacements:
+        lines.append("## Replacement roads left over")
+        lines.append("")
+        lines.append(
+            "The website publishes these as road a detour takes but names no "
+            "cancelled section they stand in for. Each is still used where it "
+            "falls on a trip's shape."
+        )
+        lines.append("")
+        for line, lengths in sorted(result.unclaimed_replacements.items()):
+            roads = ", ".join(f"{length:,.0f} m" for length in lengths)
+            lines.append(f"- {line}: {roads}")
         lines.append("")
 
     if result.skipped:

@@ -60,6 +60,19 @@ def test_the_markdown_names_the_span_and_the_replacements():
     assert "STM" in text
 
 
+def test_replacement_roads_left_over_are_listed():
+    result = BuildResult(unclaimed_replacements={"51E": [2_898.4]})
+
+    assert build_json(result, METADATA)["replacement_roads_left_over"] == [
+        {"line": "51E", "lengths_m": [2898]}
+    ]
+
+    text = build_markdown(result, METADATA)
+
+    assert "## Replacement roads left over" in text
+    assert "- 51E: 2,898 m" in text
+
+
 def test_lines_that_produced_nothing_are_listed():
     result = BuildResult(skipped=[SkippedLine("51E", "no trip pattern running today is affected")])
 

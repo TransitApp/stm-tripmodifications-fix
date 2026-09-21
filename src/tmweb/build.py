@@ -19,7 +19,6 @@ from tmfix.geometry import (
     LatLon,
     Projection,
     cumulative_lengths,
-    distance_between,
     project_onto,
     splice,
 )
@@ -40,9 +39,6 @@ class BuildConfig:
     # A detour whose ends are farther than this from a pattern's shape does not
     # apply to that pattern, which runs a different part of the line.
     on_shape_threshold_m: float = 60.0
-    # How far apart a cancelled section and the detour taking its place may
-    # start and end and still be read as the same detour.
-    section_pairing_m: float = 200.0
     # How far a run of skipped stops may sit from a detour and still be the run
     # that detour stands in for.
     run_matching_m: float = 500.0
@@ -96,6 +92,9 @@ class BuildResult:
     defined_stops: dict[str, SiteStop] = field(default_factory=dict)
     skipped: list[SkippedLine] = field(default_factory=list)
     dropped_replacements: dict[str, list[str]] = field(default_factory=dict)
+    # The length in metres of each replacement road that stands in for no
+    # cancelled section. Reported only: one on a trip's shape is still used.
+    unclaimed_replacements: dict[str, list[float]] = field(default_factory=dict)
 
 
 @dataclass
@@ -182,6 +181,14 @@ def _build_line(
     if dropped:
         result.dropped_replacements[line.key] = dropped
 
+    unclaimed = [
+        cumulative_lengths(detour.detoured)[-1]
+        for detour in detour_list
+        if detour.cancelled is None and detour.detoured
+    ]
+    if unclaimed:
+        result.unclaimed_replacements[line.key] = unclaimed
+
     cancelled_ids = line_detour.cancelled_stop_ids
     made_something = False
 
@@ -227,12 +234,32 @@ def _build_line(
         )
 
 
+def _shared_ends(section: Sequence[LatLon], other: Sequence[LatLon]) -> int:
+    """How many ends two road sections have in common, counted as sets.
+
+    The website publishes some sections against the line's direction, so which
+    end of one meets which end of the other says nothing. The coordinates are
+    compared exactly: both lists come out of the same response, and a shared
+    end is written as the very same number in each.
+    """
+    if not section or not other:
+        return 0
+    return len({section[0], section[-1]} & {other[0], other[-1]})
+
+
 def _pair_sections(line_detour: LineDetour, config: BuildConfig) -> list[_Detour]:
     """Match each cancelled road section with the detour that replaces it.
 
-    They are matched on their ends, which a detour shares exactly with the
-    section it stands in for. A section with no partner is still a detour: one
-    that drops stops and puts nothing in their place, or the other way round.
+    The website gives no link between the two lists, but a replacement road
+    starts or ends where the section it stands in for does. Of 239 cancelled
+    sections in one snapshot, 226 shared an end exactly with a detoured
+    section, and the closest a section came to one it does not replace was
+    261 m — so a shared end settles it and a distance says nothing. Pairing by
+    list position does not work either: 166 South publishes its two lists in
+    different orders, which would pair sections 4.6 km apart.
+
+    A section with no partner is still a detour: one that drops stops and puts
+    nothing in their place, or the other way round.
     """
     route = line_detour.route
     cancelled_sections = _in_travel_order(route.cancelled, route.geometry, config)
@@ -241,19 +268,17 @@ def _pair_sections(line_detour: LineDetour, config: BuildConfig) -> list[_Detour
     paired: list[_Detour] = []
 
     for cancelled in cancelled_sections:
-        best_gap, best_index = None, None
-        for index in unclaimed:
-            detoured = detoured_sections[index]
-            gap = distance_between(cancelled[0], detoured[0]) + distance_between(
-                cancelled[-1], detoured[-1]
-            )
-            if best_gap is None or gap < best_gap:
-                best_gap, best_index = gap, index
-        if best_index is not None and best_gap is not None and best_gap <= config.section_pairing_m:
-            unclaimed.remove(best_index)
-            paired.append(_Detour(cancelled=cancelled, detoured=detoured_sections[best_index]))
-        else:
+        # Sharing both ends beats sharing one, and the earliest section wins
+        # a tie, so the pairing never depends on the order they are looked at.
+        shared = [
+            (-_shared_ends(cancelled, detoured_sections[index]), index) for index in unclaimed
+        ]
+        ends, index = min(shared, default=(0, -1))
+        if ends == 0:
             paired.append(_Detour(cancelled=cancelled, detoured=None))
+            continue
+        unclaimed.remove(index)
+        paired.append(_Detour(cancelled=cancelled, detoured=detoured_sections[index]))
 
     paired.extend(_Detour(cancelled=None, detoured=detoured_sections[i]) for i in unclaimed)
     return paired
@@ -347,6 +372,8 @@ def _place(
             continue
         first = project_onto(reference[0], shape, lengths)
         last = project_onto(reference[-1], shape, lengths)
+        # An end far from this pattern's shape means the pattern runs only part
+        # of the road the detour leaves, not the whole of it.
         if max(first.distance_m, last.distance_m) > config.on_shape_threshold_m:
             continue
         start = min(first.along_m, last.along_m)

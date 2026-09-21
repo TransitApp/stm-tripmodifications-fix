@@ -209,9 +209,15 @@ straight off them. Nothing is measured against a shape to decide either, which
 is what the repair has to do and what it can only get approximately right.
 
 The route endpoint supplies `Geometry`, the scheduled shape, plus `canceled` and
-`detoured`: the runs of road the detour leaves and the runs it takes instead,
-a pair normally sharing its two end points exactly. Geometry is still needed for
-three things, and only these three:
+`detoured`: the runs of road the detour leaves and the runs it takes instead.
+Nothing in the reply links the two lists, but a replacement road starts or ends
+on the very coordinate the road it replaces does, so they are paired on a shared
+end and on nothing else. Of 239 cancelled sections in one snapshot, 226 shared
+an end exactly, and the closest a section came to one it does not replace was
+261 m; the 13 left over are the lines where the STM publishes no replacement
+road at all, a detour that only drops stops and keeps the scheduled shape.
+
+Geometry is still needed for three things, and only these three:
 
 1. **Ordering the replacement stops.** The website appends them to the end of
    its list rather than in service order, so each is projected onto the detour
@@ -223,10 +229,10 @@ three things, and only these three:
 
 Two things about those sections are not as published. A detour that moves a
 terminus shares only one end with the section it replaces; the other end is the
-new terminus, tens of metres off the line. Since the section it leaves starts at
-the same place the shape does, it lands about a metre inside it, and that metre
-of scheduled shape is dropped rather than drawn as a spike from one terminus to
-the other. And a few sections — 6 of some 200 in one snapshot — are listed
+new terminus, hundreds of metres off the line — 327 m on 97 West. Since the
+section it leaves starts at the same place the shape does, it lands about a
+metre inside it, and that metre of scheduled shape is dropped rather than drawn
+as a spike from one terminus to the other. And a few sections — 6 of some 200 in one snapshot — are listed
 against the line's direction, so every section is turned to run the way
 `Geometry` does before its stops are ordered or its shape spliced in.
 

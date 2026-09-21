@@ -81,11 +81,17 @@ def _east_of(stop_id: str) -> float:
     return (int(stop_id[1:]) - 1) * STOP_SPACING_M
 
 
-def detour_sections(skipped: range) -> tuple[list[LatLon], list[LatLon]]:
+def detour_sections(
+    skipped: range,
+    terminus_shift_m: float = 0.0,
+) -> tuple[list[LatLon], list[LatLon]]:
     """The road run a detour leaves, and the run it takes instead.
 
-    Both start and end at the same two points, which is how the website
-    publishes them.
+    They meet at both ends, which is how the website publishes a detour that
+    rejoins the line. `terminus_shift_m` moves the far end of the replacement
+    road that distance off the line and leaves the cancelled road where it is,
+    as the website does where a detour moves a terminus: the two roads then
+    share their near end alone.
     """
     leave = (skipped.start - 1.5) * STOP_SPACING_M
     rejoin = (skipped.stop - 0.5) * STOP_SPACING_M
@@ -98,7 +104,7 @@ def detour_sections(skipped: range) -> tuple[list[LatLon], list[LatLon]]:
         at(leave),
         at(leave, DETOUR_OFFSET_M),
         at(rejoin, DETOUR_OFFSET_M),
-        at(rejoin),
+        at(rejoin, terminus_shift_m),
     ]
     return cancelled, detoured
 
