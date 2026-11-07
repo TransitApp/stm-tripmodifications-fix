@@ -1,0 +1,547 @@
+{
+ "generated_at": "2026-11-07T15:57:52+00:00",
+ "feed_timestamp": 1794066984,
+ "feed_timestamp_iso": "2026-11-07T15:56:24+00:00",
+ "source_url": "https://api.stm.info/pub/gtfs-rt/v2/api/gtfsrt/tripmodifications",
+ "off_shape_threshold_m": 100.0,
+ "attribution": "Source data: Societe de transport de Montreal (STM), licensed CC-BY 4.0. This is an unofficial derived feed.",
+ "entities_examined": 89,
+ "entities_repaired": 12,
+ "entities_passed_through": 4,
+ "repaired": [
+  {
+   "entity_id": "detour_50_E_16_63626-75600",
+   "shape_id": "50_E_16_63626-75600",
+   "sample_trip_id": "302096582",
+   "skipped": null,
+   "modifications": [
+    {
+     "index": 0,
+     "declared_range": [
+      1,
+      1
+     ],
+     "repaired_range": [
+      1,
+      1
+     ],
+     "start_kept_because_of_travel_times": false,
+     "skipped": null,
+     "stops_added_to_cancellation": [],
+     "replacement_stops_dropped": [
+      {
+       "stop_id": "54346",
+       "distance_to_shape_m": 123.4
+      }
+     ]
+    },
+    {
+     "index": 1,
+     "declared_range": [
+      7,
+      7
+     ],
+     "repaired_range": [
+      7,
+      7
+     ],
+     "start_kept_because_of_travel_times": false,
+     "skipped": null,
+     "stops_added_to_cancellation": [],
+     "replacement_stops_dropped": []
+    }
+   ]
+  },
+  {
+   "entity_id": "detour_50_W_14_63627",
+   "shape_id": "50_W_14_63627",
+   "sample_trip_id": "302096581",
+   "skipped": null,
+   "modifications": [
+    {
+     "index": 0,
+     "declared_range": [
+      14,
+      14
+     ],
+     "repaired_range": [
+      14,
+      15
+     ],
+     "start_kept_because_of_travel_times": false,
+     "skipped": null,
+     "stops_added_to_cancellation": [
+      {
+       "stop_sequence": 15,
+       "stop_id": "54346",
+       "distance_to_shape_m": 240.8
+      }
+     ],
+     "replacement_stops_dropped": [
+      {
+       "stop_id": "54346",
+       "distance_to_shape_m": 240.8
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "entity_id": "detour_57_N_9_71636",
+   "shape_id": "57_N_9_71636",
+   "sample_trip_id": "302184996",
+   "skipped": null,
+   "modifications": [
+    {
+     "index": 0,
+     "declared_range": [
+      2,
+      2
+     ],
+     "repaired_range": [
+      2,
+      2
+     ],
+     "start_kept_because_of_travel_times": false,
+     "skipped": null,
+     "stops_added_to_cancellation": [],
+     "replacement_stops_dropped": [
+      {
+       "stop_id": "52829",
+       "distance_to_shape_m": 196.0
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "entity_id": "detour_71_S_13_72988-74581",
+   "shape_id": "71_S_13_72988-74581",
+   "sample_trip_id": "302185214",
+   "skipped": null,
+   "modifications": [
+    {
+     "index": 0,
+     "declared_range": [
+      12,
+      12
+     ],
+     "repaired_range": [
+      12,
+      12
+     ],
+     "start_kept_because_of_travel_times": false,
+     "skipped": null,
+     "stops_added_to_cancellation": [],
+     "replacement_stops_dropped": []
+    },
+    {
+     "index": 1,
+     "declared_range": [
+      1,
+      1
+     ],
+     "repaired_range": [
+      1,
+      7
+     ],
+     "start_kept_because_of_travel_times": false,
+     "skipped": null,
+     "stops_added_to_cancellation": [
+      {
+       "stop_sequence": 2,
+       "stop_id": "52238",
+       "distance_to_shape_m": 1489.1
+      },
+      {
+       "stop_sequence": 3,
+       "stop_id": "52425",
+       "distance_to_shape_m": 1088.2
+      },
+      {
+       "stop_sequence": 4,
+       "stop_id": "52501",
+       "distance_to_shape_m": 915.7
+      },
+      {
+       "stop_sequence": 5,
+       "stop_id": "54308",
+       "distance_to_shape_m": 695.8
+      },
+      {
+       "stop_sequence": 6,
+       "stop_id": "52674",
+       "distance_to_shape_m": 541.7
+      },
+      {
+       "stop_sequence": 7,
+       "stop_id": "52605",
+       "distance_to_shape_m": 369.8
+      }
+     ],
+     "replacement_stops_dropped": [
+      {
+       "stop_id": "52148",
+       "distance_to_shape_m": 1661.5
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "entity_id": "detour_11_E_20_74458",
+   "shape_id": "11_E_20_74458",
+   "sample_trip_id": "302026936",
+   "skipped": null,
+   "modifications": [
+    {
+     "index": 0,
+     "declared_range": [
+      31,
+      31
+     ],
+     "repaired_range": [
+      29,
+      31
+     ],
+     "start_kept_because_of_travel_times": false,
+     "skipped": null,
+     "stops_added_to_cancellation": [
+      {
+       "stop_sequence": 29,
+       "stop_id": "52138",
+       "distance_to_shape_m": 162.9
+      },
+      {
+       "stop_sequence": 30,
+       "stop_id": "52247",
+       "distance_to_shape_m": 240.6
+      }
+     ],
+     "replacement_stops_dropped": []
+    }
+   ]
+  },
+  {
+   "entity_id": "detour_71_N_12_74582-74820",
+   "shape_id": "71_N_12_74582-74820",
+   "sample_trip_id": "302185215",
+   "skipped": null,
+   "modifications": [
+    {
+     "index": 0,
+     "declared_range": [
+      34,
+      34
+     ],
+     "repaired_range": [
+      27,
+      34
+     ],
+     "start_kept_because_of_travel_times": false,
+     "skipped": null,
+     "stops_added_to_cancellation": [
+      {
+       "stop_sequence": 27,
+       "stop_id": "52604",
+       "distance_to_shape_m": 318.2
+      },
+      {
+       "stop_sequence": 28,
+       "stop_id": "52675",
+       "distance_to_shape_m": 533.5
+      },
+      {
+       "stop_sequence": 29,
+       "stop_id": "52615",
+       "distance_to_shape_m": 684.1
+      },
+      {
+       "stop_sequence": 30,
+       "stop_id": "52500",
+       "distance_to_shape_m": 853.1
+      },
+      {
+       "stop_sequence": 31,
+       "stop_id": "52424",
+       "distance_to_shape_m": 1058.6
+      },
+      {
+       "stop_sequence": 32,
+       "stop_id": "52326",
+       "distance_to_shape_m": 1300.2
+      },
+      {
+       "stop_sequence": 33,
+       "stop_id": "52236",
+       "distance_to_shape_m": 1545.9
+      }
+     ],
+     "replacement_stops_dropped": [
+      {
+       "stop_id": "52148",
+       "distance_to_shape_m": 1659.9
+      }
+     ]
+    },
+    {
+     "index": 1,
+     "declared_range": [
+      20,
+      22
+     ],
+     "repaired_range": [
+      20,
+      22
+     ],
+     "start_kept_because_of_travel_times": false,
+     "skipped": null,
+     "stops_added_to_cancellation": [],
+     "replacement_stops_dropped": []
+    }
+   ]
+  },
+  {
+   "entity_id": "detour_94_N_8_75078",
+   "shape_id": "94_N_8_75078",
+   "sample_trip_id": "302095777",
+   "skipped": null,
+   "modifications": [
+    {
+     "index": 0,
+     "declared_range": [
+      31,
+      31
+     ],
+     "repaired_range": [
+      30,
+      31
+     ],
+     "start_kept_because_of_travel_times": false,
+     "skipped": null,
+     "stops_added_to_cancellation": [
+      {
+       "stop_sequence": 30,
+       "stop_id": "51340",
+       "distance_to_shape_m": 212.9
+      }
+     ],
+     "replacement_stops_dropped": [
+      {
+       "stop_id": "54303",
+       "distance_to_shape_m": 270.5
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "entity_id": "detour_94_S_7_75079",
+   "shape_id": "94_S_7_75079",
+   "sample_trip_id": "302095776",
+   "skipped": null,
+   "modifications": [
+    {
+     "index": 0,
+     "declared_range": [
+      1,
+      1
+     ],
+     "repaired_range": [
+      1,
+      2
+     ],
+     "start_kept_because_of_travel_times": false,
+     "skipped": null,
+     "stops_added_to_cancellation": [
+      {
+       "stop_sequence": 2,
+       "stop_id": "51338",
+       "distance_to_shape_m": 200.1
+      }
+     ],
+     "replacement_stops_dropped": [
+      {
+       "stop_id": "54303",
+       "distance_to_shape_m": 163.0
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "entity_id": "detour_90_E_19_75480",
+   "shape_id": "90_E_19_75480",
+   "sample_trip_id": "302184990",
+   "skipped": null,
+   "modifications": [
+    {
+     "index": 0,
+     "declared_range": [
+      1,
+      1
+     ],
+     "repaired_range": [
+      1,
+      1
+     ],
+     "start_kept_because_of_travel_times": false,
+     "skipped": null,
+     "stops_added_to_cancellation": [],
+     "replacement_stops_dropped": [
+      {
+       "stop_id": "57356",
+       "distance_to_shape_m": 120.0
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "entity_id": "detour_61_E_24_75596",
+   "shape_id": "61_E_24_75596",
+   "sample_trip_id": "302185075",
+   "skipped": null,
+   "modifications": [
+    {
+     "index": 0,
+     "declared_range": [
+      51,
+      51
+     ],
+     "repaired_range": [
+      51,
+      52
+     ],
+     "start_kept_because_of_travel_times": false,
+     "skipped": null,
+     "stops_added_to_cancellation": [
+      {
+       "stop_sequence": 52,
+       "stop_id": "52397",
+       "distance_to_shape_m": 245.6
+      }
+     ],
+     "replacement_stops_dropped": [
+      {
+       "stop_id": "52397",
+       "distance_to_shape_m": 245.6
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "entity_id": "detour_166_S_17_75648",
+   "shape_id": "166_S_17_75648",
+   "sample_trip_id": "302124082",
+   "skipped": null,
+   "modifications": [
+    {
+     "index": 0,
+     "declared_range": [
+      37,
+      37
+     ],
+     "repaired_range": [
+      33,
+      38
+     ],
+     "start_kept_because_of_travel_times": false,
+     "skipped": null,
+     "stops_added_to_cancellation": [
+      {
+       "stop_sequence": 33,
+       "stop_id": "52196",
+       "distance_to_shape_m": 115.1
+      },
+      {
+       "stop_sequence": 34,
+       "stop_id": "53762",
+       "distance_to_shape_m": 273.5
+      },
+      {
+       "stop_sequence": 35,
+       "stop_id": "52285",
+       "distance_to_shape_m": 344.4
+      },
+      {
+       "stop_sequence": 36,
+       "stop_id": "52330",
+       "distance_to_shape_m": 353.7
+      },
+      {
+       "stop_sequence": 38,
+       "stop_id": "52195",
+       "distance_to_shape_m": 163.5
+      }
+     ],
+     "replacement_stops_dropped": [
+      {
+       "stop_id": "52195",
+       "distance_to_shape_m": 163.5
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "entity_id": "detour_166_N_16_75649",
+   "shape_id": "166_N_16_75649",
+   "sample_trip_id": "302124083",
+   "skipped": null,
+   "modifications": [
+    {
+     "index": 0,
+     "declared_range": [
+      1,
+      1
+     ],
+     "repaired_range": [
+      1,
+      1
+     ],
+     "start_kept_because_of_travel_times": false,
+     "skipped": null,
+     "stops_added_to_cancellation": [],
+     "replacement_stops_dropped": [
+      {
+       "stop_id": "52195",
+       "distance_to_shape_m": 176.3
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "passed_through": [
+  {
+   "entity_id": "detour_804_E_29_67653",
+   "shape_id": "804_E_29_67653",
+   "sample_trip_id": null,
+   "skipped": "no selected trip is in the static feed",
+   "modifications": []
+  },
+  {
+   "entity_id": "detour_804_E_31_67653",
+   "shape_id": "804_E_31_67653",
+   "sample_trip_id": null,
+   "skipped": "no selected trip is in the static feed",
+   "modifications": []
+  },
+  {
+   "entity_id": "detour_804_W_16_67654",
+   "shape_id": "804_W_16_67654",
+   "sample_trip_id": null,
+   "skipped": "no selected trip is in the static feed",
+   "modifications": []
+  },
+  {
+   "entity_id": "detour_568_N_6_74133",
+   "shape_id": "568_N_6_74133",
+   "sample_trip_id": null,
+   "skipped": "no selected trip is in the static feed",
+   "modifications": []
+  }
+ ]
+}
