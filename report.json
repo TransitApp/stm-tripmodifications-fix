@@ -1,0 +1,135 @@
+{
+ "generated_at": "2026-11-14T11:38:12+00:00",
+ "feed_timestamp": 1794656211,
+ "feed_timestamp_iso": "2026-11-14T11:36:51+00:00",
+ "source_url": "https://api.stm.info/pub/gtfs-rt/v2/api/gtfsrt/tripmodifications",
+ "off_shape_threshold_m": 100.0,
+ "attribution": "Source data: Societe de transport de Montreal (STM), licensed CC-BY 4.0. This is an unofficial derived feed.",
+ "entities_examined": 110,
+ "entities_repaired": 2,
+ "entities_passed_through": 9,
+ "repaired": [
+  {
+   "entity_id": "detour_57_N_9_71636",
+   "shape_id": "57_N_9_71636",
+   "sample_trip_id": "302184996",
+   "skipped": null,
+   "modifications": [
+    {
+     "index": 0,
+     "declared_range": [
+      2,
+      2
+     ],
+     "repaired_range": [
+      2,
+      2
+     ],
+     "start_kept_because_of_travel_times": false,
+     "skipped": null,
+     "stops_added_to_cancellation": [],
+     "replacement_stops_dropped": [
+      {
+       "stop_id": "52829",
+       "distance_to_shape_m": 196.0
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "entity_id": "detour_197_E_23_75502",
+   "shape_id": "197_E_23_75502",
+   "sample_trip_id": "302161437",
+   "skipped": null,
+   "modifications": [
+    {
+     "index": 0,
+     "declared_range": [
+      42,
+      42
+     ],
+     "repaired_range": [
+      41,
+      42
+     ],
+     "start_kept_because_of_travel_times": false,
+     "skipped": null,
+     "stops_added_to_cancellation": [
+      {
+       "stop_sequence": 41,
+       "stop_id": "54292",
+       "distance_to_shape_m": 166.0
+      }
+     ],
+     "replacement_stops_dropped": []
+    }
+   ]
+  }
+ ],
+ "passed_through": [
+  {
+   "entity_id": "detour_804_E_24_67653",
+   "shape_id": "804_E_24_67653",
+   "sample_trip_id": null,
+   "skipped": "no selected trip is in the static feed",
+   "modifications": []
+  },
+  {
+   "entity_id": "detour_804_E_28_67653",
+   "shape_id": "804_E_28_67653",
+   "sample_trip_id": null,
+   "skipped": "no selected trip is in the static feed",
+   "modifications": []
+  },
+  {
+   "entity_id": "detour_804_E_29_67653",
+   "shape_id": "804_E_29_67653",
+   "sample_trip_id": null,
+   "skipped": "no selected trip is in the static feed",
+   "modifications": []
+  },
+  {
+   "entity_id": "detour_804_E_31_67653",
+   "shape_id": "804_E_31_67653",
+   "sample_trip_id": null,
+   "skipped": "no selected trip is in the static feed",
+   "modifications": []
+  },
+  {
+   "entity_id": "detour_804_W_16_67654",
+   "shape_id": "804_W_16_67654",
+   "sample_trip_id": null,
+   "skipped": "no selected trip is in the static feed",
+   "modifications": []
+  },
+  {
+   "entity_id": "detour_804_W_25_67654",
+   "shape_id": "804_W_25_67654",
+   "sample_trip_id": null,
+   "skipped": "no selected trip is in the static feed",
+   "modifications": []
+  },
+  {
+   "entity_id": "detour_804_W_26_67654",
+   "shape_id": "804_W_26_67654",
+   "sample_trip_id": null,
+   "skipped": "no selected trip is in the static feed",
+   "modifications": []
+  },
+  {
+   "entity_id": "detour_804_W_30_67654",
+   "shape_id": "804_W_30_67654",
+   "sample_trip_id": null,
+   "skipped": "no selected trip is in the static feed",
+   "modifications": []
+  },
+  {
+   "entity_id": "detour_568_N_6_74133",
+   "shape_id": "568_N_6_74133",
+   "sample_trip_id": null,
+   "skipped": "no selected trip is in the static feed",
+   "modifications": []
+  }
+ ]
+}

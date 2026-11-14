@@ -1,0 +1,11 @@
+{
+ "generated_at": "2026-11-14T11:38:12+00:00",
+ "feed_timestamp": 1794656211,
+ "feed_timestamp_iso": "2026-11-14T11:36:51+00:00",
+ "source_url": "https://api.stm.info/pub/gtfs-rt/v2/api/gtfsrt/tripmodifications",
+ "off_shape_threshold_m": 100.0,
+ "attribution": "Source data: Societe de transport de Montreal (STM), licensed CC-BY 4.0. This is an unofficial derived feed.",
+ "entities_examined": 110,
+ "entities_repaired": 2,
+ "entities_passed_through": 9
+}

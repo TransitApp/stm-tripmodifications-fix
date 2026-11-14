@@ -1,0 +1,27 @@
+{
+ "generated_at": "2026-11-14T11:40:20+00:00",
+ "service_dates": [
+  "20261114",
+  "20261115",
+  "20261116",
+  "20261117",
+  "20261118",
+  "20261119",
+  "20261120",
+  "20261121",
+  "20261122",
+  "20261123",
+  "20261124",
+  "20261125",
+  "20261126",
+  "20261127"
+ ],
+ "source_url": "https://api.stm.info/pub/i3/v1c/api",
+ "lines_read": 401,
+ "lines_detoured": 81,
+ "requests_made": 483,
+ "attribution": "Source data: Societe de transport de Montreal (STM), licensed CC-BY 4.0. This is an unofficial derived feed.",
+ "entities": 96,
+ "modifications": 126,
+ "stops_defined": 45
+}
