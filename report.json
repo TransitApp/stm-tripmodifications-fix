@@ -1,0 +1,84 @@
+{
+ "generated_at": "2026-11-28T12:48:42+00:00",
+ "feed_timestamp": 1795869987,
+ "feed_timestamp_iso": "2026-11-28T12:46:27+00:00",
+ "source_url": "https://api.stm.info/pub/gtfs-rt/v2/api/gtfsrt/tripmodifications",
+ "off_shape_threshold_m": 100.0,
+ "attribution": "Source data: Societe de transport de Montreal (STM), licensed CC-BY 4.0. This is an unofficial derived feed.",
+ "entities_examined": 109,
+ "entities_repaired": 0,
+ "entities_passed_through": 10,
+ "repaired": [],
+ "passed_through": [
+  {
+   "entity_id": "detour_804_E_24_67653",
+   "shape_id": "804_E_24_67653",
+   "sample_trip_id": null,
+   "skipped": "no selected trip is in the static feed",
+   "modifications": []
+  },
+  {
+   "entity_id": "detour_804_E_28_67653",
+   "shape_id": "804_E_28_67653",
+   "sample_trip_id": null,
+   "skipped": "no selected trip is in the static feed",
+   "modifications": []
+  },
+  {
+   "entity_id": "detour_804_E_29_67653",
+   "shape_id": "804_E_29_67653",
+   "sample_trip_id": null,
+   "skipped": "no selected trip is in the static feed",
+   "modifications": []
+  },
+  {
+   "entity_id": "detour_804_E_31_67653",
+   "shape_id": "804_E_31_67653",
+   "sample_trip_id": null,
+   "skipped": "no selected trip is in the static feed",
+   "modifications": []
+  },
+  {
+   "entity_id": "detour_804_W_16_67654",
+   "shape_id": "804_W_16_67654",
+   "sample_trip_id": null,
+   "skipped": "no selected trip is in the static feed",
+   "modifications": []
+  },
+  {
+   "entity_id": "detour_804_W_25_67654",
+   "shape_id": "804_W_25_67654",
+   "sample_trip_id": null,
+   "skipped": "no selected trip is in the static feed",
+   "modifications": []
+  },
+  {
+   "entity_id": "detour_804_W_26_67654",
+   "shape_id": "804_W_26_67654",
+   "sample_trip_id": null,
+   "skipped": "no selected trip is in the static feed",
+   "modifications": []
+  },
+  {
+   "entity_id": "detour_804_W_30_67654",
+   "shape_id": "804_W_30_67654",
+   "sample_trip_id": null,
+   "skipped": "no selected trip is in the static feed",
+   "modifications": []
+  },
+  {
+   "entity_id": "detour_568_N_6_74133",
+   "shape_id": "568_N_6_74133",
+   "sample_trip_id": null,
+   "skipped": "no selected trip is in the static feed",
+   "modifications": []
+  },
+  {
+   "entity_id": "detour_568_S_5_76668",
+   "shape_id": "568_S_5_76668",
+   "sample_trip_id": null,
+   "skipped": "no selected trip is in the static feed",
+   "modifications": []
+  }
+ ]
+}
